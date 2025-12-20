@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +11,20 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>VidyaGenie</title>
     <style>
+        /* Ensure SVGs inside circles/buttons are centered and match theme */
+.requests-icon-style svg, 
+.sort-btn-style svg {
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.sort-btn-style:hover svg {
+    transform: rotate(90deg) scale(1.1); /* Subtle professional interaction */
+}
+
+.requests-icon-style:hover svg {
+    stroke: var(--text-main);
+}
         /* --- CHAT LAYOUT SYSTEM --- */
         #chatMainWrapper {
             display: flex;
@@ -661,6 +674,11 @@
         }
 
         /* Purple */
+        .requests-icon-style:hover svg {
+            stroke: #ff3b30; /* Systems red color on hover */
+            transform: scale(1.1);
+            fill: rgba(255, 59, 48, 0.1); /* Subtle light red fill */
+        }
 
         /* Sub-Tag Colors (Specific to Councils) */
         .tag-sub-council {
@@ -1357,36 +1375,40 @@
             border-color: var(--text-secondary);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
         }
-        /* --- CUSTOM SCROLLBAR (Modern & Minimal) --- */
+        /* --- SCROLLBAR STRATEGY --- */
+
+        /* 1. MOBILE (Default to Native "Invisible" Scrollbar) */
+        /* We don't write any rules here. The browser defaults are best for touch. */
         
-        /* The Scrollbar Track (Background) */
-        ::-webkit-scrollbar {
-            width: 8px; /* Slimmer width */
-            height: 8px; /* Slimmer height for horizontal scroll */
-            background-color: var(--bg-main); /* Blends with background */
-        }
+        /* 2. DESKTOP ONLY (> 600px) - The Cool Blue Look */
+        @media (min-width: 601px) {
+            
+            ::-webkit-scrollbar {
+                width: 10px;
+                height: 10px;
+                background-color: #121212;
+            }
 
-        /* The Scrollbar Handle (The moving part) */
-        ::-webkit-scrollbar-thumb {
-            background-color: #444; /* Subtle dark grey */
-            border-radius: 10px; /* Rounded pill shape */
-            border: 2px solid var(--bg-main); /* Creates a "floating" effect */
-        }
+            ::-webkit-scrollbar-track {
+                background: #1c1c1e;
+                border-left: 1px solid #333;
+            }
 
-        /* Handle on Hover */
-        ::-webkit-scrollbar-thumb:hover {
-            background-color: #666; /* Slightly lighter when interacting */
-        }
+            ::-webkit-scrollbar-thumb {
+                background-color: var(--primary-color);
+                border-radius: 6px;
+                border: 2px solid #1c1c1e;
+            }
 
-        /* Corner (where horizontal & vertical meet) */
-        ::-webkit-scrollbar-corner {
-            background-color: var(--bg-main);
-        }
-
-        /* --- FIREFOX SUPPORT (Optional) --- */
-        * {
-            scrollbar-width: thin; /* Makes it slim */
-            scrollbar-color: #444 var(--bg-main); /* Handle + Track */
+            ::-webkit-scrollbar-thumb:hover {
+                background-color: #4da6ff;
+            }
+            
+            /* Firefox Desktop */
+            html {
+                scrollbar-width: thin;
+                scrollbar-color: var(--primary-color) #1c1c1e;
+            }
         }
 
         /* --- TABS --- */
@@ -1429,10 +1451,18 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
-        .tab-button.active {
-            color: var(--primary-color);
-            background: var(--bg-input);
-        }
+        /* --- MOBILE TAB ACTIVE STATE (CLEAN) --- */
+            .tab-button.active {
+                color: var(--primary-color) !important; /* Only change the color */
+                background: transparent !important;    /* Remove the box */
+                box-shadow: none !important;           /* Remove the shadow */
+            }
+
+            /* Ensure the icon specifically stays primary color */
+            .tab-button.active svg {
+                stroke: var(--primary-color) !important;
+                transform: scale(1.1); /* Keep the subtle grow effect */
+            }
 
         /* Active Icon Animation */
         .tab-button.active svg {
@@ -1472,22 +1502,39 @@
             }
 
             .tab-button {
-                flex-direction: column; /* Stack Icon & Text vertically */
-                gap: 4px;
-                padding: 5px;
-                border-radius: 0;
-                background: transparent !important; /* Remove active bg on mobile */
+                flex-direction: column;
+                gap: 0; /* Reset gap */
+                padding: 10px 0;
+                background: transparent !important;
+                transition: all 0.3s var(--transition-bounce);
             }
 
             .tab-label {
                 font-size: 10px;
-                font-weight: 500;
+                font-weight: 700;
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                transition: all 0.3s var(--transition-bounce);
+                transform: translateY(10px);
+            }
+            .tab-button.active .tab-label {
+                max-height: 20px;
+                opacity: 1;
+                transform: translateY(4px); /* Moves text slightly below icon */
+                margin-top: 2px;
             }
             
             /* Icon size adjustment for mobile */
             .tab-button svg {
-                width: 26px;
-                height: 26px;
+                width: 24px;
+                height: 24px;
+                stroke: var(--text-secondary);
+                transition: all 0.3s var(--transition-bounce);
+            }
+            .tab-button.active svg {
+                stroke: var(--primary-color) !important;
+                transform: translateY(-2px); /* Slight lift effect */
             }
 
             /* Make sure content doesn't get hidden behind the bar */
@@ -2683,20 +2730,24 @@
                     <p id="userInfo"></p>
                 </div>
                 <div class="navbar-right">
-                    <div style="display: flex; gap: 15px; align-items: center;">
-                        <div class="requests-icon-style" onclick="openConnectionsModal()" title="My Connections"
-                            style="cursor: pointer;">
-                            <span>🤝</span>
-                        </div>
-                        <div class="requests-icon-style" onclick="switchTab('requests')" title="Pending Requests"
-                            style="cursor: pointer; position: relative;">
-                            <span>👥</span>
-                            <span id="requestBadge" class="notification-badge hidden">0</span>
-                        </div>
-                        <div id="navProfileContainer" class="profile-circle" onclick="switchTab('profile')"
-                            title="My Profile" style="cursor: pointer;"></div>
-                    </div>
-                </div>
+    <div style="display: flex; gap: 15px; align-items: center;">
+        <div class="requests-icon-style" onclick="openConnectionsModal()" title="My Connections">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+        </div>
+        <div class="requests-icon-style" onclick="switchTab('requests')" title="Pending Requests" style="position: relative;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span id="requestBadge" class="notification-badge hidden">0</span>
+        </div>
+        <div id="navProfileContainer" class="profile-circle" onclick="switchTab('profile')" title="My Profile"></div>
+    </div>
+</div>
             </div>
 
             <div class="tabs">
@@ -2798,9 +2849,19 @@
                 <div class="center-icon-wrapper" style="gap: 15px; align-items: center;">
 
                     <div class="sort-btn-style" onclick="openSortModal()">
-                        <span style="font-size: 24px;">⇅</span>
-                        <span class="sort-btn-text">Sort / Filter</span>
-                    </div>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="21" x2="4" y2="14"></line>
+        <line x1="4" y1="10" x2="4" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12" y2="3"></line>
+        <line x1="20" y1="21" x2="20" y2="16"></line>
+        <line x1="20" y1="12" x2="20" y2="3"></line>
+        <line x1="2" y1="14" x2="6" y2="14"></line>
+        <line x1="10" y1="8" x2="14" y2="8"></line>
+        <line x1="18" y1="16" x2="22" y2="16"></line>
+    </svg>
+    <span class="sort-btn-text">Sort / Filter</span>
+</div>
 
                     <div id="createPostIcon" class="create-icon-style" onclick="openCreatePostModal()">
                         <span style="font-size: 32px; line-height: 1; margin-bottom: 4px;">+</span>
