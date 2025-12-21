@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,30 +11,70 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>VidyaGenie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* --- DYNAMIC POLL INPUTS --- */
+        .poll-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .poll-input-row input {
+            flex: 1;
+            /* Input takes available space */
+            margin-bottom: 0 !important;
+            /* Reset default margin */
+        }
+
+        .btn-remove-opt {
+            background: rgba(255, 69, 58, 0.2);
+            color: #ff453a;
+            border: 1px solid #ff453a;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .btn-remove-opt:hover {
+            background: #ff453a;
+            color: white;
+        }
+
         /* Ensure SVGs inside circles/buttons are centered and match theme */
-.requests-icon-style svg, 
-.sort-btn-style svg {
-    display: block;
-    transition: transform 0.3s ease;
-}
+        .requests-icon-style svg,
+        .sort-btn-style svg {
+            display: block;
+            transition: transform 0.3s ease;
+        }
 
-.sort-btn-style:hover svg {
-    transform: rotate(90deg) scale(1.1); /* Subtle professional interaction */
-}
+        .sort-btn-style:hover svg {
+            transform: rotate(90deg) scale(1.1);
+            /* Subtle professional interaction */
+        }
 
-.requests-icon-style:hover svg {
-    stroke: var(--text-main);
-}
+        .requests-icon-style:hover svg {
+            stroke: var(--text-main);
+        }
+
         /* --- CHAT LAYOUT SYSTEM --- */
         #chatMainWrapper {
             display: flex;
             gap: 20px;
-            height: 75vh; /* Desktop Height */
+            height: 75vh;
+            /* Desktop Height */
         }
 
         #activeChatsList {
-            flex: 0 0 300px; /* Fixed width on desktop */
+            flex: 0 0 300px;
+            /* Fixed width on desktop */
             overflow-y: auto;
             border-right: 1px solid var(--border-color);
         }
@@ -49,7 +90,8 @@
         }
 
         .chat-back-btn {
-            display: none; /* Hidden on Desktop */
+            display: none;
+            /* Hidden on Desktop */
             margin-right: 15px;
             font-size: 24px;
             cursor: pointer;
@@ -58,10 +100,12 @@
 
         /* --- MOBILE CHAT (Immersive Full Screen) --- */
         @media (max-width: 600px) {
+
             /* 1. Master List (Active Conversations) */
             #chatMainWrapper {
                 display: block !important;
-                height: calc(100vh - 140px); /* Normal height for the list */
+                height: calc(100vh - 140px);
+                /* Normal height for the list */
             }
 
             #activeChatsList {
@@ -78,9 +122,12 @@
                 top: 0;
                 left: 0;
                 width: 100%;
-                height: 100dvh; /* Dynamic Height for mobile browsers */
-                background: #000; /* Pure black background like IG */
-                z-index: 2000; /* Sit ON TOP of bottom tabs */
+                height: 100dvh;
+                /* Dynamic Height for mobile browsers */
+                background: #000;
+                /* Pure black background like IG */
+                z-index: 2000;
+                /* Sit ON TOP of bottom tabs */
                 border: none;
                 border-radius: 0;
                 flex-direction: column;
@@ -93,19 +140,23 @@
 
             /* Fix Header for Full Screen */
             #chats.mobile-chat-open #chatHeader {
-                padding-top: 45px; /* Space for Status Bar/Notch */
-                background: rgba(20, 20, 20, 0.98); /* Slightly darker header */
+                padding-top: 45px;
+                /* Space for Status Bar/Notch */
+                background: rgba(20, 20, 20, 0.98);
+                /* Slightly darker header */
             }
 
             /* Fix Message Container Size */
             #chats.mobile-chat-open #messagesContainer {
-                flex: 1; /* Grow to fill space */
+                flex: 1;
+                /* Grow to fill space */
                 background: #000;
             }
 
             /* Fix Input Area at Bottom */
             #chats.mobile-chat-open #sendMessageForm {
-                padding-bottom: 20px; /* Space for Home Indicator */
+                padding-bottom: 20px;
+                /* Space for Home Indicator */
                 background: #111;
             }
 
@@ -113,9 +164,11 @@
             .chat-back-btn {
                 display: block !important;
                 padding: 10px;
-                margin-left: -10px; /* Align to edge */
+                margin-left: -10px;
+                /* Align to edge */
             }
         }
+
         /* --- OTP INPUT STYLE --- */
         #fpOtpInput {
             font-family: monospace;
@@ -507,6 +560,30 @@
             transition: all 0.2s;
         }
 
+        /* Fix alignment for icons inside existing pills */
+        .filter-pill {
+            display: inline-flex !important;
+            /* Force flex to align icon+text */
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            /* Space between icon and text */
+        }
+
+        /* Standardize icon size */
+        .filter-pill svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            /* Matches text color (white or grey) */
+            transition: transform 0.2s;
+        }
+
+        /* Subtle pop on hover */
+        .filter-pill:hover svg {
+            transform: scale(1.1);
+        }
+
         .filter-pill:hover {
             background: #333;
         }
@@ -675,9 +752,11 @@
 
         /* Purple */
         .requests-icon-style:hover svg {
-            stroke: #ff3b30; /* Systems red color on hover */
+            stroke: #ff3b30;
+            /* Systems red color on hover */
             transform: scale(1.1);
-            fill: rgba(255, 59, 48, 0.1); /* Subtle light red fill */
+            fill: rgba(255, 59, 48, 0.1);
+            /* Subtle light red fill */
         }
 
         /* Sub-Tag Colors (Specific to Councils) */
@@ -921,6 +1000,57 @@
             }
         }
 
+        /* --- POLL OPTION STYLES --- */
+        .poll-option-btn {
+            position: relative;
+            width: 100%;
+            padding: 16px;
+            background: #1C1C1E;
+            border: 1px solid #333;
+            border-radius: 12px;
+            text-align: left;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .poll-option-btn:hover {
+            border-color: #FF5722;
+            transform: scale(1.02);
+        }
+
+        /* The Fill Bar (Background) */
+        .poll-fill-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: rgba(255, 87, 34, 0.15);
+            /* Light orange tint */
+            z-index: 0;
+            width: 0%;
+            transition: width 0.5s ease-out;
+        }
+
+        .poll-text-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        /* Voted State */
+        .poll-option-btn.voted {
+            border-color: #FF5722;
+            background: rgba(255, 87, 34, 0.05);
+        }
+
+        .poll-option-btn.voted .poll-fill-bar {
+            background: linear-gradient(90deg, rgba(255, 87, 34, 0.3), rgba(255, 55, 95, 0.3));
+        }
+
         /* --- THREADED COMMENT PREVIEWS --- */
         .preview-comments-container {
             margin-top: 15px;
@@ -1050,6 +1180,8 @@
             height: 100%;
             /* Ensure it respects parent height */
         }
+        
+        
 
         /* --- CHAT SCROLL & BUBBLE FIX --- */
         /* --- CHAT SCROLL FIX --- */
@@ -1126,17 +1258,62 @@
         .chat-message-row {
             display: flex;
             width: 100%;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+            /* Slightly tighter spacing */
+            align-items: flex-end;
+            /* Aligns avatar to bottom of message */
         }
 
-        /* Align Right if 'me' */
         .chat-message-row.me {
             justify-content: flex-end;
         }
 
-        /* Align Left if 'them' */
         .chat-message-row.them {
             justify-content: flex-start;
+        }
+
+        /* The Avatar Circle */
+        .chat-msg-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 8px;
+            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2px;
+            /* Align with bottom of bubble text */
+        }
+
+        /* The Placeholder (Initials) if no image */
+        .chat-msg-placeholder {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #333;
+            color: #ccc;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2px;
+        }
+
+        /* Bubbles adjustments */
+        .msg-them {
+            border-bottom-left-radius: 4px;
+            /* Sharp corner near avatar */
+        }
+
+        .msg-me {
+            border-bottom-right-radius: 4px;
+            /* Sharp corner on right */
+            max-width: 78% !important;
+            /* Slightly wider for me */
         }
 
         /* --- RESTORED CAMERA & BUTTON STYLES --- */
@@ -1262,21 +1439,236 @@
             --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* --- POLL ICON SPECIFIC --- */
+        .daily-poll-style svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            /* Ensure icon is white */
+            stroke-width: 2.5px;
+            /* Slightly bolder matches the font */
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .daily-poll-style:hover svg {
+            transform: scale(1.2) translateY(-1px);
+            /* Pop effect */
+        }
+
+        /* --- DAILY POLL PILL --- */
+        .daily-poll-style {
+            height: 56px;
+            padding: 0 24px;
+            border-radius: 28px;
+            /* Fully rounded pill */
+            background: linear-gradient(135deg, #FF9F0A, #FF375F);
+            /* Sunset Gradient */
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 159, 10, 0.3);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .daily-poll-style:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(255, 159, 10, 0.5);
+        }
+
+        .daily-poll-style:active {
+            transform: scale(0.95);
+        }
+
+        /* --- CENTER WRAPPER LAYOUT --- */
+        .center-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            /* Increased gap to prevent touching */
+            margin: 20px 0 30px;
+            padding: 0 5px;
+        }
+
+        /* --- DAILY POLL PILL (Fixed & polished) --- */
+        .daily-poll-style {
+            height: 56px;
+            padding: 0 30px;
+            /* Fixed comfortable padding */
+            border-radius: 28px;
+            background: linear-gradient(135deg, #FF9F0A, #FF375F);
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 159, 10, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+
+            /* DESKTOP BEHAVIOR: Don't fill space, just fit content */
+            flex: 0 0 auto;
+            min-width: 450px;
+            /* Consistent minimum width */
+
+            position: relative;
+            overflow: hidden;
+            /* For the shine effect */
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 2;
+        }
+
+        /* --- HOVER ANIMATION (Lift + Glow + Shine) --- */
+        .daily-poll-style:hover {
+            transform: translateY(-3px);
+            /* Lifts up instead of growing wide */
+            box-shadow: 0 15px 35px rgba(255, 55, 95, 0.5);
+            /* Intense glow */
+        }
+
+        .daily-poll-style:active {
+            transform: scale(0.96);
+        }
+
+        /* The "Shine" Sweep Effect */
+        .daily-poll-style::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+
+        .daily-poll-style:hover::after {
+            left: 150%;
+            /* Sweeps across on hover */
+            transition: 0.7s ease-in-out;
+        }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 600px) {
+            .center-icon-wrapper {
+                gap: 10px;
+                /* Tighter gap on mobile */
+            }
+
+            /* 1. Shrink left buttons to icons */
+            .sort-btn-text,
+            .create-icon-text {
+                display: none !important;
+            }
+
+            /* 2. Prevent hover layout shifts on touch */
+            .sort-btn-style:hover,
+            .create-icon-style:hover {
+                width: 56px !important;
+                padding: 0 !important;
+                transform: none !important;
+            }
+
+            /* 3. Let Poll button fill space ON MOBILE ONLY */
+            .daily-poll-style {
+                flex: 1;
+                /* Grows to fill screen */
+                min-width: 0;
+                font-size: 13px;
+                padding: 0 15px;
+            }
+        }
+
+        /* Adjust the wrapper to push items apart */
+        .center-icon-wrapper {
+            justify-content: space-between !important;
+            padding: 0 5px;
+            /* Tiny padding from screen edges */
+        }
+
+        /* --- SEARCH ICON SIZING FIX --- */
+        .input-with-icon {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            /* Distance from left edge */
+            top: 50%;
+            transform: translateY(-50%);
+            /* Centers it vertically */
+            width: 18px !important;
+            /* Forces small size */
+            height: 18px !important;
+            color: var(--text-secondary);
+            pointer-events: none;
+            /* Clicks go through to the input */
+            z-index: 5;
+        }
+
+        /* Ensure the input has room for the icon */
+        #chatSearchInput {
+            padding-left: 45px !important;
+        }
+
         /* --- GLOBAL RESET & TYPOGRAPHY --- */
+        :root {
+            /* ... keep your existing variables ... */
+            --bg-body: #000000;
+            /* Ensure this stays black */
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             outline: none;
+            /* CRITICAL: Smooths fonts on Webkit browsers (Safari/Chrome) */
             -webkit-font-smoothing: antialiased;
+            /* CRITICAL: Smooths fonts on Firefox on Mac */
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            /* The "Apple Stack" - Prioritizes SF Pro, then falls back gracefully */
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Text", "Segoe UI", sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
             line-height: 1.5;
             overflow-x: hidden;
+            /* Subtle spacing adjustments typical of Apple's UI */
+            letter-spacing: -0.011em;
+        }
+
+        /* Ensure form elements inherit the clean font */
+        input,
+        textarea,
+        select,
+        button {
+            font-family: inherit;
+            letter-spacing: inherit;
+        }
+
+        /* Make headings slightly tighter, like SF Pro Display */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        .navbar-brand h1 {
+            letter-spacing: -0.022em;
         }
 
         ::-webkit-scrollbar {
@@ -1303,46 +1695,114 @@
             min-height: 100vh;
         }
 
-        /* --- NAVBAR --- */
+        /* --- PREMIUM GLASS NAVBAR (macOS Style) --- */
         .navbar {
-            background: rgba(28, 28, 30, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            color: var(--text-main);
-            padding: 16px 24px;
-            margin-bottom: 30px;
-            border-radius: var(--radius-lg);
+            /* Positioning */
+            position: sticky;
+            top: 15px;
+            /* Slight float */
+            z-index: 1000;
+
+            /* Sizing & Layout */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid var(--border-color);
-            position: sticky;
-            top: 20px;
-            z-index: 100;
-            transition: transform 0.3s ease;
+            padding: 12px 24px;
+            /* Tighter padding */
+            margin-bottom: 30px;
+
+            /* The "Apple Glass" Effect */
+            background: rgba(28, 28, 30, 0.65);
+            /* More transparent */
+            backdrop-filter: saturate(180%) blur(25px);
+            /* The "Vibrancy" Trick */
+            -webkit-backdrop-filter: saturate(180%) blur(25px);
+
+            /* Borders & Shadows */
+            border-radius: 20px;
+            /* Smooth curve */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            /* Very subtle border */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            /* Soft deep shadow */
+
+            /* Animation */
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive Fix: On mobile, stick to top fully */
+        @media (max-width: 600px) {
+            .navbar {
+                top: 0;
+                margin: 0 0 20px 0;
+                border-radius: 0 0 20px 20px;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                background: rgba(20, 20, 20, 0.85);
+                /* Darker on mobile */
+            }
+        }
+
+        /* --- BRAND TEXT --- */
+        .navbar-brand {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .navbar-brand h1 {
-            font-size: 50px;
+            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 25px;
+            /* Much smaller, cleaner */
             font-weight: 700;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 0%, #a5a5a5 100%);
+            letter-spacing: -0.01em;
+            margin: 0;
+            line-height: 1;
+
+            /* Premium Silver Gradient */
+            background: linear-gradient(180deg, #FFFFFF 0%, #B0B0B0 100%);
             -webkit-background-clip: text;
-            background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
         }
 
+        /* The user greeting text */
         .navbar-brand p {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 2px;
+            font-size: 15px;
+            color: rgba(235, 235, 245, 0.5);
+            /* Apple Label Color */
             font-weight: 500;
+            margin-top: 4px;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
         }
 
+        /* --- RIGHT SIDE ICONS (Clean up alignment) --- */
         .navbar-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 12px;
+            /* Consistent gap */
+        }
+
+        /* Clean up the circle buttons in nav */
+        .navbar-right .profile-circle,
+        .navbar-right .requests-icon-style {
+            width: 38px;
+            /* Slightly smaller */
+            height: 38px;
+            background: rgba(255, 255, 255, 0.05);
+            /* Subtle fill */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+        }
+
+        .navbar-right .profile-circle:hover,
+        .navbar-right .requests-icon-style:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* --- ICONS & AVATARS --- */
@@ -1375,14 +1835,15 @@
             border-color: var(--text-secondary);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
         }
+
         /* --- SCROLLBAR STRATEGY --- */
 
         /* 1. MOBILE (Default to Native "Invisible" Scrollbar) */
         /* We don't write any rules here. The browser defaults are best for touch. */
-        
+
         /* 2. DESKTOP ONLY (> 600px) - The Cool Blue Look */
         @media (min-width: 601px) {
-            
+
             ::-webkit-scrollbar {
                 width: 10px;
                 height: 10px;
@@ -1403,7 +1864,7 @@
             ::-webkit-scrollbar-thumb:hover {
                 background-color: #4da6ff;
             }
-            
+
             /* Firefox Desktop */
             html {
                 scrollbar-width: thin;
@@ -1452,22 +1913,27 @@
         }
 
         /* --- MOBILE TAB ACTIVE STATE (CLEAN) --- */
-            .tab-button.active {
-                color: var(--primary-color) !important; /* Only change the color */
-                background: transparent !important;    /* Remove the box */
-                box-shadow: none !important;           /* Remove the shadow */
-            }
+        .tab-button.active {
+            color: var(--primary-color) !important;
+            /* Only change the color */
+            background: transparent !important;
+            /* Remove the box */
+            box-shadow: none !important;
+            /* Remove the shadow */
+        }
 
-            /* Ensure the icon specifically stays primary color */
-            .tab-button.active svg {
-                stroke: var(--primary-color) !important;
-                transform: scale(1.1); /* Keep the subtle grow effect */
-            }
+        /* Ensure the icon specifically stays primary color */
+        .tab-button.active svg {
+            stroke: var(--primary-color) !important;
+            transform: scale(1.1);
+            /* Keep the subtle grow effect */
+        }
 
         /* Active Icon Animation */
         .tab-button.active svg {
             transform: scale(1.1);
-            stroke-width: 2.5px; /* Make it bolder when active */
+            stroke-width: 2.5px;
+            /* Make it bolder when active */
             stroke: var(--primary-color);
         }
 
@@ -1485,25 +1951,29 @@
                 right: 0;
                 width: 100%;
                 max-width: 100%;
-                
+
                 margin: 0;
                 border-radius: 0;
                 border: none;
                 border-top: 1px solid var(--border-color);
-                
-                background: rgba(28, 28, 30, 0.95); /* Glassy dark background */
+
+                background: rgba(28, 28, 30, 0.95);
+                /* Glassy dark background */
                 backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
-                
-                padding: 10px 0 25px 0; /* Extra padding for iPhone Home Indicator */
-                z-index: 1000; /* Sit above everything */
+
+                padding: 10px 0 25px 0;
+                /* Extra padding for iPhone Home Indicator */
+                z-index: 1000;
+                /* Sit above everything */
                 gap: 0;
                 justify-content: space-around;
             }
 
             .tab-button {
                 flex-direction: column;
-                gap: 0; /* Reset gap */
+                gap: 0;
+                /* Reset gap */
                 padding: 10px 0;
                 background: transparent !important;
                 transition: all 0.3s var(--transition-bounce);
@@ -1518,13 +1988,15 @@
                 transition: all 0.3s var(--transition-bounce);
                 transform: translateY(10px);
             }
+
             .tab-button.active .tab-label {
                 max-height: 20px;
                 opacity: 1;
-                transform: translateY(4px); /* Moves text slightly below icon */
+                transform: translateY(4px);
+                /* Moves text slightly below icon */
                 margin-top: 2px;
             }
-            
+
             /* Icon size adjustment for mobile */
             .tab-button svg {
                 width: 24px;
@@ -1532,16 +2004,18 @@
                 stroke: var(--text-secondary);
                 transition: all 0.3s var(--transition-bounce);
             }
+
             .tab-button.active svg {
                 stroke: var(--primary-color) !important;
-                transform: translateY(-2px); /* Slight lift effect */
+                transform: translateY(-2px);
+                /* Slight lift effect */
             }
 
             /* Make sure content doesn't get hidden behind the bar */
             .container {
                 padding-bottom: 90px;
             }
-            
+
             /* Hide the navbar on scroll (Optional: makes it feel cleaner) */
             /* .navbar { position: static; } */
         }
@@ -1566,18 +2040,23 @@
         .tab-content.active {
             display: block;
         }
+
         /* --- MOBILE TOUCH FIXES --- */
         * {
-            -webkit-tap-highlight-color: transparent; /* Removes blue box on touch */
+            -webkit-tap-highlight-color: transparent;
+            /* Removes blue box on touch */
         }
 
         /* Optional: Improve scroll smoothness on iOS */
         body {
-            -webkit-overflow-scrolling: touch; 
+            -webkit-overflow-scrolling: touch;
         }
-        
+
         /* Ensure buttons don't select text on double tap */
-        .btn, .tab-button, .card, .profile-pic-wrapper-new {
+        .btn,
+        .tab-button,
+        .card,
+        .profile-pic-wrapper-new {
             user-select: none;
             -webkit-user-select: none;
         }
@@ -1894,11 +2373,14 @@
             max-height: 90vh;
             overflow-y: auto;
         }
+
         /* --- SCROLL LOCK (Prevents background scrolling) --- */
         body.no-scroll {
             overflow: hidden !important;
-            height: 100vh; /* Locks the height to screen size */
-            touch-action: none; /* Disables touch scrolling on body */
+            height: 100vh;
+            /* Locks the height to screen size */
+            touch-action: none;
+            /* Disables touch scrolling on body */
         }
 
         @keyframes modalPop {
@@ -2098,15 +2580,26 @@
         }
 
         /* 2. Big Centered Profile Picture */
+        /* 3. Resize Avatar (Fix Squishing) */
         #searchResultsList .card-avatar {
-            width: 130px !important;
-            /* Much Bigger */
-            height: 130px !important;
-            min-width: 130px !important;
-            border-width: 4px;
-            margin: 0 auto;
-            /* Force Center */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            width: 70px !important;
+            height: 70px !important;
+
+            /* CRITICAL FIXES: */
+            min-width: 70px !important;
+            /* Stop width shrinking */
+            min-height: 70px !important;
+            /* Stop height shrinking */
+            object-fit: cover !important;
+            /* Crop image, don't stretch */
+            aspect-ratio: 1 / 1 !important;
+            /* Force perfect square */
+
+            border-width: 2px !important;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+            border-radius: 50% !important;
+            margin: 0 auto !important;
+            /* Ensure centering */
         }
 
         /* 3. Text Container: Force Left Alignment */
@@ -2465,12 +2958,29 @@
             box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.1);
         }
 
+        /* --- DISABLE COMMENT HOVER ANIMATION --- */
+        .comment-card {
+            transition: none !important;
+            /* Stop smooth transition */
+        }
+
+        .comment-card:hover {
+            transform: none !important;
+            /* Stop moving up */
+            box-shadow: none !important;
+            /* Optional: Stop shadow change */
+            /* If you want to keep a static border/shadow, set it here, e.g.: */
+            /* border: 1px solid var(--border-color) !important; */
+        }
+
         /* --- MOBILE OPTIMIZATIONS (Bottom Sheet Style) --- */
         @media (max-width: 600px) {
+
             /* 1. Full Width Containers */
             .container {
                 padding: 10px;
-                padding-bottom: 90px; /* Space for bottom nav */
+                padding-bottom: 90px;
+                /* Space for bottom nav */
                 max-width: 100%;
             }
 
@@ -2506,7 +3016,7 @@
                 font-size: 10px;
                 font-weight: 500;
             }
-            
+
             .tab-button svg {
                 width: 26px;
                 height: 26px;
@@ -2521,33 +3031,42 @@
                 border-radius: 0 0 16px 16px;
                 z-index: 100;
             }
-            
-            .navbar-brand h1 { font-size: 24px; }
+
+            .navbar-brand h1 {
+                font-size: 24px;
+            }
 
             /* 4. MODALS -> BOTTOM SHEET (The Fix) */
             .modal {
-                align-items: flex-end; /* Align to bottom */
+                align-items: flex-end;
+                /* Align to bottom */
             }
 
             .modal-content {
                 width: 100% !important;
                 max-width: 100% !important;
-                border-radius: 24px 24px 0 0 !important; /* Round top corners */
+                border-radius: 24px 24px 0 0 !important;
+                /* Round top corners */
                 border: none;
                 border-top: 1px solid var(--border-color);
                 margin: 0 !important;
-                
+
                 /* Limit height so you can click the top backdrop to close */
-                max-height: 85vh !important; 
+                max-height: 85vh !important;
                 height: auto !important;
-                
+
                 /* Slide Up Animation */
                 animation: slideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             }
-            
+
             @keyframes slideUpModal {
-                from { transform: translateY(100%); }
-                to { transform: translateY(0); }
+                from {
+                    transform: translateY(100%);
+                }
+
+                to {
+                    transform: translateY(0);
+                }
             }
 
             /* Add a visual "Handle" to indicate it's a sheet */
@@ -2558,18 +3077,251 @@
                 height: 4px;
                 background: #444;
                 border-radius: 2px;
-                margin: 0 auto 15px auto; /* Center top */
+                margin: 0 auto 15px auto;
+                /* Center top */
             }
-            
+
             .modal-footer {
-                padding-bottom: 30px; /* Extra padding for iPhone home bar */
+                padding-bottom: 30px;
+                /* Extra padding for iPhone home bar */
             }
-            
+
             /* Profile adjustments */
-            .profile-header-new { padding: 30px 20px; }
-            .profile-info-new h1 { font-size: 24px; }
-            .stats-grid-new { grid-template-columns: repeat(3, 1fr); }
-            .action-buttons-new { grid-template-columns: 1fr 1fr; }
+            .profile-header-new {
+                padding: 30px 20px;
+            }
+
+            .profile-info-new h1 {
+                font-size: 24px;
+            }
+
+            .stats-grid-new {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .action-buttons-new {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* --- MOBILE EXPLORE TAB (2 Columns) --- */
+        @media (max-width: 600px) {
+
+            /* 1. Force 2-Column Grid */
+            #searchResultsList.grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr) !important;
+                /* Equal split */
+                gap: 10px !important;
+                /* Tighter gap */
+            }
+
+            /* 2. Shrink Card Padding */
+            #searchResultsList .card {
+                padding: 12px !important;
+                margin-bottom: 0 !important;
+                /* Let grid gap handle vertical spacing */
+            }
+
+            /* 3. Resize Avatar */
+            #searchResultsList .card-avatar {
+                width: 70px !important;
+                height: 70px !important;
+                min-width: 70px !important;
+                border-width: 2px !important;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+            }
+
+            /* 4. Tighter Layout & Center Text */
+            #searchResultsList .card-content-wrapper {
+                gap: 8px !important;
+                margin-bottom: 10px !important;
+            }
+
+            /* Reset text alignment to center for narrow cards */
+            #searchResultsList .card-content-wrapper>div {
+                padding-left: 0 !important;
+                text-align: center !important;
+                width: 100%;
+            }
+
+            /* 5. Font Adjustments */
+            #searchResultsList .card-header {
+                font-size: 14px !important;
+                /* Smaller Name */
+                justify-content: center !important;
+                /* Center align */
+                flex-direction: column;
+                /* Stack Name and Badge */
+                gap: 4px;
+                line-height: 1.2;
+            }
+
+            /* Badge Styling */
+            #searchResultsList .badge {
+                margin-left: 0 !important;
+                font-size: 9px !important;
+                padding: 2px 6px;
+                align-self: center;
+                /* Ensure badge stays centered */
+            }
+
+            /* Subtext (College/Role) */
+            #searchResultsList .card-body p {
+                font-size: 11px !important;
+                line-height: 1.3;
+                margin-bottom: 2px !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                /* Prevent long college names from breaking layout */
+            }
+
+            /* 6. Compact Buttons */
+            #searchResultsList .card-footer {
+                margin-top: 5px !important;
+                padding-top: 10px !important;
+            }
+
+            #searchResultsList .btn {
+                font-size: 12px !important;
+                padding: 8px 0 !important;
+                /* Taller touch target */
+                width: 100%;
+            }
+        }
+
+        /* --- GLOBAL FORM FIXES --- */
+
+        /* 1. Disable the resize handle on all textareas */
+        textarea {
+            resize: none !important;
+        }
+
+        /* 2. Optional: Ensure inputs don't zoom on iPhone */
+        input,
+        textarea {
+            font-size: 16px !important;
+            /* Prevents auto-zoom on focus */
+        }
+
+        /* --- FIX MOBILE AVATAR (CORRECTED) --- */
+        @media (max-width: 600px) {
+            #searchResultsList .card-avatar {
+                /* 1. Force Exact Size (Prevents Squishing) */
+                width: 70px !important;
+                height: 70px !important;
+                min-width: 70px !important;
+                min-height: 70px !important;
+
+                /* 2. Force Circle Shape */
+                border-radius: 50% !important;
+
+                /* 3. Crop Image (Prevents Distortion) */
+                object-fit: cover !important;
+                aspect-ratio: 1 / 1 !important;
+
+                /* 4. Alignment & Border */
+                margin: 0 auto 10px auto !important;
+                border: 2px solid rgba(255, 255, 255, 0.1) !important;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
+                display: block !important;
+                background-color: var(--bg-input);
+                /* Fallback background */
+            }
+        }
+
+        /* --- VOTED STATE (DULL / COOLED DOWN) --- */
+        .daily-poll-style.voted {
+            /* Override the fire gradient with dark ash grey */
+            background: #2C2C2E !important;
+
+            /* Kill all animations */
+            animation: none !important;
+
+            /* Remove the glow and shine */
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: #888 !important;
+            /* Dim the text */
+
+            /* Reset cursor interaction */
+            transform: none !important;
+            cursor: pointer;
+            /* Still clickable to view results */
+        }
+
+        /* Remove the shine sweep effect */
+        .daily-poll-style.voted::after {
+            display: none !important;
+        }
+
+        /* Prevent hover effects on voted button */
+        .daily-poll-style.voted:hover {
+            transform: none !important;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        /* Dim the icon too */
+        .daily-poll-style.voted svg {
+            stroke: #666 !important;
+            filter: none !important;
+        }
+
+        /* --- GOAT BADGE (PREMIUM REWARD) --- */
+        .goat-badge-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #FFD700, #FDB931, #ffd700);
+            /* Gold Gradient */
+            background-size: 200% auto;
+            color: #000;
+            font-weight: 800;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+            animation: goldShine 3s linear infinite;
+            margin-bottom: 8px;
+            border: 1px solid #fff;
+        }
+
+        /* The Shining Animation */
+        @keyframes goldShine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Sparkle/Pulse Effect on the Icon */
+        .goat-icon-svg {
+            width: 14px;
+            height: 14px;
+            animation: goatPulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes goatPulse {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+            }
+
+            100% {
+                transform: scale(1.15);
+                filter: drop-shadow(0 0 2px white);
+            }
+        }
+
+        /* Highlight the whole comment card */
+        .comment-card.is-goated {
+            border: 1px solid #FFD700 !important;
+            background: linear-gradient(to bottom, rgba(255, 215, 0, 0.05), transparent) !important;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15) !important;
+            order: -1;
+            /* FLEX TRICK: Forces it to the top automatically */
         }
     </style>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -2730,36 +3482,46 @@
                     <p id="userInfo"></p>
                 </div>
                 <div class="navbar-right">
-    <div style="display: flex; gap: 15px; align-items: center;">
-        <div class="requests-icon-style" onclick="openConnectionsModal()" title="My Connections">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
-        </div>
-        <div class="requests-icon-style" onclick="switchTab('requests')" title="Pending Requests" style="position: relative;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-            </svg>
-            <span id="requestBadge" class="notification-badge hidden">0</span>
-        </div>
-        <div id="navProfileContainer" class="profile-circle" onclick="switchTab('profile')" title="My Profile"></div>
-    </div>
-</div>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <div class="requests-icon-style" onclick="openConnectionsModal()" title="My Connections">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <div class="requests-icon-style" onclick="switchTab('requests')" title="Pending Requests"
+                            style="position: relative;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                </path>
+                            </svg>
+                            <span id="requestBadge" class="notification-badge hidden">0</span>
+                        </div>
+                        <div id="navProfileContainer" class="profile-circle" onclick="switchTab('profile')"
+                            title="My Profile"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="tabs">
                 <button class="tab-button" onclick="switchTab(event, 'chats')">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                        </path>
                     </svg>
                     <span class="tab-label">Messages</span>
                 </button>
 
                 <button class="tab-button" onclick="switchTab(event, 'community')">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                         <circle cx="9" cy="7" r="4"></circle>
                         <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -2769,7 +3531,8 @@
                 </button>
 
                 <button class="tab-button" onclick="switchTab(event, 'mentors')">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
@@ -2783,8 +3546,8 @@
                     <div class="card-body">
                         <form id="userSearchForm" onsubmit="handleUserSearch(event)">
                             <div class="form-group" style="display: flex; gap: 10px; margin-bottom: 0;">
-                                <input type="text" id="searchInput" placeholder="Search by Name (e.g., Andy)"
-                                    style="flex-grow: 1;">
+                                <input type="text" id="searchInput" placeholder="Search by Name" style="flex-grow: 1;"
+                                    oninput="handleUserSearch(event)">
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </div>
                         </form>
@@ -2799,28 +3562,36 @@
 
             <div id="chats" class="tab-content">
                 <div id="chatMainWrapper">
-                    
+
                     <div id="activeChatsList">
                         <h4 style="padding: 20px 20px 10px 20px; border-bottom: 1px solid var(--border-color);">
                             Active Conversations
                         </h4>
-                        <div style="padding: 10px 15px 15px 15px;">
-                            <div style="padding: 10px 15px 10px 15px; position: relative;">
-                                <span style="position: absolute; left: 25px; top: 50%; transform: translateY(-55%); color: var(--text-secondary); font-size: 14px;">🔍</span>
-                                <input type="text" id="chatSearchInput" placeholder="Search connections..."
-                                    onkeyup="loadChats()"
-                                    style="width: 100%; padding: 10px 15px 10px 35px; border-radius: var(--radius-md); background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-main); font-size: 14px;">
+
+                        <div class="search-bar-container" style="padding: 10px 15px 15px 15px;">
+                            <div class="input-with-icon">
+                                <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+
+                                <input type="text" id="chatSearchInput" class="form-control"
+                                    placeholder="Start a chat with..." oninput="filterChatConnections(event)"
+                                    autocomplete="off" style="padding-left: 45px;">
                             </div>
                         </div>
+
                         <div id="chatsListContent"></div>
                     </div>
 
                     <div id="messageView">
-                        <input type="file" id="chatFileInput" accept="image/*,video/*" style="display: none;" onchange="handleChatFileSelect(this)">
-                        
-                        <div id="chatHeader" style="padding: 15px 20px; font-weight: 800; font-size: 18px; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); display: flex; align-items: center;">
+                        <input type="file" id="chatFileInput" accept="image/*,video/*" style="display: none;"
+                            onchange="handleChatFileSelect(this)">
+
+                        <div id="chatHeader"
+                            style="padding: 15px 20px; font-weight: 800; font-size: 18px; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); display: flex; align-items: center;">
                             <span class="chat-back-btn" onclick="closeChatView()">←</span>
-                            
+
                             <div id="chatHeaderInfo">Select a conversation</div>
                         </div>
 
@@ -2831,12 +3602,16 @@
 
                             <input type="hidden" id="selectedChatId">
                             <div id="emojiPicker" class="emoji-picker hidden"></div>
-                            
-                            <button type="button" class="chat-upload-btn btn-circle" onclick="document.getElementById('chatFileInput').click()" title="Send Media">📷</button>
-                            <button type="button" class="chat-upload-btn btn-circle" onclick="toggleEmojiPicker()" title="Emoji">😀</button>
+
+                            <button type="button" class="chat-upload-btn btn-circle"
+                                onclick="document.getElementById('chatFileInput').click()"
+                                title="Send Media">📷</button>
+                            <button type="button" class="chat-upload-btn btn-circle" onclick="toggleEmojiPicker()"
+                                title="Emoji">😀</button>
 
                             <textarea id="messageText" placeholder="Type a message..." required
-                                style="flex-grow: 1; height: 45px; border-radius: 22px; padding: 12px 20px; resize: none; background: rgba(255,255,255,0.05); border:none; color: white; font-family: inherit; overflow: hidden;"></textarea>
+                                style="flex-grow: 1; height: 45px; border-radius: 22px; padding: 12px 20px; resize: none; background: rgba(255,255,255,0.05); border:none; color: white; font-family: inherit; overflow: hidden; resize: none !important;"
+                                autocomplete="off"></textarea>
 
                             <button type="submit" class="btn btn-primary btn-circle" style="font-size: 18px;">➤</button>
                         </form>
@@ -2846,26 +3621,40 @@
 
             <div id="community" class="tab-content">
 
-                <div class="center-icon-wrapper" style="gap: 15px; align-items: center;">
+                <div class="center-icon-wrapper">
 
-                    <div class="sort-btn-style" onclick="openSortModal()">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="4" y1="21" x2="4" y2="14"></line>
-        <line x1="4" y1="10" x2="4" y2="3"></line>
-        <line x1="12" y1="21" x2="12" y2="12"></line>
-        <line x1="12" y1="8" x2="12" y2="3"></line>
-        <line x1="20" y1="21" x2="20" y2="16"></line>
-        <line x1="20" y1="12" x2="20" y2="3"></line>
-        <line x1="2" y1="14" x2="6" y2="14"></line>
-        <line x1="10" y1="8" x2="14" y2="8"></line>
-        <line x1="18" y1="16" x2="22" y2="16"></line>
-    </svg>
-    <span class="sort-btn-text">Sort / Filter</span>
-</div>
+                    <div style="display: flex; gap: 12px; align-items: center; flex-shrink: 0;">
 
-                    <div id="createPostIcon" class="create-icon-style" onclick="openCreatePostModal()">
-                        <span style="font-size: 32px; line-height: 1; margin-bottom: 4px;">+</span>
-                        <span class="create-icon-text">Create New Post</span>
+                        <div class="sort-btn-style" onclick="openSortModal()">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="4" y1="21" x2="4" y2="14"></line>
+                                <line x1="4" y1="10" x2="4" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12" y2="3"></line>
+                                <line x1="20" y1="21" x2="20" y2="16"></line>
+                                <line x1="20" y1="12" x2="20" y2="3"></line>
+                                <line x1="2" y1="14" x2="6" y2="14"></line>
+                                <line x1="10" y1="8" x2="14" y2="8"></line>
+                                <line x1="18" y1="16" x2="22" y2="16"></line>
+                            </svg>
+                            <span class="sort-btn-text">Sort</span>
+                        </div>
+
+                        <div id="createPostIcon" class="create-icon-style" onclick="openCreatePostModal()">
+                            <span style="font-size: 32px; line-height: 1; margin-bottom: 3px;">+</span>
+                            <span class="create-icon-text">Post</span>
+                        </div>
+                    </div>
+
+                    <div class="daily-poll-style" onclick="openDailyPoll()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span>Daily Poll</span>
                     </div>
 
                 </div>
@@ -2882,10 +3671,23 @@
 
                         <div class="filter-section-title">Sort By</div>
                         <div style="display: flex; gap: 10px;">
-                            <div class="filter-pill active" id="sortBtn_latest" onclick="toggleSort('latest')">🕒 Latest
+
+                            <div class="filter-pill active" id="sortBtn_latest" onclick="toggleSort('latest')">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20ZM12.5,7V12.25L17,14.92l-.75,1.23-5-3V7Z" />
+                                </svg>
+                                <span>Latest</span>
                             </div>
-                            <div class="filter-pill" id="sortBtn_upvotes" onclick="toggleSort('upvotes')">🔥 Top Voted
+
+                            <div class="filter-pill" id="sortBtn_upvotes" onclick="toggleSort('upvotes')">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19.48,13A7.65,7.65,0,0,0,18.9,9.39c-1.39-3-4.22-4.57-4.22-4.57s.3,2.78-1.42,4.5a3.63,3.63,0,0,1-2.61,1.11c-2.66,0-3.37-3.88-3.37-3.88S4.57,8.81,4.57,12.7a7.43,7.43,0,0,0,14.91.3ZM12,22a9.7,9.7,0,0,1-8.32-5.32A9.63,9.63,0,0,1,2.23,12C2.23,6.33,7.31,2,7.31,2S7.23,4.42,9.33,6.53a5.53,5.53,0,0,0,4,1.7,3.12,3.12,0,0,0,.78-.1,12.72,12.72,0,0,0,3.3-2.52s4.42,3.31,4.42,7.55A8.77,8.77,0,0,1,12,22Z" />
+                                </svg>
+                                <span>Top Voted</span>
                             </div>
+
                         </div>
 
                         <div class="filter-section-title">Filter by Year</div>
@@ -3046,8 +3848,66 @@
             <div class="modal-header">My Connections</div>
             <div id="connectionsModalList" style="max-height: 50vh; overflow-y: auto; padding-right: 5px;"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                    onclick="document.getElementById('connectionsModal').classList.remove('active')">Close</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('connectionsModal')">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="dailyPollModal" class="modal" style="z-index: 10050;">
+        <div class="modal-content"
+            style="max-width: 400px; text-align: center; border: 2px solid #FF5722; box-shadow: 0 0 50px rgba(255, 87, 34, 0.2);">
+
+            <div style="margin-bottom: 20px;">
+                <span style="font-size: 40px; display: block; animation: flameFlicker 1s infinite alternate;">🔥</span>
+                <h2
+                    style="font-size: 24px; font-weight: 800; background: linear-gradient(to right, #FF9F0A, #FF375F); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 10px;">
+                    DAILY POLL
+                </h2>
+            </div>
+
+            <div id="pollViewMode">
+                <h3 id="pollQuestionDisplay"
+                    style="font-size: 20px; font-weight: 700; color: white; margin-bottom: 25px; line-height: 1.4;">
+                    Loading today's question...
+                </h3>
+
+                <div id="pollOptionsContainer" style="display: flex; flex-direction: column; gap: 12px;">
+                </div>
+
+                <p id="pollTotalVotes" style="margin-top: 20px; font-size: 12px; color: #666;">0 Votes</p>
+
+                <button id="btnEditPoll" class="btn" onclick="togglePollEditMode()"
+                    style="display: none; margin: 20px auto 0; background: #333; font-size: 12px; padding: 5px 15px;">
+                    ✏️ Edit Poll (Admin)
+                </button>
+            </div>
+
+            <div id="pollEditMode" class="hidden">
+                <h4 style="color: #FF5722; margin-bottom: 15px;">Create New Poll</h4>
+
+                <div class="form-group">
+                    <input type="text" id="newPollQuestion" placeholder="Enter Question..."
+                        style="text-align: center; font-weight: bold; font-size: 16px;">
+                </div>
+
+                <div id="pollOptionsList" class="form-group">
+                </div>
+
+                <button class="btn btn-secondary" onclick="addPollOptionField()"
+                    style="width: 100%; margin-bottom: 15px; border: 1px dashed #555;">
+                    + Add Another Option
+                </button>
+
+                <div
+                    style="display: flex; gap: 10px; justify-content: center; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px;">
+                    <button class="btn btn-secondary" onclick="togglePollEditMode()">Cancel</button>
+                    <button class="btn btn-primary" onclick="saveNewPoll()">Publish Poll</button>
+                </div>
+            </div>
+
+            <div style="margin-top: 25px;">
+                <button class="btn btn-secondary" style="border: none; background: transparent; color: #888;"
+                    onclick="closeModal('dailyPollModal')">Close</button>
             </div>
         </div>
     </div>
@@ -3062,7 +3922,8 @@
             <form onsubmit="handleCreatePostSubmit(event)">
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" id="communityPostTitle" required placeholder="What's on your mind?">
+                    <input type="text" id="communityPostTitle" required placeholder="What's on your mind?"
+                        autocomplete="off">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 15px;">
@@ -3078,7 +3939,7 @@
                 <div class="form-group">
                     <label>Details</label>
                     <textarea id="communityPostBody" required placeholder="Share your thoughts..."
-                        style="min-height: 100px;"></textarea>
+                        style="min-height: 100px; resize: none;" autocomplete="off"></textarea>
                 </div>
 
                 <div class="form-group" style="margin-bottom:0;">
@@ -3098,7 +3959,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
-                        onclick="document.getElementById('createPostModal').classList.remove('active')">Cancel</button>
+                        onclick="closeModal('createPostModal')">Cancel</button>
                     <button type="submit" class="btn btn-primary" id="submitPostBtn">Post</button>
                 </div>
             </form>
@@ -3144,7 +4005,7 @@
                 </div>
                 <div class="modal-footer" style="justify-content: space-between;">
                     <button type="button" class="btn btn-secondary"
-                        onclick="document.getElementById('postDetailModal').classList.remove('active')">Close</button>
+                        onclick="closeModal('postDetailModal')">Close</button>
                     <button type="submit" class="btn btn-primary">Comment</button>
                 </div>
             </form>
@@ -3242,8 +4103,7 @@
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-secondary"
-                    onclick="document.getElementById('adminPanelModal').classList.remove('active')">Close Panel</button>
+                <button class="btn btn-secondary" onclick="closeModal('adminPanelModal')">Close Panel</button>
             </div>
         </div>
     </div>
@@ -3277,6 +4137,207 @@
         db = firebase.firestore();
         const storage = firebase.storage(); // <--- ADD THIS
         console.log("Firebase initialized");
+        // --- DAILY POLL LOGIC ---
+
+        // REPLACE THESE WITH REAL UIDs
+        const ADMIN_UIDS = [
+            'user_1766072628767',  //Sid
+            'user_1766080376453' //Selva
+        ];
+
+        let currentPollData = null;
+
+        function openDailyPoll() {
+            lockScroll();
+            const modal = document.getElementById('dailyPollModal');
+            modal.classList.add('active');
+
+            // Check Admin Status
+            if (currentUser && ADMIN_UIDS.includes(currentUser.uid)) {
+                document.getElementById('btnEditPoll').style.display = 'block';
+            } else {
+                document.getElementById('btnEditPoll').style.display = 'none';
+            }
+
+            loadActivePoll();
+        }
+
+        function loadActivePoll() {
+            const container = document.getElementById('pollOptionsContainer');
+            const questionEl = document.getElementById('pollQuestionDisplay');
+            const votesEl = document.getElementById('pollTotalVotes');
+            // 1. SELECT THE MAIN BUTTON
+            const pollBtn = document.querySelector('.daily-poll-style');
+
+            container.innerHTML = '<p style="color:#888;">Loading...</p>';
+
+            db.collection('system').doc('daily_poll').onSnapshot(doc => {
+                if (!doc.exists) {
+                    questionEl.innerText = "No active poll today.";
+                    container.innerHTML = "";
+                    return;
+                }
+
+                currentPollData = doc.data();
+                questionEl.innerText = currentPollData.question;
+
+                const totalVotes = currentPollData.totalVotes || 0;
+                votesEl.innerText = `${totalVotes} Votes`;
+
+                // Render Options
+                let html = '';
+                const myVote = currentPollData.votes ? currentPollData.votes[currentUser.uid] : undefined;
+
+                // --- NEW: TOGGLE DULL STATE ---
+                if (myVote !== undefined) {
+                    // User has voted: Add class to make it dull
+                    pollBtn.classList.add('voted');
+                } else {
+                    // User hasn't voted: Ensure it's flashy
+                    pollBtn.classList.remove('voted');
+                }
+                // ------------------------------
+
+                currentPollData.options.forEach((opt, index) => {
+                    const voteCount = currentPollData.counts ? (currentPollData.counts[index] || 0) : 0;
+                    const percent = totalVotes > 0 ? Math.round((voteCount / totalVotes) * 100) : 0;
+
+                    const isVotedClass = myVote === index ? 'voted' : '';
+                    const showResults = myVote !== undefined || (currentUser && ADMIN_UIDS.includes(currentUser.uid));
+
+                    html += `
+                    <div class="poll-option-btn ${isVotedClass}" onclick="submitVote(${index})">
+                        <div class="poll-fill-bar" style="width: ${showResults ? percent : 0}%"></div>
+                        <div class="poll-text-wrapper">
+                            <span>${opt}</span>
+                            ${showResults ? `<span>${percent}%</span>` : ''}
+                        </div>
+                    </div>`;
+                });
+
+                container.innerHTML = html;
+            });
+        }
+
+        function submitVote(optionIndex) {
+            if (!currentUser) return showToast("Please login to vote.");
+
+            // Optimistic check: prevent double clicks visually, DB rules handles logic
+            if (currentPollData.votes && currentPollData.votes[currentUser.uid] !== undefined) {
+                return showToast("You already voted today!");
+            }
+
+            const pollRef = db.collection('system').doc('daily_poll');
+
+            // 1. Register who voted for what
+            const voteKey = `votes.${currentUser.uid}`;
+
+            db.runTransaction(async (t) => {
+                const doc = await t.get(pollRef);
+                const data = doc.data();
+
+                if (data.votes && data.votes[currentUser.uid] !== undefined) {
+                    throw "Already voted";
+                }
+
+                const newCounts = data.counts || new Array(data.options.length).fill(0);
+                newCounts[optionIndex] = (newCounts[optionIndex] || 0) + 1;
+
+                t.update(pollRef, {
+                    [`votes.${currentUser.uid}`]: optionIndex,
+                    counts: newCounts,
+                    totalVotes: firebase.firestore.FieldValue.increment(1)
+                });
+            }).then(() => {
+                showToast("Vote cast!");
+            }).catch(e => {
+                if (e === "Already voted") showToast("You already voted.");
+                else console.error(e);
+            });
+        }
+
+        // --- ADMIN ONLY FUNCTIONS ---
+
+        // --- ADMIN ONLY FUNCTIONS ---
+
+        function togglePollEditMode() {
+            const view = document.getElementById('pollViewMode');
+            const edit = document.getElementById('pollEditMode');
+            const optionsList = document.getElementById('pollOptionsList');
+
+            if (view.classList.contains('hidden')) {
+                // Switching BACK to View Mode
+                view.classList.remove('hidden');
+                edit.classList.add('hidden');
+            } else {
+                // Switching TO Edit Mode
+                view.classList.add('hidden');
+                edit.classList.remove('hidden');
+
+                // Clear and Initialize with 2 empty options if empty
+                if (optionsList.innerHTML.trim() === '') {
+                    addPollOptionField('', false); // Option 1 (No remove button)
+                    addPollOptionField('', false); // Option 2 (No remove button)
+                }
+            }
+        }
+
+        function addPollOptionField(value = '', allowRemove = true) {
+            const container = document.getElementById('pollOptionsList');
+            const div = document.createElement('div');
+            div.className = 'poll-input-row';
+
+            // Generate unique ID for input
+            const id = 'pollOpt_' + Date.now() + Math.random().toString(36).substr(2, 5);
+
+            div.innerHTML = `
+                <input type="text" id="${id}" value="${value}" placeholder="Enter option..." class="poll-option-input">
+                ${allowRemove ? `<div class="btn-remove-opt" onclick="this.parentElement.remove()">✕</div>` : ''}
+            `;
+
+            container.appendChild(div);
+        }
+
+        function saveNewPoll() {
+            const q = document.getElementById('newPollQuestion').value.trim();
+
+            // Collect all inputs from the dynamic list
+            const inputs = document.querySelectorAll('.poll-option-input');
+            const options = [];
+
+            inputs.forEach(input => {
+                const val = input.value.trim();
+                if (val) options.push(val);
+            });
+
+            if (!q) return alert("Please enter a question.");
+            if (options.length < 2) return alert("Please provide at least 2 valid options.");
+
+            if (!confirm("This will WIPE the current poll and start fresh. Confirm?")) return;
+
+            // Initialize counts array based on number of options
+            const zeroCounts = new Array(options.length).fill(0);
+
+            db.collection('system').doc('daily_poll').set({
+                question: q,
+                options: options,
+                counts: zeroCounts,
+                votes: {}, // Reset votes map
+                totalVotes: 0,
+                createdAt: new Date()
+            }).then(() => {
+                showToast("New Daily Poll Published!");
+
+                // Reset UI
+                document.getElementById('newPollQuestion').value = "";
+                document.getElementById('pollOptionsList').innerHTML = ""; // Clear options
+
+                togglePollEditMode(); // Go back to view mode
+            }).catch(e => {
+                console.error(e);
+                alert("Error saving poll: " + e.message);
+            });
+        }
 
         // --- GLOBAL STATE ---
         let currentUser = null; // FIXED: Removed "letlet" typo
@@ -3943,6 +5004,38 @@
             if (tabName === 'requests') loadRequests();
             if (tabName === 'profile') loadProfile();
         }
+        // --- MARK ANSWER AS GOATED ---
+        function toggleGoatStatus(postId, commentId, commentAuthorRole) {
+            // 1. Security Check: Only Mentors can receive this
+            if (commentAuthorRole === 'Student') {
+                showToast("Only Mentors can be GOATed! 🐐");
+                return;
+            }
+
+            const postRef = db.collection('posts').doc(postId);
+
+            // 2. Transaction to ensure only 1 exists
+            db.runTransaction(async (transaction) => {
+                const postDoc = await transaction.get(postRef);
+                if (!postDoc.exists) return;
+
+                const currentGoat = postDoc.data().goatedCommentId;
+
+                // If clicking the same one, remove it (toggle off)
+                if (currentGoat === commentId) {
+                    transaction.update(postRef, { goatedCommentId: firebase.firestore.FieldValue.delete() });
+                } else {
+                    // Otherwise, set this new one as THE goat (overwrites previous)
+                    transaction.update(postRef, { goatedCommentId: commentId });
+                }
+            }).then(() => {
+                showToast("GOAT Status Updated! 🐐");
+                // Reload comments to see the change
+                loadComments(postId);
+            }).catch(error => {
+                console.error("Goat error:", error);
+            });
+        }
         // --- CONTEXT MENU LOGIC (Right Click / Long Press) ---
         // --- CONTEXT MENU LOGIC (Dynamic) ---
         let contextMenuTarget = { type: null, id1: null, id2: null };
@@ -4603,24 +5696,31 @@
         }
 
         function handleUserSearch(event) {
-            event.preventDefault();
-            const term = document.getElementById('searchInput').value.toLowerCase().trim();
-            if (!term) return loadMentors();
+            // 1. Prevent page refresh if "Enter" is pressed
+            if (event) event.preventDefault();
+
+            // 2. Get the search term and make it lowercase (Case Insensitive)
+            const searchInput = document.getElementById('searchInput');
+            const term = searchInput.value.toLowerCase().trim();
+
+            // 3. Get the list of cards currently on screen
             const listEl = document.getElementById('searchResultsList');
-            listEl.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-secondary);">Searching...</p>';
-            const end = term.replace(/.$/, c => String.fromCharCode(c.charCodeAt(0) + 1));
+            const cards = listEl.getElementsByClassName('card');
 
-            const usersSearchPromise = db.collection('users').where('name', '>=', term).where('name', '<', end).get();
-            const requestsPromise = db.collection('connection_requests').where('recipientId', '==', currentUser.uid).get();
-            const sentRequestsPromise = db.collection('connection_requests').where('senderId', '==', currentUser.uid).get();
+            // 4. Loop through every card and toggle visibility (Real-Time)
+            for (let i = 0; i < cards.length; i++) {
+                const card = cards[i];
 
-            Promise.all([usersSearchPromise, requestsPromise, sentRequestsPromise]).then(([userSnap, receivedReqSnap, sentReqSnap]) => {
-                const allRequests = [...receivedReqSnap.docs, ...sentReqSnap.docs];
-                renderUserResults(userSnap, allRequests);
-            }).catch(e => {
-                listEl.innerHTML = '<p style="color:var(--danger-color); text-align:center;">Failed to execute search. Check console.</p>';
-                console.error("Error in handleUserSearch:", e);
-            });
+                // Get all text inside the card (Name, College, Role)
+                const text = card.textContent || card.innerText;
+
+                // Check if the text matches the search term
+                if (text.toLowerCase().indexOf(term) > -1) {
+                    card.style.display = ""; // Show
+                } else {
+                    card.style.display = "none"; // Hide
+                }
+            }
         }
 
         function unfriend(otherId, reqId) {
@@ -4653,7 +5753,7 @@
         }
 
         function renderUserResults(snapshot, allRequests = []) {
-            
+
             const listEl = document.getElementById('searchResultsList');
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             let html = '';
@@ -4736,11 +5836,12 @@
                 html += `
                 <div class="card">
                     <div class="card-content-wrapper">
-                        <img src="${profileSrc} loading="lazy"" 
-     class="card-avatar" 
-     alt="Profile" 
-     crossorigin="anonymous" 
-     onload="applyCardTheme(this)">
+                        <img src="${profileSrc}" 
+                             loading="lazy" 
+                             class="card-avatar" 
+                             alt="Profile" 
+                             crossorigin="anonymous" 
+                             onload="applyCardTheme(this)">
                         <div style="width:100%; text-align:left; padding-left:10px;">
                             
                             <div class="card-header" style="font-size:18px; margin-bottom:4px; justify-content:flex-start; gap:8px; align-items:center;">
@@ -4851,7 +5952,8 @@
                         // Avatar
                         let avatarHtml;
                         if (senderUser.profilePic) {
-                            avatarHtml = `<img src="${senderUser.profilePic}";loading="lazy"; style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">`;
+                            // FIXED: Removed extra semicolons and fixed quote placement
+                            avatarHtml = `<img src="${senderUser.profilePic}" loading="lazy" style="width:120px; height:120px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">`;
                         } else {
                             const initial = senderName.charAt(0);
                             avatarHtml = `<div style="width:100px; height:100px; border-radius:50%; background:#333; display:flex; align-items:center; justify-content:center; color:#ccc; font-weight:bold; font-size:18px; border:1px solid var(--border-color);">${initial}</div>`;
@@ -4976,8 +6078,10 @@
                         if (diffMins < 5) statusColor = '#30D158';
                     }
 
+                    // Inside loadChats function...
                     let avatarContent = otherUser.profilePic
-                        ? `<img src="${otherUser.profilePic}"; loading="lazy"; style="width:45px; height:45px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">`
+                        // FIXED: Removed extra semicolons and fixed quote placement
+                        ? `<img src="${otherUser.profilePic}" loading="lazy" style="width:45px; height:45px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">`
                         : `<div style="width:45px; height:45px; border-radius:50%; background:black; color:white; display:flex; align-items:center; justify-content:center; border:1px solid var(--border-color); font-weight:bold; font-size:18px;">${displayName.charAt(0)}</div>`;
 
                     const avatarHtml = `
@@ -5016,6 +6120,30 @@
             }).catch(e => {
                 console.error(e);
                 listEl.innerHTML = '<p style="color:var(--danger-color)">Error loading chats.</p>';
+            });
+        }
+        // Helper: Extract dominant color from an image file object
+        function getDominantColor(file) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = URL.createObjectURL(file);
+
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = 1;
+                    canvas.height = 1;
+
+                    // Draw image resized to 1x1 pixel to get average color
+                    ctx.drawImage(img, 0, 0, 1, 1);
+                    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+
+                    // Convert to Hex
+                    const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+                    resolve(hex);
+                };
+
+                img.onerror = () => resolve("#FF5722"); // Fallback color
             });
         }
         // --- ADMIN: WIPE EVERYTHING ---
@@ -5282,16 +6410,16 @@
         function openSortModal() {
             lockScroll();
             const modal = document.getElementById('sortFilterModal');
-            
+
             // --- ADD CLOSE BUTTON ---
             const header = modal.querySelector('.modal-header');
-            if(header && !header.querySelector('.close-modal-btn')) {
+            if (header && !header.querySelector('.close-modal-btn')) {
                 header.style.display = "flex";
                 header.style.justifyContent = "space-between";
                 header.style.alignItems = "center";
                 header.innerHTML = `
                     <span>Sort & Filter</span>
-                    <span class="close-modal-btn" onclick="document.getElementById('sortFilterModal').classList.remove('active')" style="font-size:24px; cursor:pointer; padding:0 10px;">&times;</span>
+                    <span class="close-modal-btn" onclick="closeModal('sortFilterModal')"style="font-size:24px; cursor:pointer; padding:0 10px;">&times;</span>
                 `;
             }
             // ------------------------
@@ -5300,10 +6428,15 @@
             renderFilterTags();
             updateFilterUI();
         }
-        window.closeModal = function(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            unlockScroll(); // <--- RESTORES SCROLLING
+        // --- GLOBAL MODAL CLOSER (FIXES SCROLL LOCK) ---
+        window.closeModal = function (modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+            }
+            unlockScroll(); // <--- CRITICAL: Unlocks the body
         };
+        // --- SYNC PROFILE CHANGES TO OLD POSTS ---
         // --- SYNC PROFILE CHANGES TO OLD POSTS ---
         async function syncUserProfileToContent() {
             if (!currentUser) return;
@@ -5315,7 +6448,9 @@
                 authorName: uData.name,
                 authorPic: uData.profilePic || "",
                 authorRole: uData.role || "Student",
-                authorYear: uData.year || ""
+                authorYear: uData.year || "",
+                // NEW: Sync the theme color too
+                authorColor: uData.themeColor || "#FF5722"
             };
 
             console.log("Syncing profile to old posts...");
@@ -5332,10 +6467,6 @@
 
                 await batch.commit();
                 console.log("Old posts updated.");
-
-                // Note: Updating old COMMENTS in Firestore client-side is very expensive 
-                // (requires reading every post). Instead, we use the "Visual Override" 
-                // in Step 4 to fix comments visually instantly.
 
             } catch (e) {
                 console.error("Sync error:", e);
@@ -5394,6 +6525,10 @@
         function applyFilters() {
             document.getElementById('sortFilterModal').classList.remove('active');
             loadCommunity(); // Reloads posts with new filters applied
+        }
+        function applyTheme(color) {
+            document.documentElement.style.setProperty('--primary-color', color);
+            // Add other variables if needed
         }
 
         function clearAllFilters() {
@@ -5545,6 +6680,7 @@
                 // Cleanup
                 const modal = document.getElementById('createPostModal');
                 if (modal) modal.classList.remove('active');
+                closeModal('createPostModal');
                 if (titleEl) titleEl.value = "";
                 if (bodyEl) bodyEl.value = "";
                 if (window.removePostImage) window.removePostImage();
@@ -5600,45 +6736,196 @@
             const list = document.getElementById('commentsList');
             list.innerHTML = '<p style="color:var(--text-secondary);">Loading...</p>';
 
-            // Fetch ALL comments, we sort them in JS to handle nesting
-            db.collection('posts').doc(postId).collection('comments')
-                .orderBy('timestamp', 'asc') // Chronological ensures parents exist before children usually
-                .get().then(snap => {
-                    const comments = snap.docs.map(d => ({ ...d.data(), id: d.id }));
-                    renderThreadedComments(comments, list, postId);
-                })
-                .catch(err => console.error(err));
+            // 1. Fetch Post (to get goatedCommentId + authorId) AND Comments
+            const postPromise = db.collection('posts').doc(postId).get();
+            const commentsPromise = db.collection('posts').doc(postId).collection('comments')
+                .orderBy('timestamp', 'asc')
+                .get();
+
+            Promise.all([postPromise, commentsPromise]).then(([postSnap, commentsSnap]) => {
+                if (!postSnap.exists) {
+                    list.innerHTML = "<p>Post not found.</p>";
+                    return;
+                }
+
+                const postData = postSnap.data();
+                postData.id = postSnap.id; // Ensure ID is attached
+
+                // Map comments
+                let comments = commentsSnap.docs.map(d => ({ ...d.data(), id: d.id }));
+
+                // 2. Render with knowledge of the Post (for permissions & pinning)
+                renderThreadedComments(comments, list, postData);
+
+            }).catch(err => console.error("Error loading comments:", err));
         }
 
         // --- RECURSIVE THREAD RENDERER ---
-        function renderThreadedComments(allComments, container, postId) {
-            // 1. Build the Tree
-            const commentMap = {};
-            const rootComments = [];
+        function renderThreadedComments(comments, container, postData) {
+            container.innerHTML = '';
 
-            allComments.forEach(c => {
-                c.children = [];
+            // 1. Organize into Parent/Child Map
+            const commentMap = {};
+            const roots = [];
+
+            comments.forEach(c => {
                 commentMap[c.id] = c;
+                c.children = []; // Init children array
             });
 
-            allComments.forEach(c => {
+            comments.forEach(c => {
                 if (c.parentId && commentMap[c.parentId]) {
                     commentMap[c.parentId].children.push(c);
                 } else {
-                    rootComments.push(c);
+                    roots.push(c);
                 }
             });
 
-            // Sort Roots by Upvotes
-            rootComments.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
+            // 2. SORT: Move GOATed comment to the very top (Pinning)
+            roots.sort((a, b) => {
+                if (a.id === postData.goatedCommentId) return -1; // Move GOAT up
+                if (b.id === postData.goatedCommentId) return 1;
+                return 0; // Keep timestamp order for others
+            });
 
-            // 2. Generate HTML
-            if (rootComments.length === 0) {
-                container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-secondary);">No comments yet.</div>';
+            // 3. Recursive Render Function
+            function createCommentNode(comment, level = 0) {
+                const isGoated = (comment.id === postData.goatedCommentId);
+                const isPostAuthor = (currentUser && currentUser.uid === postData.authorId);
+                const isMentor = (comment.authorRole && comment.authorRole !== 'Student');
+
+                const wrapper = document.createElement('div');
+                // Add left margin for nesting
+                wrapper.style.marginLeft = level > 0 ? (level * 20) + 'px' : '0';
+                if (level > 0) wrapper.style.borderLeft = "2px solid var(--border-color)";
+
+                // --- BADGE HTML ---
+                let badgeHTML = '';
+                if (isGoated) {
+                    badgeHTML = `
+            <div class="goat-badge-container">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="goat-icon-svg">
+                    <path d="M12,2L14.5,8H19.5L15.5,11L17,16.5L12,13.5L7,16.5L8.5,11L4.5,8H9.5L12,2Z"/> 
+                </svg>
+                <span>GOATed Answer</span>
+            </div>`;
+                }
+
+                // --- GOAT BUTTON (Only for Post Author on Mentor comments) ---
+                let goatBtn = '';
+                if (isPostAuthor && isMentor && level === 0) { // Usually only top-level answers get GOATed
+                    goatBtn = `
+            <button onclick="toggleGoatStatus('${postData.id}', '${comment.id}')" 
+                class="btn btn-sm" 
+                style="margin-left:auto; font-size:10px; border:1px solid #FFD700; color:#FFD700; background:transparent;">
+                ${isGoated ? 'Remove GOAT' : '🏆 Mark GOAT'}
+            </button>`;
+                }
+
+                wrapper.innerHTML = `
+            <div class="card comment-card ${isGoated ? 'is-goated' : ''}" style="margin-bottom:10px; padding:12px; position:relative;">
+                ${badgeHTML}
+                <div style="display:flex; gap:10px; align-items:start;">
+                    <img src="${comment.authorPic || 'default_avatar.png'}" style="width:32px; height:32px; border-radius:50%; object-fit:cover;">
+                    <div style="width:100%;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <strong style="font-size:13px;">${comment.authorName}</strong>
+                                <span style="font-size:11px; opacity:0.7;">• ${comment.authorRole || 'Student'}</span>
+                            </div>
+                            ${goatBtn}
+                        </div>
+                        <p style="margin:4px 0; font-size:14px; line-height:1.4;">${comment.text}</p>
+                        
+                        <div style="display:flex; gap:10px; margin-top:5px;">
+                            <button onclick="openReplyBox('${postData.id}', '${comment.id}')" style="background:none; border:none; color:var(--text-secondary); font-size:11px; cursor:pointer;">Reply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="reply-box-${comment.id}"></div>
+        `;
+
+                container.appendChild(wrapper);
+
+                // Render Children recursively
+                if (comment.children.length > 0) {
+                    comment.children.forEach(child => createCommentNode(child, level + 1));
+                }
+            }
+
+            // Run the renderer
+            roots.forEach(root => createCommentNode(root));
+        }
+        /* --- REPLY LOGIC --- */
+
+        // 1. Open/Close the Reply Input Box
+        function openReplyBox(postId, commentId) {
+            const container = document.getElementById(`reply-box-${commentId}`);
+            if (!container) return;
+
+            // Toggle: If open, close it
+            if (container.innerHTML !== '') {
+                container.innerHTML = '';
                 return;
             }
 
-            container.innerHTML = rootComments.map(c => buildCommentNode(c, postId)).join('');
+            // Render the Input Field
+            container.innerHTML = `
+        <div style="margin-top: 10px; margin-left: 20px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid var(--border-color);">
+            <textarea id="reply-input-${commentId}" 
+                      placeholder="Write a reply..." 
+                      rows="2" 
+                      class="form-control" 
+                      style="width:100%; resize:none; margin-bottom:10px; font-size:14px; background: transparent; color: var(--text-main); border: none; outline: none;"></textarea>
+            
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button onclick="document.getElementById('reply-box-${commentId}').innerHTML=''" 
+                        class="btn btn-secondary btn-sm" 
+                        style="font-size: 11px; padding: 4px 10px;">Cancel</button>
+                <button onclick="submitReply('${postId}', '${commentId}')" 
+                        class="btn btn-primary btn-sm"
+                        style="font-size: 11px; padding: 4px 10px;">Reply</button>
+            </div>
+        </div>
+    `;
+
+            // Auto-focus the input
+            setTimeout(() => document.getElementById(`reply-input-${commentId}`).focus(), 100);
+        }
+
+        // 2. Submit the Reply to Firestore
+        function submitReply(postId, parentId) {
+            const input = document.getElementById(`reply-input-${parentId}`);
+            const text = input.value.trim();
+
+            if (!text) return;
+            if (!currentUser) {
+                showToast("Please log in to reply.");
+                return;
+            }
+
+            const replyData = {
+                text: text,
+                authorId: currentUser.uid,
+                authorName: window.currentUserData.name || "User",
+                authorRole: window.currentUserData.role || "Student",
+                authorPic: window.currentUserData.profilePic || "",
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                parentId: parentId // <--- CRITICAL: Links this comment to its parent
+            };
+
+            // Save to Firestore
+            db.collection('posts').doc(postId).collection('comments').add(replyData)
+                .then(() => {
+                    showToast("Reply sent!");
+                    // Refresh comments to show the new reply
+                    loadComments(postId);
+                })
+                .catch(err => {
+                    console.error("Reply error:", err);
+                    showToast("Failed to send reply.");
+                });
         }
 
         function buildCommentNode(c, postId) {
@@ -6075,95 +7362,123 @@
             if (msgUnsub) msgUnsub();
 
             document.getElementById('selectedChatId').value = chatId;
-            
-            // --- NEW: Trigger Mobile View ---
+
+            // Trigger Mobile View
             document.getElementById('chats').classList.add('mobile-chat-open');
-            if(window.innerWidth <= 600) {
+            if (window.innerWidth <= 600) {
                 document.querySelector('.tabs').style.display = 'none';
             }
-            
 
-            // Update Header
-            const headerInfo = document.getElementById('chatHeaderInfo') || document.getElementById('chatHeader');
+            // --- HEADER UPDATE START ---
+            const headerInfo = document.getElementById('chatHeaderInfo');
+
+            // 1. Set Initial Header with Placeholder (Initials)
+            // This ensures something shows up immediately while the real image loads
             headerInfo.innerHTML = `
-                <div style="line-height:1.2;">
-                    <div style="font-size:16px;">${name}</div>
-                    <div id="headerStatus" style="font-size:12px; color:var(--text-secondary); font-weight:normal;">Connecting...</div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div id="headerAvatarStub" style="width: 38px; height: 38px; min-width: 38px; border-radius: 50%; background: #333; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; border: 1px solid var(--glass-border);">
+                        ${name.charAt(0).toUpperCase()}
+                    </div>
+                    <div style="line-height: 1.3;">
+                        <div style="font-size: 16px; font-weight: 700; color: var(--text-main);">${name}</div>
+                        <div id="headerStatus" style="font-size: 12px; color: var(--text-secondary);">Connecting...</div>
+                    </div>
                 </div>`;
-            
-            // Keep the back button visible (it's separate from headerInfo now)
-            // No changes needed to back button HTML logic here as it is separate in HTML now
+            // --- HEADER UPDATE END ---
 
             document.getElementById('sendMessageForm').classList.remove('hidden');
             const cont = document.getElementById('messagesContainer');
             cont.innerHTML = '<p style="text-align:center; color:var(--text-secondary); margin-top:20px;">Loading...</p>';
 
-            // 1. Fetch User Status
-            if (otherUserId) {
-                db.collection('users').doc(otherUserId).get().then(doc => {
-                    if (doc.exists) {
-                        const u = doc.data();
-                        const statusText = formatLastActive(u.lastSeen);
-                        const statusColor = statusText === 'Active now' ? '#30D158' : 'var(--text-secondary)';
-                        const statusEl = document.getElementById('headerStatus');
-                        if (statusEl) {
-                            statusEl.innerText = statusText;
-                            statusEl.style.color = statusColor;
+            // 1. Fetch User Data (Pic & Status)
+            let otherUserPic = "";
+            let otherUserInitial = name.charAt(0).toUpperCase();
+
+            db.collection('users').doc(otherUserId).get().then(doc => {
+                if (doc.exists) {
+                    const u = doc.data();
+                    otherUserPic = u.profilePic || "";
+
+                    // --- NEW: Update Header Avatar if image exists ---
+                    if (otherUserPic) {
+                        const stub = document.getElementById('headerAvatarStub');
+                        if (stub) {
+                            // Replace the placeholder div with an IMG tag
+                            stub.outerHTML = `<img src="${otherUserPic}" style="width: 38px; height: 38px; min-width: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--glass-border);" loading="lazy">`;
                         }
                     }
-                });
-            }
 
-            // 2. Load Messages
-            msgUnsub = db.collection('chats').doc(chatId).collection('messages')
-                .orderBy('timestamp', 'asc')
-                .onSnapshot(snap => {
-                    if (snap.empty) {
-                        cont.innerHTML = '<p style="text-align:center; color:var(--text-secondary); margin-top:20px;">Say hello! 👋</p>';
-                        return;
+                    // Update Status Text
+                    const statusText = formatLastActive(u.lastSeen);
+                    const statusColor = statusText === 'Active now' ? '#30D158' : 'var(--text-secondary)';
+                    const statusEl = document.getElementById('headerStatus');
+                    if (statusEl) {
+                        statusEl.innerText = statusText;
+                        statusEl.style.color = statusColor;
                     }
-                    let html = '';
-                    snap.forEach(doc => {
-                        const m = doc.data();
-                        if (!currentUser) return;
-                        const me = m.senderId === currentUser.uid;
-                        
-                        // Context Menu Events
-                        let events = '';
-                        if (me) {
-                            events = `
-                            oncontextmenu="showContextMenu(event, 'message', '${chatId}', '${doc.id}')"
-                            ontouchstart="startLongPress(event, 'message', '${chatId}', '${doc.id}')"
-                            ontouchend="cancelLongPress()"
-                            ontouchmove="cancelLongPress()"
-                            `;
+                }
+
+                // 2. Start Message Listener
+                msgUnsub = db.collection('chats').doc(chatId).collection('messages')
+                    .orderBy('timestamp', 'asc')
+                    .onSnapshot(snap => {
+                        if (snap.empty) {
+                            cont.innerHTML = '<p style="text-align:center; color:var(--text-secondary); margin-top:20px;">Say hello! 👋</p>';
+                            return;
                         }
 
-                        let content = '';
-                        if (m.imageUrl) {
-                            if (m.mediaType === 'video') content = `<video src="${m.imageUrl}" controls class="chat-image" onclick="event.stopPropagation()"></video>`;
-                            else content = `<img src="${m.imageUrl}" class="chat-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
-                        } else {
-                            content = `<span>${m.text}</span>`;
-                        }
+                        let html = '';
+                        snap.forEach(doc => {
+                            const m = doc.data();
+                            if (!currentUser) return;
+                            const me = m.senderId === currentUser.uid;
 
-                        html += `
-                        <div class="chat-message-row ${me ? 'me' : 'them'}">
-                            <div class="msg-bubble ${me ? 'msg-me' : 'msg-them'}" ${events} style="user-select: none;">
-                                ${content}
-                            </div>
-                        </div>`;
+                            // Content Logic
+                            let content = '';
+                            if (m.imageUrl) {
+                                if (m.mediaType === 'video') content = `<video src="${m.imageUrl}" controls class="chat-image" onclick="event.stopPropagation()"></video>`;
+                                else content = `<img src="${m.imageUrl}" class="chat-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
+                            } else {
+                                content = `<span>${m.text}</span>`;
+                            }
+
+                            // Avatar Logic (For Bubble Rows)
+                            let avatarHtml = '';
+                            if (!me) {
+                                if (otherUserPic) {
+                                    avatarHtml = `<img src="${otherUserPic}" class="chat-msg-avatar" loading="lazy">`;
+                                } else {
+                                    avatarHtml = `<div class="chat-msg-placeholder">${otherUserInitial}</div>`;
+                                }
+                            }
+
+                            let events = me ? `
+                                oncontextmenu="showContextMenu(event, 'message', '${chatId}', '${doc.id}')"
+                                ontouchstart="startLongPress(event, 'message', '${chatId}', '${doc.id}')"
+                                ontouchend="cancelLongPress()"
+                                ontouchmove="cancelLongPress()"
+                            ` : '';
+
+                            html += `
+                            <div class="chat-message-row ${me ? 'me' : 'them'}">
+                                ${avatarHtml}
+                                <div class="msg-bubble ${me ? 'msg-me' : 'msg-them'}" ${events} style="user-select: none;">
+                                    ${content}
+                                </div>
+                            </div>`;
+                        });
+
+                        cont.innerHTML = html;
+                        cont.scrollTop = cont.scrollHeight;
                     });
-                    cont.innerHTML = html;
-                    cont.scrollTop = cont.scrollHeight;
-                });
+            });
         }
         function closeChatView() {
             unlockScroll();
             document.getElementById('chats').classList.remove('mobile-chat-open');
-            
+
             // SHOW BOTTOM TABS AGAIN
-            if(window.innerWidth <= 600) {
+            if (window.innerWidth <= 600) {
                 document.querySelector('.tabs').style.display = 'flex';
             }
         }
@@ -6283,10 +7598,10 @@
             lockScroll();
             const modal = document.getElementById('createPostModal');
             if (!modal) return;
-            
+
             // --- ADD CLOSE BUTTON TO HEADER ---
             const header = modal.querySelector('.modal-header');
-            if(header && !header.querySelector('.close-modal-btn')) {
+            if (header && !header.querySelector('.close-modal-btn')) {
                 header.style.display = "flex";
                 header.style.justifyContent = "space-between";
                 header.style.alignItems = "center";
@@ -6298,7 +7613,7 @@
             // ----------------------------------
 
             modal.classList.add('active');
-            
+
             // ... (Rest of your existing reset logic: clearing title, body, file, etc.) ...
             const titleEl = document.getElementById('communityPostTitle');
             if (titleEl) titleEl.value = "";
@@ -6601,11 +7916,11 @@
     ">${label}</span>`;
         }
         // --- CLOSE MODALS ON OUTSIDE CLICK ---
+        // --- CLOSE MODALS ON OUTSIDE CLICK ---
         window.addEventListener('mousedown', function (e) {
-            // Checks if the element clicked is the dark overlay (class 'modal')
-            // and NOT the white box inside it.
             if (e.target.classList.contains('modal')) {
                 e.target.classList.remove('active');
+                unlockScroll(); // <--- Ensure this line exists!
             }
         });
     </script>
