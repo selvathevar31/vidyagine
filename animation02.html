@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VSync • Syncing Knowledge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      width:100%;
+      height:100vh;
+      background:#02040a;
+      color:#e5e7eb;
+      font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* Deep background */
+    .bg-ring{
+      position:absolute;
+      border-radius:50%;
+      border:1px solid rgba(37,99,235,0.25);
+      box-shadow:0 0 60px rgba(37,99,235,0.45);
+      inset:10vmin;
+      animation:ringPulse 12s linear infinite;
+      opacity:0.4;
+    }
+    .bg-ring:nth-child(2){inset:18vmin;animation-duration:16s;opacity:0.25;}
+    .bg-ring:nth-child(3){inset:26vmin;animation-duration:22s;opacity:0.15;}
+
+    @keyframes ringPulse{
+      0%{transform:scale(1) rotate(0deg);}
+      50%{transform:scale(1.05) rotate(180deg);}
+      100%{transform:scale(1) rotate(360deg);}
+    }
+
+    .bg-orbit-light{
+      position:absolute;
+      width:70vmin;
+      height:70vmin;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(59,130,246,0.35) 0%,transparent 60%);
+      filter:blur(24px);
+      opacity:0.9;
+      animation:bgFloat 10s ease-in-out infinite;
+    }
+    @keyframes bgFloat{
+      0%,100%{transform:translate(0,0);}
+      50%{transform:translate(12px,-18px);}
+    }
+    
+
+    .container{
+      position:relative;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:28px;
+      padding:16px;
+      text-align:center;
+    }
+     
+
+    /* Central sync core */
+    .core{
+      position:relative;
+      width:190px;
+      height:190px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .core-glow{
+      position:absolute;
+      width:150px;
+      height:150px;
+      border-radius:40px;
+      background:radial-gradient(circle,rgba(37,99,235,0.7),transparent 70%);
+      filter:blur(22px);
+      animation:coreGlow 3s ease-in-out infinite;
+    }
+    @keyframes coreGlow{
+      0%,100%{transform:scale(0.95);opacity:0.7;}
+      50%{transform:scale(1.1);opacity:1;}
+    }
+
+    /* Orbiting sync rings */
+    .orbit{
+      position:absolute;
+      width:170px;
+      height:170px;
+      border-radius:50%;
+      border:1px dashed rgba(96,165,250,0.35);
+      animation:orbitSpin 8s linear infinite;
+    }
+    .orbit:nth-child(2){width:190px;height:190px;animation-duration:13s;opacity:0.7;}
+    .orbit:nth-child(3){width:210px;height:210px;animation-duration:19s;opacity:0.45;}
+
+    @keyframes orbitSpin{
+      0%{transform:rotate(0deg);}
+      100%{transform:rotate(360deg);}
+    }
+
+    .orbit-dot{
+      position:absolute;
+      top:-4px;
+      left:50%;
+      transform:translateX(-50%);
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:#60a5fa;
+      box-shadow:0 0 14px rgba(96,165,250,0.9);
+    }
+
+    /* Center: VSync logo badge (rounded card) */
+    .logo-card{
+      position:relative;
+      width:130px;
+      height:130px;
+      border-radius:40px;
+      background:radial-gradient(circle at 20% 0%,#1f2937,#020617 60%);
+      box-shadow:
+        0 18px 40px rgba(15,23,42,0.95),
+        0 0 0 1px rgba(15,23,42,0.8);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+
+    /* subtle inner rings to match your reference image */
+    .logo-card::before,
+    .logo-card::after{
+      content:"";
+      position:absolute;
+      inset:16px;
+      border-radius:999px;
+      border:1px solid rgba(15,23,42,0.9);
+      opacity:0.7;
+    }
+    .logo-card::after{
+      inset:32px;
+      opacity:0.4;
+    }
+
+    /* SVG-style VSync mark: two bars + dot */
+    .logo-mark{
+      position:relative;
+      width:72px;
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .logo-bar{
+      position:absolute;
+      width:5px;
+      height:28px;
+      border-radius:999px;
+      background:#f9fafb;
+      box-shadow:0 0 10px rgba(148,163,184,0.9);
+    }
+    .logo-bar.left{left:18px;}
+    .logo-bar.right{right:18px;}
+
+    .logo-dot{
+      position:absolute;
+      bottom:16px;
+      left:50%;
+      transform:translateX(-50%);
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#38bdf8;
+      box-shadow:
+        0 0 14px rgba(56,189,248,0.95),
+        0 0 26px rgba(37,99,235,0.8);
+      animation:dotPulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse{
+      0%,100%{transform:translateX(-50%) scale(0.9);}
+      50%{transform:translateX(-50%) scale(1.2);}
+    }
+
+    /* Horizontal sync waveform under logo */
+    .wave-wrapper{
+      margin-top:16px;
+      width:190px;
+      height:32px;
+      position:relative;
+      overflow:hidden;
+    }
+    .wave-line{
+      position:absolute;
+      left:-40%;
+      width:180%;
+      height:2px;
+      top:50%;
+      transform:translateY(-50%);
+      background:linear-gradient(90deg,transparent,#3b82f6,transparent);
+      opacity:0.5;
+      filter:blur(0.5px);
+    }
+    .wave-dot{
+      position:absolute;
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:#93c5fd;
+      top:50%;
+      transform:translate(-50%,-50%);
+      animation:wobble 1.2s ease-in-out infinite;
+    }
+    .wave-dot:nth-child(2){left:35%;animation-delay:0.12s;}
+    .wave-dot:nth-child(3){left:55%;animation-delay:0.24s;}
+    .wave-dot:nth-child(4){left:75%;animation-delay:0.36s;}
+
+    @keyframes wobble{
+      0%,100%{transform:translate(-50%,-50%);}
+      50%{transform:translate(-50%,-120%);}
+    }
+
+    /* Text */
+    .text-block{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      animation:textIn 1s ease-out 0.3s forwards;
+      opacity:0;
+    }
+    @keyframes textIn{
+      0%{transform:translateY(18px);opacity:0;}
+      100%{transform:translateY(0);opacity:1;}
+    }
+
+    .title{
+      font-size:38px;
+      font-weight:800;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+    }
+    .title span{
+      color:#60a5fa;
+    }
+    .subtitle{
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:0.25em;
+      color:#9ca3af;
+    }
+
+    /* Loader */
+    .loader{
+      margin-top:12px;
+      display:flex;
+      gap:9px;
+      justify-content:center;
+    }
+    .loader-dot{
+      width:7px;height:7px;
+      border-radius:999px;
+      background:#1d4ed8;
+      box-shadow:0 0 12px rgba(37,99,235,0.8);
+      animation:loadBeat 1.4s ease-in-out infinite;
+    }
+    .loader-dot:nth-child(2){animation-delay:0.15s;}
+    .loader-dot:nth-child(3){animation-delay:0.3s;}
+    @keyframes loadBeat{
+      0%,80%,100%{transform:translateY(0);opacity:0.4;}
+      40%{transform:translateY(-8px);opacity:1;}
+    }
+
+    .status{
+      margin-top:6px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.22em;
+      color:#6b7280;
+      animation:statusGlow 2.4s ease-in-out infinite;
+    }
+    @keyframes statusGlow{
+      0%,100%{opacity:0.6;}
+      50%{opacity:1;color:#9ca3af;}
+    }
+
+    @media(max-width:480px){
+      .core{width:160px;height:160px;}
+      .title{font-size:28px;letter-spacing:0.16em;}
+      .subtitle{font-size:11px;letter-spacing:0.18em;}
+      .wave-wrapper{width:160px;}
+    }
+    .bg-rotate{
+  position:absolute;
+  inset:0;
+  animation:bgSlowRotate 0.1s linear infinite;
+  transform-origin:center center;
+}
+
+@keyframes bgSlowRotate{
+  0%{
+    transform:rotate(0deg);
+  }
+  100%{
+    transform:rotate(360deg);
+  }
+}
+.bg-rotate{
+  position:absolute;
+  inset:0;
+  transform-origin:center center;
+  animation:bgSlowRotate 40s linear infinite;
+}
+
+@keyframes bgSlowRotate{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+.orbit{
+  position:absolute;
+  width:170px;
+  height:170px;
+  border-radius:50%;
+  border:1px dashed rgba(96,165,250,0.35);
+  animation:orbitSpin 10s linear infinite;
+  animation-delay:0.6s;
+}
+
+.core{
+  position:relative;
+  width:190px;
+  height:190px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  animation:coreIntro 1.8s ease-out;
+}
+
+@keyframes coreIntro{
+  0%{transform:scale(0.9);opacity:0;}
+  100%{transform:scale(1);opacity:1;}
+}
+
+.text-block{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  animation:textIn 2s ease-out 0.4s forwards;
+  opacity:0;
+}
+.bg-rotate{
+  animation:bgSlowRotate 60s linear infinite;
+  animation-delay:-3s; /* start as if 3s already played */
+}
+
+@keyframes bgSlowRotate{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+
+  </style>
+</head>
+<body>
+<div class="bg-rotate">
+  <div class="bg-ring"></div>
+  <div class="bg-ring"></div>
+  <div class="bg-ring"></div>
+  <div class="bg-orbit-light"></div>
+</div>
+
+ 
+  
+  <div class="container">
+    <div class="core">
+      <div class="core-glow"></div>
+
+      <div class="orbit">
+        <div class="orbit-dot"></div>
+      </div>
+      <div class="orbit">
+        <div class="orbit-dot"></div>
+      </div>
+      <div class="orbit">
+        <div class="orbit-dot"></div>
+      </div>
+
+      <!-- NEW simple VSync logo -->
+     
+
+      <div class="wave-wrapper">
+        <div class="wave-line"></div>
+        <div class="wave-dot"></div>
+        <div class="wave-dot"></div>
+        <div class="wave-dot"></div>
+        <div class="wave-dot"></div>
+      </div>
+    </div>
+
+    <div class="text-block">
+      <div class="title"><span>V</span>SYNC</div>
+     
+
+      <div class="loader">
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+        <div class="loader-dot"></div>
+      </div>
+ 
+    </div>
+  </div>
+</body>
+</html>
