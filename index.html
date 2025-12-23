@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -953,6 +954,35 @@
         .tag-sub-council {
             background: #24A0ED;
             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- PASSWORD REVEAL ICON --- */
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px !important;
+            /* Space for the icon */
+        }
+
+        .password-toggle-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            transition: color 0.2s;
+        }
+
+        .password-toggle-icon:hover {
+            color: var(--primary-color);
         }
 
         /* Dropdown Styling */
@@ -3766,7 +3796,17 @@
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" id="loginPassword" value="">
+                            <div class="password-wrapper">
+                                <input type="password" id="loginPassword" value="" placeholder="Enter password...">
+                                <div class="password-toggle-icon"
+                                    onclick="togglePasswordVisibility('loginPassword', this)">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="anon-toggle-wrapper">
@@ -3812,78 +3852,92 @@
                             </div>
                             <div class="form-group"><label>College Email</label><input type="email" id="regEmail"
                                     required></div>
-                            <div class="form-group"><label>Password</label><input type="password" id="regPass" required>
-                            </div>
-
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <div class="form-group"><label>Age</label><input type="number" id="regAge" required
-                                        min="16" max="99"></div>
-                                <div class="form-group"><label>Gender</label><select id="regGender" required
-                                        style="width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 12px;">
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select></div>
-                            </div>
                             <div class="form-group">
-                                <label>Current Year</label>
-                                <select id="regYear" required
-                                    style="width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 12px;">
-                                    <option value="" disabled selected>Select Year</option>
-                                    <option value="FE">First Year (FE)</option>
-                                    <option value="SE">Second Year (SE)</option>
-                                    <option value="TE">Third Year (TE)</option>
-                                    <option value="BE">Fourth Year (BE)</option>
-                                </select>
+                                <label>Password</label>
+                                <div class="password-wrapper">
+                                    <input type="password" id="regPass" required placeholder="Create password...">
+                                    <div class="password-toggle-icon"
+                                        onclick="togglePasswordVisibility('regPass', this)">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group"><label>College / University</label><input type="text"
-                                    id="regCollege" required></div>
-
-                            <div class="form-group">
-                                <label>Profile Picture (Optional)</label>
-                                <input type="file" id="regFile" accept="image/*" style="display:none;"
-                                    onchange="document.getElementById('regFileName').innerText = this.files[0].name">
-                                <button type="button" class="btn btn-secondary"
-                                    onclick="document.getElementById('regFile').click()" style="width:100%">Upload
-                                    Photo</button>
-                                <small id="regFileName" style="color:var(--text-secondary);">No file chosen</small>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Work Experience</label>
-                                <div id="workExpContainer"></div>
-                                <button type="button" class="btn btn-secondary" onclick="addExperienceField()"
-                                    style="font-size: 12px; margin-top: 5px;">+ Add Experience</button>
-                            </div>
-                            <button type="submit" class="btn btn-primary"
-                                style="width: 100%; padding: 12px; margin-top: 20px;">Register</button>
-                        </form>
                     </div>
-                    <p class="auth-toggle-text">Already have an account? <span class="auth-link"
-                            onclick="toggleAuthMode('login')">Login</span></p>
-                </div>
 
-            </div>
-            <div style="width: 1px; background: var(--border-color); align-self: stretch;"></div>
-            <div style="flex: 0.8; display: flex; flex-direction: column;">
-                <h3 style="margin-bottom: 15px; color: var(--text-main);">Dev Switcher</h3>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Select any registered account to
-                    login instantly:</p>
-                <div id="devUserList"
-                    style="display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; padding-right: 5px;">
-                    <p style="color: #666; font-size: 13px;">Loading accounts...</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="form-group"><label>Age</label><input type="number" id="regAge" required min="16"
+                                max="99"></div>
+                        <div class="form-group"><label>Gender</label><select id="regGender" required
+                                style="width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 12px;">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Current Year</label>
+                        <select id="regYear" required
+                            style="width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 12px;">
+                            <option value="" disabled selected>Select Year</option>
+                            <option value="FE">First Year (FE)</option>
+                            <option value="SE">Second Year (SE)</option>
+                            <option value="TE">Third Year (TE)</option>
+                            <option value="BE">Fourth Year (BE)</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>College / University</label><input type="text" id="regCollege"
+                            required></div>
+
+                    <div class="form-group">
+                        <label>Profile Picture (Optional)</label>
+                        <input type="file" id="regFile" accept="image/*" style="display:none;"
+                            onchange="document.getElementById('regFileName').innerText = this.files[0].name">
+                        <button type="button" class="btn btn-secondary"
+                            onclick="document.getElementById('regFile').click()" style="width:100%">Upload
+                            Photo</button>
+                        <small id="regFileName" style="color:var(--text-secondary);">No file chosen</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Work Experience</label>
+                        <div id="workExpContainer"></div>
+                        <button type="button" class="btn btn-secondary" onclick="addExperienceField()"
+                            style="font-size: 12px; margin-top: 5px;">+ Add Experience</button>
+                    </div>
+                    <button type="submit" class="btn btn-primary"
+                        style="width: 100%; padding: 12px; margin-top: 20px;">Register</button>
+                    </form>
                 </div>
-                <button class="btn btn-secondary" onclick="loadDevUsers()"
-                    style="margin-top: 15px; font-size: 12px; width: 100%;">↻ Refresh List</button>
-                <button class="btn btn-danger" onclick="adminWipeDB()"
-                    style="margin-top: 10px; font-size: 12px; width: 100%; border: 1px solid #ff453a; background: rgba(255, 69, 58, 0.1);">
-                    Factory Reset (Delete All Data)
-                </button>
-                <button class="btn btn-secondary" onclick="openAdminPanel()"
-                    style="margin-top: 10px; font-size: 12px; width: 100%; border: 1px solid #ff453a; color: #ff453a;">
-                    👮‍♂️ Open Admin Dashboard
-                </button>
+                <p class="auth-toggle-text">Already have an account? <span class="auth-link"
+                        onclick="toggleAuthMode('login')">Login</span></p>
             </div>
+
         </div>
+        <div style="width: 1px; background: var(--border-color); align-self: stretch;"></div>
+        <div style="flex: 0.8; display: flex; flex-direction: column;">
+            <h3 style="margin-bottom: 15px; color: var(--text-main);">Dev Switcher</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Select any registered account to
+                login instantly:</p>
+            <div id="devUserList"
+                style="display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto; padding-right: 5px;">
+                <p style="color: #666; font-size: 13px;">Loading accounts...</p>
+            </div>
+            <button class="btn btn-secondary" onclick="loadDevUsers()"
+                style="margin-top: 15px; font-size: 12px; width: 100%;">↻ Refresh List</button>
+            <button class="btn btn-danger" onclick="adminWipeDB()"
+                style="margin-top: 10px; font-size: 12px; width: 100%; border: 1px solid #ff453a; background: rgba(255, 69, 58, 0.1);">
+                Factory Reset (Delete All Data)
+            </button>
+            <button class="btn btn-secondary" onclick="openAdminPanel()"
+                style="margin-top: 10px; font-size: 12px; width: 100%; border: 1px solid #ff453a; color: #ff453a;">
+                👮‍♂️ Open Admin Dashboard
+            </button>
+        </div>
+    </div>
     </div>
 
     <div id="appScreen" class="hidden">
@@ -3922,12 +3976,16 @@
 
             <div class="tabs">
                 <button class="tab-button" onclick="switchTab(event, 'chats')">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
-                        </path>
-                    </svg>
+                    <div style="position: relative;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+                            </path>
+                        </svg>
+                        <span id="msgBadge" class="notification-badge hidden"
+                            style="top: -2px; right: -2px; border: 2px solid var(--bg-card);">0</span>
+                    </div>
                     <span class="tab-label">Messages</span>
                 </button>
 
@@ -3982,7 +4040,8 @@
             <div id="leaderboard" class="tab-content">
                 <div class="card"
                     style="margin-bottom: 20px; text-align:center; padding:20px; background: linear-gradient(135deg, #1C1C1E, #2C2C2E);">
-                    <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;">🏆 Top Mentors of the month</h2>
+                    <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;">🏆 Top Mentors of the month
+                    </h2>
                     <p style="font-size:12px; color:var(--text-secondary);">
                         <span style="color:var(--primary-color); font-weight:bold;">+1</span> per Upvote •
                         <span style="color:#FFD700; font-weight:bold;">+5</span> per GOATED Answer
@@ -3990,23 +4049,28 @@
                 </div>
                 <div id="leaderboardList" class="grid" style="display: flex; flex-direction: column; gap: 10px;"></div>
                 <div id="leaderboard" class="tab-content">
-    <div class="card" style="margin-bottom: 20px; text-align:center; padding:20px; background: linear-gradient(135deg, #1C1C1E, #2C2C2E);">
-        <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;">🏆 Top Mentors of the month</h2>
-        <p style="font-size:12px; color:var(--text-secondary);">
-            <span style="color:var(--primary-color); font-weight:bold;">+1</span> per Upvote
-        </p>
-    </div>
+                    <div class="card"
+                        style="margin-bottom: 20px; text-align:center; padding:20px; background: linear-gradient(135deg, #1C1C1E, #2C2C2E);">
+                        <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;">🏆 Top Mentors of the
+                            month</h2>
+                        <p style="font-size:12px; color:var(--text-secondary);">
+                            <span style="color:var(--primary-color); font-weight:bold;">+1</span> per Upvote
+                        </p>
+                    </div>
 
-    <div id="leaderboardList" class="grid" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                    <div id="leaderboardList" class="grid" style="display: flex; flex-direction: column; gap: 10px;">
+                    </div>
 
-    <div id="leaderboardAdminControls" style="display: none; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: center;">
-        <p style="color: #ff453a; font-size: 10px; margin-bottom: 10px; font-weight: bold;">ADMIN ZONE</p>
-        <button class="btn btn-danger" onclick="adminResetScores()" 
-            style="width: 100%; border: 1px dashed #ff453a; background: rgba(255, 69, 58, 0.1); color: #ff453a;">
-            ♻️ Reset All Scores to 0
-        </button>
-    </div>
-</div>
+                    <div id="leaderboardAdminControls"
+                        style="display: none; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: center;">
+                        <p style="color: #ff453a; font-size: 10px; margin-bottom: 10px; font-weight: bold;">ADMIN ZONE
+                        </p>
+                        <button class="btn btn-danger" onclick="adminResetScores()"
+                            style="width: 100%; border: 1px dashed #ff453a; background: rgba(255, 69, 58, 0.1); color: #ff453a;">
+                            ♻️ Reset All Scores to 0
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div id="requests" class="tab-content">
@@ -4301,14 +4365,15 @@
             <div class="modal-header">My Connections</div>
             <div id="connectionsModalList" style="max-height: 50vh; overflow-y: auto; padding-right: 5px;"></div>
             <div class="modal-footer" style="flex-direction: column; gap: 10px;">
-    <button class="btn btn-secondary" style="width: 100%;" onclick="closeModal('adminPanelModal')">Close Panel</button>
-    
-    <button id="btnResetScores" class="btn btn-danger" 
-        style="display: none; width: 100%; border: 1px dashed #ff453a; background: rgba(255, 69, 58, 0.1);" 
-        onclick="adminResetScores()">
-        🏆 Reset Leaderboard Scores
-    </button>
-</div>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="closeModal('adminPanelModal')">Close
+                    Panel</button>
+
+                <button id="btnResetScores" class="btn btn-danger"
+                    style="display: none; width: 100%; border: 1px dashed #ff453a; background: rgba(255, 69, 58, 0.1);"
+                    onclick="adminResetScores()">
+                    🏆 Reset Leaderboard Scores
+                </button>
+            </div>
         </div>
     </div>
     <div id="dailyPollModal" class="modal" style="z-index: 10050;">
@@ -5143,6 +5208,7 @@
                     navRight.children[0].children[0].classList.remove('hidden');
                     navRight.children[0].children[1].classList.remove('hidden');
 
+                    initMessageBadgeListener();
                     updateUserInfo();
                     loadDevUsers();
                     initNotificationListener();
@@ -5323,6 +5389,31 @@
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
                 performRegistration(null);
+            }
+        }
+        /* --- TOGGLE PASSWORD VISIBILITY --- */
+        function togglePasswordVisibility(inputId, iconDiv) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+
+            if (input.type === "password") {
+                // Show Password
+                input.type = "text";
+                // Change icon to "Eye Slash" (Hidden)
+                iconDiv.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>`;
+            } else {
+                // Hide Password
+                input.type = "password";
+                // Change icon back to "Eye" (Visible)
+                iconDiv.innerHTML = `
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+            </svg>`;
             }
         }
         // --- NOTIFICATION LOGIC ---
@@ -5675,20 +5766,21 @@
         }
 
         function sendChatFile(base64String, type) {
-            const chatId = document.getElementById('selectedChatId').value;
-            if (!chatId) return;
+            // ... existing code ...
 
             db.collection('chats').doc(chatId).collection('messages').add({
-                imageUrl: base64String, // Still using 'imageUrl' field to store data
-                mediaType: type,        // NEW: Stores 'image' or 'video'
+                imageUrl: base64String,
+                mediaType: type,
                 text: type === 'video' ? "Sent a video" : "Sent an image",
                 senderId: currentUser.uid,
                 timestamp: new Date()
             });
 
+            // Update Chat Metadata (ADD lastSenderId)
             db.collection('chats').doc(chatId).update({
                 lastMessage: type === 'video' ? "🎥 Video" : "📷 Image",
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                lastSenderId: currentUser.uid // <--- ADD THIS LINE
             });
         }
 
@@ -5743,52 +5835,52 @@
         // --- ADMIN PANEL LOGIC ---
 
         async function openAdminPanel() {
-    // 1. PIN Security Check (First Layer)
-    const pin = prompt("Enter Admin PIN:");
-    if (pin !== "1234") return alert("Access Denied");
+            // 1. PIN Security Check (First Layer)
+            const pin = prompt("Enter Admin PIN:");
+            if (pin !== "1234") return alert("Access Denied");
 
-    const modal = document.getElementById('adminPanelModal');
-    const listEl = document.getElementById('adminReportsList');
-    const badge = document.getElementById('reportCountBadge');
-    
-    // 2. SUPER ADMIN CHECK (Second Layer)
-    // Only show the Reset button if the user is You or Selva
-    const resetBtn = document.getElementById('btnResetScores');
-    if (currentUser && ADMIN_UIDS.includes(currentUser.uid)) {
-        resetBtn.style.display = 'block'; // Show it
-    } else {
-        resetBtn.style.display = 'none';  // Keep it hidden
-    }
+            const modal = document.getElementById('adminPanelModal');
+            const listEl = document.getElementById('adminReportsList');
+            const badge = document.getElementById('reportCountBadge');
 
-    modal.classList.add('active');
-    listEl.innerHTML = '<p style="text-align:center; padding:20px; color:#aaa;">Loading reports...</p>';
+            // 2. SUPER ADMIN CHECK (Second Layer)
+            // Only show the Reset button if the user is You or Selva
+            const resetBtn = document.getElementById('btnResetScores');
+            if (currentUser && ADMIN_UIDS.includes(currentUser.uid)) {
+                resetBtn.style.display = 'block'; // Show it
+            } else {
+                resetBtn.style.display = 'none';  // Keep it hidden
+            }
 
-    try {
-        // Query posts with > 0 reports
-        const snap = await db.collection('posts')
-            .where('reportCount', '>', 0)
-            .orderBy('reportCount', 'desc')
-            .get();
+            modal.classList.add('active');
+            listEl.innerHTML = '<p style="text-align:center; padding:20px; color:#aaa;">Loading reports...</p>';
 
-        badge.innerText = `${snap.size} Issues`;
+            try {
+                // Query posts with > 0 reports
+                const snap = await db.collection('posts')
+                    .where('reportCount', '>', 0)
+                    .orderBy('reportCount', 'desc')
+                    .get();
 
-        if (snap.empty) {
-            listEl.innerHTML = `
+                badge.innerText = `${snap.size} Issues`;
+
+                if (snap.empty) {
+                    listEl.innerHTML = `
                 <div style="text-align:center; padding:40px; opacity:0.6;">
                     <div style="font-size:40px;">✅</div>
                     <p style="color:#fff;">All clear! No reported posts.</p>
                 </div>`;
-            return;
-        }
+                    return;
+                }
 
-        let html = '';
-        snap.forEach(doc => {
-            const p = doc.data();
-            let urgencyColor = '#ff453a'; 
-            if (p.reportCount > 5) urgencyColor = '#ff0000';
-            if (p.reportCount > 10) urgencyColor = '#ff00d4'; 
+                let html = '';
+                snap.forEach(doc => {
+                    const p = doc.data();
+                    let urgencyColor = '#ff453a';
+                    if (p.reportCount > 5) urgencyColor = '#ff0000';
+                    if (p.reportCount > 10) urgencyColor = '#ff00d4';
 
-            html += `
+                    html += `
             <div class="card" style="border: 1px solid ${urgencyColor}; background: #1a0505; margin-bottom: 15px;">
                 <div class="card-header" style="color: ${urgencyColor}; font-size:14px; display:flex; align-items:center; gap:8px;">
                     <span><b>${p.reportCount} Reports</b></span>
@@ -5814,15 +5906,15 @@
                     </button>
                 </div>
             </div>`;
-        });
+                });
 
-        listEl.innerHTML = html;
+                listEl.innerHTML = html;
 
-    } catch (e) {
-        console.error(e);
-        listEl.innerHTML = `<p style="color:red; text-align:center;">Error: ${e.message}</p>`;
-    }
-}
+            } catch (e) {
+                console.error(e);
+                listEl.innerHTML = `<p style="color:red; text-align:center;">Error: ${e.message}</p>`;
+            }
+        }
         // --- FORGOT PASSWORD LOGIC ---
         let recoveryState = {
             email: "",
@@ -5913,16 +6005,16 @@
                 });
         }
         function getRoleBadgeHtml(rawRole) {
-    const role = (rawRole || "student").toLowerCase();
-    
-    // 1. MENTOR BADGE (Green/Verified Look)
-    if (role === 'mentor') {
-        return `<span class="badge badge-verified" style="font-size:9px; padding:1px 6px; margin-left:4px; vertical-align:middle;">MENTOR</span>`;
-    } 
-    
-    // 2. STUDENT BADGE (Default Grey)
-    return `<span class="badge" style="font-size:9px; padding:1px 6px; background:rgba(255,255,255,0.1); color:#ccc; border:1px solid var(--border-color); margin-left:4px; vertical-align:middle;">STUDENT</span>`;
-}
+            const role = (rawRole || "student").toLowerCase();
+
+            // 1. MENTOR BADGE (Green/Verified Look)
+            if (role === 'mentor') {
+                return `<span class="badge badge-verified" style="font-size:9px; padding:1px 6px; margin-left:4px; vertical-align:middle;">MENTOR</span>`;
+            }
+
+            // 2. STUDENT BADGE (Default Grey)
+            return `<span class="badge" style="font-size:9px; padding:1px 6px; background:rgba(255,255,255,0.1); color:#ccc; border:1px solid var(--border-color); margin-left:4px; vertical-align:middle;">STUDENT</span>`;
+        }
 
         function handleFpsVerifyOTP() {
 
@@ -6678,12 +6770,23 @@
 
 
         function handleSendMessage(e) {
-            e.preventDefault();
-            const text = document.getElementById('messageText').value.trim();
-            const chatId = document.getElementById('selectedChatId').value;
+            // ... existing code ...
             if (!text) return;
-            db.collection('chats').doc(chatId).collection('messages').add({ text, senderId: currentUser.uid, timestamp: new Date() });
-            db.collection('chats').doc(chatId).update({ lastMessage: text, updatedAt: new Date() });
+
+            // 1. Add Message
+            db.collection('chats').doc(chatId).collection('messages').add({
+                text,
+                senderId: currentUser.uid,
+                timestamp: new Date()
+            });
+
+            // 2. Update Chat Metadata (ADD lastSenderId)
+            db.collection('chats').doc(chatId).update({
+                lastMessage: text,
+                updatedAt: new Date(),
+                lastSenderId: currentUser.uid // <--- ADD THIS LINE
+            });
+
             document.getElementById('messageText').value = '';
         }
 
@@ -7011,13 +7114,68 @@
                 });
         };
 
-        function applyFilters() {
-            document.getElementById('sortFilterModal').classList.remove('active');
-            loadCommunity(); // Reloads posts with new filters applied
-        }
+        /* --- FILTER APPLY FIX --- */
+function applyFilters() {
+    // 1. Close the modal properly (This triggers unlockScroll)
+    closeModal('sortFilterModal'); 
+    
+    // 2. Reload the feed with the new filters
+    loadCommunity(); 
+}
         function applyTheme(color) {
             document.documentElement.style.setProperty('--primary-color', color);
             // Add other variables if needed
+        }
+        /* --- MESSAGE NOTIFICATIONS --- */
+        let msgBadgeUnsub;
+
+        function initMessageBadgeListener() {
+            if (!currentUser) return;
+            if (msgBadgeUnsub) msgBadgeUnsub(); // Clear old listener if exists
+
+            // Listen to all chats I am part of
+            msgBadgeUnsub = db.collection('chats')
+                .where('participants', 'array-contains', currentUser.uid)
+                .onSnapshot(snap => {
+                    let unreadCount = 0;
+
+                    snap.forEach(doc => {
+                        const data = doc.data();
+
+                        // 1. Skip if no messages yet
+                        if (!data.lastMessage) return;
+
+                        // 2. Skip if I was the last sender (I don't need to read my own msg)
+                        if (data.lastSenderId === currentUser.uid) return;
+
+                        // 3. Compare Timestamps
+                        const lastUpdate = data.updatedAt ? data.updatedAt.toDate() : new Date(0);
+
+                        // Get my last read time (default to 0 if never read)
+                        const myReadTime = (data.lastRead && data.lastRead[currentUser.uid])
+                            ? data.lastRead[currentUser.uid].toDate()
+                            : new Date(0);
+
+                        // If update is newer than my read time -> Unread
+                        if (lastUpdate > myReadTime) {
+                            unreadCount++;
+                        }
+                    });
+
+                    updateMessageBadgeUI(unreadCount);
+                });
+        }
+
+        function updateMessageBadgeUI(count) {
+            const badge = document.getElementById('msgBadge');
+            if (!badge) return;
+
+            if (count > 0) {
+                badge.innerText = count > 9 ? '9+' : count;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
         }
 
         function clearAllFilters() {
@@ -7280,42 +7438,42 @@
             // 4. Recursive Render Function
             // CHANGED: Now accepts 'targetContainer' to know where to put the element
             function createCommentNode(comment, targetContainer, level = 0) {
-        
-        // --- LOGIC ---
-        const isGoated = (comment.id === postData.goatedCommentId);
-        const isPostAuthor = (currentUser && currentUser.uid === postData.authorId);
-        
-        // Normalize Role for Logic (force lowercase)
-        const rawRole = comment.authorRole || "Student";
-        const roleLogic = rawRole.toLowerCase(); 
-        const isMentor = roleLogic === 'mentor';
-        
-        // Generate Visual Badge
-        const roleBadge = getRoleBadgeHtml(rawRole);
 
-        // Upvote Logic
-        const hasUpvoted = (comment.upvoters || []).includes(currentUser.uid);
-        const btnClass = hasUpvoted ? 'btn-primary' : 'btn-secondary';
+                // --- LOGIC ---
+                const isGoated = (comment.id === postData.goatedCommentId);
+                const isPostAuthor = (currentUser && currentUser.uid === postData.authorId);
 
-        const wrapper = document.createElement('div');
-        wrapper.style.marginLeft = level > 0 ? (level * 10) + 'px' : '0'; 
-        if (level > 0) wrapper.style.borderLeft = "2px solid var(--border-color)";
+                // Normalize Role for Logic (force lowercase)
+                const rawRole = comment.authorRole || "Student";
+                const roleLogic = rawRole.toLowerCase();
+                const isMentor = roleLogic === 'mentor';
 
-        // --- BUTTON LOGIC ---
-        let goatBtn = '';
-        // Only show button if: I am Author AND Target is Mentor AND it's a root comment
-        if (isPostAuthor && isMentor && level === 0) {
-            const btnText = isGoated ? 'Un-Goat' : '🏆 Mark GOAT';
-            goatBtn = `
+                // Generate Visual Badge
+                const roleBadge = getRoleBadgeHtml(rawRole);
+
+                // Upvote Logic
+                const hasUpvoted = (comment.upvoters || []).includes(currentUser.uid);
+                const btnClass = hasUpvoted ? 'btn-primary' : 'btn-secondary';
+
+                const wrapper = document.createElement('div');
+                wrapper.style.marginLeft = level > 0 ? (level * 10) + 'px' : '0';
+                if (level > 0) wrapper.style.borderLeft = "2px solid var(--border-color)";
+
+                // --- BUTTON LOGIC ---
+                let goatBtn = '';
+                // Only show button if: I am Author AND Target is Mentor AND it's a root comment
+                if (isPostAuthor && isMentor && level === 0) {
+                    const btnText = isGoated ? 'Un-Goat' : '🏆 Mark GOAT';
+                    goatBtn = `
             <button onclick="toggleGoatStatus('${postData.id}', '${comment.id}', '${roleLogic}')" 
                 class="btn btn-sm" 
                 style="margin-left:auto; font-size:10px; border:1px solid #FFD700; color:#FFD700; background:transparent;">
                 ${btnText}
             </button>`;
-        }
+                }
 
-        // --- HTML ---
-        wrapper.innerHTML = `
+                // --- HTML ---
+                wrapper.innerHTML = `
             <div id="card-${comment.id}" class="card comment-card ${isGoated ? 'is-goated' : ''}" style="margin-bottom:10px; padding:12px; position:relative;">
                 
                 <div style="display:flex; gap:10px; align-items:start;">
@@ -7360,13 +7518,13 @@
             <div id="children-${comment.id}" class="comment-children"></div>
         `;
 
-        targetContainer.appendChild(wrapper);
+                targetContainer.appendChild(wrapper);
 
-        if (comment.children.length > 0) {
-            const childContainer = wrapper.querySelector(`#children-${comment.id}`);
-            comment.children.forEach(child => createCommentNode(child, childContainer, level + 1));
-        }
-    }
+                if (comment.children.length > 0) {
+                    const childContainer = wrapper.querySelector(`#children-${comment.id}`);
+                    comment.children.forEach(child => createCommentNode(child, childContainer, level + 1));
+                }
+            }
 
             // 5. Initial Call: Render roots into the main container
             roots.forEach(root => createCommentNode(root, container, 0));
@@ -7811,40 +7969,40 @@
             });
         }
         function adminResetScores() {
-    // 1. Security/Confirmation
-    const confirmCode = prompt("Type 'RESET' to set ALL mentor scores to 0.");
-    if (confirmCode !== 'RESET') return;
+            // 1. Security/Confirmation
+            const confirmCode = prompt("Type 'RESET' to set ALL mentor scores to 0.");
+            if (confirmCode !== 'RESET') return;
 
-    // 2. Perform Batch Update
-    const btn = event.target;
-    const oldText = btn.innerText;
-    btn.innerText = "Resetting...";
-    btn.disabled = true;
+            // 2. Perform Batch Update
+            const btn = event.target;
+            const oldText = btn.innerText;
+            btn.innerText = "Resetting...";
+            btn.disabled = true;
 
-    db.collection('users').where('role', '==', 'mentor').get()
-        .then(snap => {
-            const batch = db.batch();
-            snap.forEach(doc => {
-                batch.update(doc.ref, { score: 0 });
-            });
-            return batch.commit();
-        })
-        .then(() => {
-            showToast("✅ Leaderboard Reset");
-            btn.innerText = oldText;
-            btn.disabled = false;
-            // Refresh Leaderboard if looking at it
-            if(document.getElementById('leaderboard').classList.contains('active')) {
-                loadLeaderboard();
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert("Error resetting scores");
-            btn.innerText = oldText;
-            btn.disabled = false;
-        });
-}
+            db.collection('users').where('role', '==', 'mentor').get()
+                .then(snap => {
+                    const batch = db.batch();
+                    snap.forEach(doc => {
+                        batch.update(doc.ref, { score: 0 });
+                    });
+                    return batch.commit();
+                })
+                .then(() => {
+                    showToast("✅ Leaderboard Reset");
+                    btn.innerText = oldText;
+                    btn.disabled = false;
+                    // Refresh Leaderboard if looking at it
+                    if (document.getElementById('leaderboard').classList.contains('active')) {
+                        loadLeaderboard();
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error resetting scores");
+                    btn.innerText = oldText;
+                    btn.disabled = false;
+                });
+        }
 
         function shareProfile() {
             const url = window.location.href;
@@ -8190,14 +8348,14 @@
             }).catch(err => console.log("Error updating score:", err));
         }
         function loadLeaderboard() {
-    console.log("--- DEBUG LEADERBOARD ---");
-    const container = document.getElementById('leaderboard');
-    
-    // 1. Ensure the list container exists (Auto-fix HTML)
-    let listEl = document.getElementById('leaderboardList');
-    if (!listEl) {
-        console.log("Rebuilding Leaderboard HTML structure...");
-        container.innerHTML = `
+            console.log("--- DEBUG LEADERBOARD ---");
+            const container = document.getElementById('leaderboard');
+
+            // 1. Ensure the list container exists (Auto-fix HTML)
+            let listEl = document.getElementById('leaderboardList');
+            if (!listEl) {
+                console.log("Rebuilding Leaderboard HTML structure...");
+                container.innerHTML = `
             <div class="card" style="margin-bottom: 20px; text-align:center; padding:20px; background: linear-gradient(135deg, #1C1C1E, #2C2C2E);">
                 <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;">🏆 Top Mentors</h2>
                 <p style="font-size:12px; color:var(--text-secondary);">
@@ -8206,75 +8364,75 @@
             </div>
             <div id="leaderboardList" class="grid" style="display: flex; flex-direction: column; gap: 10px;"></div>
         `;
-        listEl = document.getElementById('leaderboardList');
-    }
+                listEl = document.getElementById('leaderboardList');
+            }
 
-    listEl.innerHTML = '<p style="text-align:center; color:var(--text-secondary);">Calculating scores...</p>';
+            listEl.innerHTML = '<p style="text-align:center; color:var(--text-secondary);">Calculating scores...</p>';
 
-    // 2. ADMIN BUTTON INJECTION (Dynamic)
-    // First, remove any old buttons to prevent duplicates
-    const oldControls = document.getElementById('leaderboardAdminControls');
-    if (oldControls) oldControls.remove();
+            // 2. ADMIN BUTTON INJECTION (Dynamic)
+            // First, remove any old buttons to prevent duplicates
+            const oldControls = document.getElementById('leaderboardAdminControls');
+            if (oldControls) oldControls.remove();
 
-    // Debugging: See exactly who the system thinks you are
-    if (currentUser) {
-        console.log("My ID:", currentUser.uid);
-        console.log("Admin List:", ADMIN_UIDS);
-        const isAdmin = ADMIN_UIDS.includes(currentUser.uid);
-        console.log("Am I Admin?", isAdmin);
+            // Debugging: See exactly who the system thinks you are
+            if (currentUser) {
+                console.log("My ID:", currentUser.uid);
+                console.log("Admin List:", ADMIN_UIDS);
+                const isAdmin = ADMIN_UIDS.includes(currentUser.uid);
+                console.log("Am I Admin?", isAdmin);
 
-        if (isAdmin) {
-            console.log(" injecting Admin Button...");
-            const adminDiv = document.createElement('div');
-            adminDiv.id = "leaderboardAdminControls";
-            adminDiv.style.cssText = "margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: center;";
-            adminDiv.innerHTML = `
+                if (isAdmin) {
+                    console.log(" injecting Admin Button...");
+                    const adminDiv = document.createElement('div');
+                    adminDiv.id = "leaderboardAdminControls";
+                    adminDiv.style.cssText = "margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: center;";
+                    adminDiv.innerHTML = `
                 <p style="color: #ff453a; font-size: 10px; margin-bottom: 10px; font-weight: bold;">ADMIN ZONE</p>
                 <button class="btn btn-danger" onclick="adminResetScores()" 
                     style="width: 100%; border: 1px dashed #ff453a; background: rgba(255, 69, 58, 0.1); color: #ff453a;">
                     ♻️ Reset All Scores to 0
                 </button>
             `;
-            // Append to the bottom of the leaderboard tab
-            container.appendChild(adminDiv);
-        }
-    } else {
-        console.log("User not logged in yet.");
-    }
-
-    // 3. FETCH DATA
-    db.collection('users')
-        .where('role', '==', 'mentor')
-        .orderBy('score', 'desc')
-        .limit(50)
-        .get()
-        .then(snap => {
-            if (snap.empty) {
-                listEl.innerHTML = '<p style="text-align:center;">No mentors found yet.</p>';
-                return;
+                    // Append to the bottom of the leaderboard tab
+                    container.appendChild(adminDiv);
+                }
+            } else {
+                console.log("User not logged in yet.");
             }
 
-            let html = '';
-            let rank = 1;
+            // 3. FETCH DATA
+            db.collection('users')
+                .where('role', '==', 'mentor')
+                .orderBy('score', 'desc')
+                .limit(50)
+                .get()
+                .then(snap => {
+                    if (snap.empty) {
+                        listEl.innerHTML = '<p style="text-align:center;">No mentors found yet.</p>';
+                        return;
+                    }
 
-            snap.forEach(doc => {
-                const u = doc.data();
-                const score = u.score || 0;
+                    let html = '';
+                    let rank = 1;
 
-                let rankClass = 'rank-other';
-                if (rank === 1) rankClass = 'rank-1';
-                if (rank === 2) rankClass = 'rank-2';
-                if (rank === 3) rankClass = 'rank-3';
+                    snap.forEach(doc => {
+                        const u = doc.data();
+                        const score = u.score || 0;
 
-                const pic = u.profilePic
-                    ? `<img src="${u.profilePic}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`
-                    : u.name.charAt(0).toUpperCase();
+                        let rankClass = 'rank-other';
+                        if (rank === 1) rankClass = 'rank-1';
+                        if (rank === 2) rankClass = 'rank-2';
+                        if (rank === 3) rankClass = 'rank-3';
 
-                const skillTxt = (u.skills && u.skills.length > 0)
-                    ? u.skills.slice(0, 2).join(' • ')
-                    : (u.college || 'No info');
+                        const pic = u.profilePic
+                            ? `<img src="${u.profilePic}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`
+                            : u.name.charAt(0).toUpperCase();
 
-                html += `
+                        const skillTxt = (u.skills && u.skills.length > 0)
+                            ? u.skills.slice(0, 2).join(' • ')
+                            : (u.college || 'No info');
+
+                        html += `
               <div class="card" style="padding:15px; display:flex; align-items:center; margin-bottom:0;">
                   <div class="rank-badge ${rankClass}">${rank}</div>
                   <div style="flex:1; display:flex; gap:12px; align-items:center;">
@@ -8294,16 +8452,16 @@
                       <span class="score-label">Points</span>
                   </div>
               </div>`;
-                rank++;
-            });
+                        rank++;
+                    });
 
-            listEl.innerHTML = html;
-        })
-        .catch(err => {
-            console.error(err);
-            listEl.innerHTML = '<p style="color:red; text-align:center;">Error loading leaderboard.</p>';
-        });
-}
+                    listEl.innerHTML = html;
+                })
+                .catch(err => {
+                    console.error(err);
+                    listEl.innerHTML = '<p style="color:red; text-align:center;">Error loading leaderboard.</p>';
+                });
+        }
 
         // --- 2. FIX CRASH IN POST MODAL (Safety Checks) ---
         // --- 2. FIX CRASH IN POST MODAL (Safety Checks) ---
