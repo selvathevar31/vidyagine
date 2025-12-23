@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -537,6 +536,197 @@
             /* Force text to be White */
         }
 
+        /* --- ⚡ V-SYNC ATOM PRESTIGE --- */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #02040a;
+            /* Deep dark background */
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+        }
+
+        #splashScreen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* --- ATOM BACKGROUND LOGIC --- */
+        .atom-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        .atom-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px dashed rgba(10, 132, 255, 0.2);
+            animation: atomSpin linear infinite;
+        }
+
+        .ring-1 {
+            width: 300px;
+            height: 300px;
+            animation-duration: 3s;
+        }
+
+        .ring-2 {
+            width: 450px;
+            height: 450px;
+            animation-duration: 5s;
+            transform: rotate(45deg);
+        }
+
+        .ring-3 {
+            width: 600px;
+            height: 600px;
+            animation-duration: 8s;
+            transform: rotate(-45deg);
+        }
+
+        .atom-dot {
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: #0A84FF;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #0A84FF;
+        }
+
+        .ring-2 .atom-dot {
+            background: #BF5AF2;
+            box-shadow: 0 0 15px #BF5AF2;
+        }
+
+        @keyframes atomSpin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- BRANDING & LOGO --- */
+        .splash-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            animation: contentPop 1s ease-out;
+        }
+
+        @keyframes contentPop {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .logo-wrapper {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 35px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .vsync-monogram {
+            font-size: 55px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .logo-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-25deg);
+            animation: lightSweep 3s infinite;
+        }
+
+        @keyframes lightSweep {
+
+            0%,
+            70% {
+                left: -120%;
+            }
+
+            85%,
+            100% {
+                left: 200%;
+            }
+        }
+
+        .brand-text {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            color: #fff;
+        }
+
+        .sync-text {
+            color: #0A84FF;
+        }
+
+        .minimal-loader {
+            margin-top: 40px;
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loader-bar {
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, #0A84FF, #BF5AF2);
+            animation: barMove 2s infinite ease-in-out;
+        }
+
+        @keyframes barMove {
+            0% {
+                transform: translateX(-150%);
+            }
+
+            100% {
+                transform: translateX(250%);
+            }
+        }
+
         /* --- FILTER MODAL PILLS --- */
         .filter-section-title {
             font-size: 12px;
@@ -1000,6 +1190,110 @@
             }
         }
 
+        /* --- LEADERBOARD STYLES --- */
+        .rank-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            margin-right: 15px;
+            flex-shrink: 0;
+            border: 2px solid var(--border-color);
+            background: #333;
+            color: #fff;
+        }
+
+        /* 🥇 GOLD (Rank 1) */
+        .rank-1 {
+            background: linear-gradient(135deg, #FFD700, #FDB931);
+            color: black;
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            animation: goldShine 3s infinite linear;
+        }
+
+        /* 🥈 SILVER (Rank 2) */
+        .rank-2 {
+            background: linear-gradient(135deg, #E0E0E0, #B0B0B0);
+            color: black;
+            border-color: #E0E0E0;
+            box-shadow: 0 0 10px rgba(192, 192, 192, 0.3);
+        }
+
+        /* 🥉 BRONZE (Rank 3) */
+        .rank-3 {
+            background: linear-gradient(135deg, #CD7F32, #A0522D);
+            color: white;
+            border-color: #CD7F32;
+            box-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
+        }
+
+        .score-display {
+            text-align: center;
+            min-width: 60px;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .score-val {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .score-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* --- HIDE SCROLLBARS FOR CHATS --- */
+
+        /* Targets the main message window */
+        #messagesContainer {
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        #messagesContainer::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari and Opera */
+        }
+
+        /* Targets the list of active conversations on the left */
+        #activeChatsList {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        #activeChatsList::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Optional: If you want to hide it globally for the whole app */
+        .auth-scroll-container,
+        .modal-content,
+        #chatMainWrapper {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .auth-scroll-container::-webkit-scrollbar,
+        .modal-content::-webkit-scrollbar,
+        #chatMainWrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+
         /* --- POLL OPTION STYLES --- */
         .poll-option-btn {
             position: relative;
@@ -1180,8 +1474,8 @@
             height: 100%;
             /* Ensure it respects parent height */
         }
-        
-        
+
+
 
         /* --- CHAT SCROLL & BUBBLE FIX --- */
         /* --- CHAT SCROLL FIX --- */
@@ -1496,6 +1790,39 @@
             padding: 0 5px;
         }
 
+        /* --- REPORTED POST WALL --- */
+        .report-wall-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            background: rgba(255, 69, 58, 0.05);
+            /* Very faint red bg */
+            border: 1px solid rgba(255, 69, 58, 0.3);
+            border-radius: 12px;
+            text-align: center;
+            min-height: 200px;
+        }
+
+        .report-icon-large {
+            font-size: 40px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(255, 69, 58, 0.4));
+        }
+
+        .report-text-large {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ff453a;
+            margin-bottom: 20px;
+        }
+
+        /* Helper to hide/show content */
+        .content-hidden {
+            display: none !important;
+        }
+
         /* --- DAILY POLL PILL (Fixed & polished) --- */
         .daily-poll-style {
             height: 56px;
@@ -1555,6 +1882,19 @@
             left: 150%;
             /* Sweeps across on hover */
             transition: 0.7s ease-in-out;
+        }
+
+        /* --- SEEN / READ RECEIPT --- */
+        .seen-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-align: right;
+            margin-top: 2px;
+            margin-right: 5px;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+            width: 100%;
+            display: block;
         }
 
         /* --- MOBILE OPTIMIZATION --- */
@@ -1733,14 +2073,38 @@
         /* Responsive Fix: On mobile, stick to top fully */
         @media (max-width: 600px) {
             .navbar {
-                top: 0;
-                margin: 0 0 20px 0;
-                border-radius: 0 0 20px 20px;
-                border-top: none;
-                border-left: none;
-                border-right: none;
-                background: rgba(20, 20, 20, 0.85);
-                /* Darker on mobile */
+                /* 1. Position: Fixed & Floating */
+                position: fixed !important;
+                top: 15px !important;
+                /* Push down from top */
+                left: 15px !important;
+                /* Push from left */
+                width: calc(100% - 30px) !important;
+                /* Subtract left/right margins */
+                margin: 0 !important;
+
+                /* 2. Round All 4 Corners */
+                border-radius: 24px !important;
+
+                /* 3. Visuals (Prestige Look) */
+                background: rgba(28, 28, 30, 0.95) !important;
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                z-index: 5000;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                /* Deep shadow for floating effect */
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                /* Subtle premium border */
+
+                /* 4. Spacing */
+                padding: 10px 20px;
+            }
+
+            /* 5. Push Content Down */
+            /* Increased padding-top so the first post isn't hidden behind the new floating bar */
+            .container {
+                padding-top: 110px !important;
+                padding-bottom: 90px;
             }
         }
 
@@ -3268,60 +3632,82 @@
             filter: none !important;
         }
 
-        /* --- GOAT BADGE (PREMIUM REWARD) --- */
-        .goat-badge-container {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: linear-gradient(135deg, #FFD700, #FDB931, #ffd700);
-            /* Gold Gradient */
-            background-size: 200% auto;
-            color: #000;
-            font-weight: 800;
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
-            animation: goldShine 3s linear infinite;
-            margin-bottom: 8px;
-            border: 1px solid #fff;
+        /* --- GOAT SYSTEM (LUXURY GOLD) --- */
+        .comment-card.is-goated {
+            border: 1px solid #FFD700 !important;
+            /* Real Gold */
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(0, 0, 0, 0)) !important;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15) !important;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* The Shining Animation */
-        @keyframes goldShine {
-            to {
-                background-position: 200% center;
-            }
+        /* shimmer effect over the card */
+        .comment-card.is-goated::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: skewX(-25deg);
+            animation: goldShimmer 6s infinite;
+            pointer-events: none;
         }
 
-        /* Sparkle/Pulse Effect on the Icon */
-        .goat-icon-svg {
-            width: 14px;
-            height: 14px;
-            animation: goatPulse 2s ease-in-out infinite alternate;
-        }
+        @keyframes goldShimmer {
 
-        @keyframes goatPulse {
-            0% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+            0%,
+            80% {
+                left: -100%;
             }
 
             100% {
-                transform: scale(1.15);
-                filter: drop-shadow(0 0 2px white);
+                left: 200%;
             }
         }
 
-        /* Highlight the whole comment card */
-        .comment-card.is-goated {
-            border: 1px solid #FFD700 !important;
-            background: linear-gradient(to bottom, rgba(255, 215, 0, 0.05), transparent) !important;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.15) !important;
-            order: -1;
-            /* FLEX TRICK: Forces it to the top automatically */
+        /* --- GOAT BADGE (Above Name) --- */
+        .goat-badge-container {
+            /* Hidden by default */
+            display: none;
+
+            /* Layout: Fit content, sit in flow */
+            width: fit-content;
+            margin-bottom: 6px;
+            /* Space between badge and name */
+
+            /* Visuals */
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(90deg, #FFD700, #FDB931, #FFD700);
+            background-size: 200% auto;
+            color: black;
+            font-weight: 800;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+            animation: badgeShine 3s linear infinite;
+        }
+
+        /* Show ONLY when parent has .is-goated class */
+        .comment-card.is-goated .goat-badge-container {
+            display: inline-flex !important;
+        }
+
+        /* Ensure the card can handle absolute positioning */
+        .comment-card {
+            position: relative !important;
+        }
+
+        @keyframes badgeShine {
+            to {
+                background-position: 200% center;
+            }
         }
     </style>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -3334,6 +3720,32 @@
 </head>
 
 <body>
+    <div id="splashScreen">
+        <div class="atom-container">
+            <div class="atom-ring ring-1">
+                <div class="atom-dot"></div>
+            </div>
+            <div class="atom-ring ring-2">
+                <div class="atom-dot"></div>
+            </div>
+            <div class="atom-ring ring-3">
+                <div class="atom-dot"></div>
+            </div>
+        </div>
+
+        <div class="splash-content">
+            <div class="logo-wrapper">
+                <div class="vsync-monogram">V</div>
+                <div class="logo-shine"></div>
+            </div>
+            <div class="brand-text">
+                <span class="v-letter">V</span><span class="divider">-</span><span class="sync-text">SYNC</span>
+            </div>
+            <div class="minimal-loader">
+                <div class="loader-bar"></div>
+            </div>
+        </div>
+    </div>
 
     <div id="authScreen" class="auth-container"
         style="max-width: 900px; margin: 60px auto; padding: 40px; background: var(--bg-card); border-radius: 24px; border: 1px solid var(--border-color);">
@@ -3538,6 +3950,18 @@
                     </svg>
                     <span class="tab-label">Explore</span>
                 </button>
+                <button class="tab-button" onclick="switchTab(event, 'leaderboard')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                        <path d="M4 22h16"></path>
+                        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+                    </svg>
+                    <span class="tab-label">Leaderboard</span>
+                </button>
             </div>
 
             <div id="mentors" class="tab-content">
@@ -3554,6 +3978,35 @@
                     </div>
                 </div>
                 <div id="searchResultsList" class="grid"></div>
+            </div>
+            <div id="leaderboard" class="tab-content">
+                <div class="card"
+                    style="margin-bottom: 20px; text-align:center; padding:20px; background: linear-gradient(135deg, #1C1C1E, #2C2C2E);">
+                    <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;">🏆 Top Mentors of the month</h2>
+                    <p style="font-size:12px; color:var(--text-secondary);">
+                        <span style="color:var(--primary-color); font-weight:bold;">+1</span> per Upvote •
+                        <span style="color:#FFD700; font-weight:bold;">+5</span> per GOATED Answer
+                    </p>
+                </div>
+                <div id="leaderboardList" class="grid" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                <div id="leaderboard" class="tab-content">
+    <div class="card" style="margin-bottom: 20px; text-align:center; padding:20px; background: linear-gradient(135deg, #1C1C1E, #2C2C2E);">
+        <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;">🏆 Top Mentors of the month</h2>
+        <p style="font-size:12px; color:var(--text-secondary);">
+            <span style="color:var(--primary-color); font-weight:bold;">+1</span> per Upvote
+        </p>
+    </div>
+
+    <div id="leaderboardList" class="grid" style="display: flex; flex-direction: column; gap: 10px;"></div>
+
+    <div id="leaderboardAdminControls" style="display: none; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: center;">
+        <p style="color: #ff453a; font-size: 10px; margin-bottom: 10px; font-weight: bold;">ADMIN ZONE</p>
+        <button class="btn btn-danger" onclick="adminResetScores()" 
+            style="width: 100%; border: 1px dashed #ff453a; background: rgba(255, 69, 58, 0.1); color: #ff453a;">
+            ♻️ Reset All Scores to 0
+        </button>
+    </div>
+</div>
             </div>
 
             <div id="requests" class="tab-content">
@@ -3847,10 +4300,15 @@
         <div class="modal-content">
             <div class="modal-header">My Connections</div>
             <div id="connectionsModalList" style="max-height: 50vh; overflow-y: auto; padding-right: 5px;"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('connectionsModal')">
-                </button>
-            </div>
+            <div class="modal-footer" style="flex-direction: column; gap: 10px;">
+    <button class="btn btn-secondary" style="width: 100%;" onclick="closeModal('adminPanelModal')">Close Panel</button>
+    
+    <button id="btnResetScores" class="btn btn-danger" 
+        style="display: none; width: 100%; border: 1px dashed #ff453a; background: rgba(255, 69, 58, 0.1);" 
+        onclick="adminResetScores()">
+        🏆 Reset Leaderboard Scores
+    </button>
+</div>
         </div>
     </div>
     <div id="dailyPollModal" class="modal" style="z-index: 10050;">
@@ -5003,40 +5461,9 @@
             if (tabName === 'community') loadPosts();
             if (tabName === 'requests') loadRequests();
             if (tabName === 'profile') loadProfile();
+            if (tabName === 'leaderboard') loadLeaderboard();
         }
-        // --- MARK ANSWER AS GOATED ---
-        function toggleGoatStatus(postId, commentId, commentAuthorRole) {
-            // 1. Security Check: Only Mentors can receive this
-            if (commentAuthorRole === 'Student') {
-                showToast("Only Mentors can be GOATed! 🐐");
-                return;
-            }
 
-            const postRef = db.collection('posts').doc(postId);
-
-            // 2. Transaction to ensure only 1 exists
-            db.runTransaction(async (transaction) => {
-                const postDoc = await transaction.get(postRef);
-                if (!postDoc.exists) return;
-
-                const currentGoat = postDoc.data().goatedCommentId;
-
-                // If clicking the same one, remove it (toggle off)
-                if (currentGoat === commentId) {
-                    transaction.update(postRef, { goatedCommentId: firebase.firestore.FieldValue.delete() });
-                } else {
-                    // Otherwise, set this new one as THE goat (overwrites previous)
-                    transaction.update(postRef, { goatedCommentId: commentId });
-                }
-            }).then(() => {
-                showToast("GOAT Status Updated! 🐐");
-                // Reload comments to see the change
-                loadComments(postId);
-            }).catch(error => {
-                console.error("Goat error:", error);
-            });
-        }
-        // --- CONTEXT MENU LOGIC (Right Click / Long Press) ---
         // --- CONTEXT MENU LOGIC (Dynamic) ---
         let contextMenuTarget = { type: null, id1: null, id2: null };
         let longPressTimer;
@@ -5104,6 +5531,29 @@
             }
             hideContextMenu();
         }
+        /* --- REPORT ACTIONS --- */
+
+        // Option 1: Hide (Remove from view completely)
+        function hidePostLocally(postId) {
+            const card = document.getElementById(`post-card-${postId}`);
+            if (card) {
+                card.style.transition = "opacity 0.3s, transform 0.3s";
+                card.style.opacity = "0";
+                card.style.transform = "scale(0.9)";
+                setTimeout(() => card.remove(), 300); // Remove from DOM
+            }
+        }
+
+        // Option 2: Dismiss (Show content temporarily)
+        function dismissReportWall(postId) {
+            const wall = document.getElementById(`wall-${postId}`);
+            const content = document.getElementById(`content-${postId}`);
+
+            if (wall && content) {
+                wall.style.display = 'none'; // Hide wall
+                content.classList.remove('content-hidden'); // Show content
+            }
+        }
 
         // --- LONG PRESS HANDLERS ---
         function startLongPress(e, type, id1, id2 = null) {
@@ -5136,42 +5586,39 @@
         function reportPost(event, postId) {
             event.stopPropagation();
 
-            // Close menu visually
             const menu = document.getElementById(`menu-${postId}`);
             if (menu) menu.classList.remove('active');
 
             if (!currentUser) {
-                if (typeof showToast === 'function') showToast("Please login to report.");
+                showToast("Please login to report.");
                 return;
             }
 
-            // 1. Fetch the post first to check if already reported
+            // Check existing reports first
             db.collection('posts').doc(postId).get().then(doc => {
                 if (!doc.exists) return;
-
                 const data = doc.data();
                 const reports = data.reports || [];
 
-                // 2. Check if MY ID is already in the array
                 if (reports.includes(currentUser.uid)) {
-                    showToast("⚠️ You have already reported this post.");
+                    showToast("⚠️ You already reported this.");
                     return;
                 }
 
-                // 3. REPLACED Browser Confirm with Custom Modal
                 showConfirm(
                     "Report Post?",
-                    "Are you sure you want to flag this content for developer review?",
+                    "Are you sure you want to flag this content? It will be hidden from your feed.",
                     () => {
-                        // This code runs only if user clicks "CONFIRM"
                         db.collection('posts').doc(postId).update({
                             reports: firebase.firestore.FieldValue.arrayUnion(currentUser.uid),
                             reportCount: firebase.firestore.FieldValue.increment(1)
                         }).then(() => {
-                            showToast("Post Reported. Thank you.");
+                            showToast("Report submitted.");
+                            // RELOAD FEED TO SHOW WALL IMMEDIATELY
+                            loadCommunity();
                         }).catch(e => {
                             console.error(e);
-                            showToast("Error reporting post.");
+                            showToast("Error reporting.");
                         });
                     }
                 );
@@ -5296,79 +5743,86 @@
         // --- ADMIN PANEL LOGIC ---
 
         async function openAdminPanel() {
-            // 1. Security Check
-            const pin = prompt("Enter Admin PIN:");
-            if (pin !== "1234") return alert("Access Denied");
+    // 1. PIN Security Check (First Layer)
+    const pin = prompt("Enter Admin PIN:");
+    if (pin !== "1234") return alert("Access Denied");
 
-            const modal = document.getElementById('adminPanelModal');
-            const listEl = document.getElementById('adminReportsList');
-            const badge = document.getElementById('reportCountBadge');
+    const modal = document.getElementById('adminPanelModal');
+    const listEl = document.getElementById('adminReportsList');
+    const badge = document.getElementById('reportCountBadge');
+    
+    // 2. SUPER ADMIN CHECK (Second Layer)
+    // Only show the Reset button if the user is You or Selva
+    const resetBtn = document.getElementById('btnResetScores');
+    if (currentUser && ADMIN_UIDS.includes(currentUser.uid)) {
+        resetBtn.style.display = 'block'; // Show it
+    } else {
+        resetBtn.style.display = 'none';  // Keep it hidden
+    }
 
-            modal.classList.add('active');
-            listEl.innerHTML = '<p style="text-align:center; padding:20px; color:#aaa;">Loading reports...</p>';
+    modal.classList.add('active');
+    listEl.innerHTML = '<p style="text-align:center; padding:20px; color:#aaa;">Loading reports...</p>';
 
-            try {
-                // 2. Query posts with > 0 reports AND Sort by Count (Highest first)
-                const snap = await db.collection('posts')
-                    .where('reportCount', '>', 0)
-                    .orderBy('reportCount', 'desc') // Sorts 10 reports before 1 report
-                    .get();
+    try {
+        // Query posts with > 0 reports
+        const snap = await db.collection('posts')
+            .where('reportCount', '>', 0)
+            .orderBy('reportCount', 'desc')
+            .get();
 
-                badge.innerText = `${snap.size} Issues`;
+        badge.innerText = `${snap.size} Issues`;
 
-                if (snap.empty) {
-                    listEl.innerHTML = `
-                        <div style="text-align:center; padding:40px; opacity:0.6;">
-                            <div style="font-size:40px;">✅</div>
-                            <p style="color:#fff;">All clear! No reported posts.</p>
-                        </div>`;
-                    return;
-                }
-
-                let html = '';
-                snap.forEach(doc => {
-                    const p = doc.data();
-
-                    // Visual urgency based on count
-                    let urgencyColor = '#ff453a'; // Default Red
-                    if (p.reportCount > 5) urgencyColor = '#ff0000'; // Bright Red for mass reports
-                    if (p.reportCount > 10) urgencyColor = '#ff00d4'; // Purple/Pink for extreme
-
-                    html += `
-                    <div class="card" style="border: 1px solid ${urgencyColor}; background: #1a0505; margin-bottom: 15px;">
-                        <div class="card-header" style="color: ${urgencyColor}; font-size:14px; display:flex; align-items:center; gap:8px;">
-                            <span><b>${p.reportCount} Reports</b></span>
-                            ${p.reportCount > 5 ? '<span class="badge" style="background:red; color:white;">URGENT</span>' : ''}
-                        </div>
-                        <div class="card-body" style="color: #ddd;">
-                            <div style="font-weight:bold; margin-bottom:5px; font-size:16px;">${p.title}</div>
-                            <p style="font-size:13px; opacity:0.8; margin-bottom:10px; border-left:2px solid #555; padding-left:10px;">${p.body}</p>
-                            
-                            ${p.imageUrl ? `<img src="${p.imageUrl}" style="height:120px; border-radius:8px; border:1px solid #333; margin-top:5px;">` : ''}
-                            
-                            <div style="margin-top:10px; font-size:11px; color:#888; border-top:1px solid #333; padding-top:8px;">
-                                Posted by: <b style="color:#fff;">${p.authorName}</b> (${p.authorRole})<br>
-                                Posted: ${p.createdAt ? p.createdAt.toDate().toLocaleString() : 'N/A'}
-                            </div>
-                        </div>
-                        <div class="card-footer" style="gap: 10px; border-top:1px solid rgba(255, 69, 58, 0.2);">
-                            <button class="btn btn-secondary" style="flex:1; font-size:12px;" onclick="adminIgnoreReport('${doc.id}')">
-                                ✅ Ignore (Clear Reports)
-                            </button>
-                            <button class="btn btn-danger" style="flex:1; font-size:12px;" onclick="adminDeletePost('${doc.id}')">
-                                 Ban & Delete
-                            </button>
-                        </div>
-                    </div>`;
-                });
-
-                listEl.innerHTML = html;
-
-            } catch (e) {
-                console.error(e);
-                listEl.innerHTML = `<p style="color:red; text-align:center;">Error: ${e.message}<br><small>Make sure to create an Index in Firebase Console if asked.</small></p>`;
-            }
+        if (snap.empty) {
+            listEl.innerHTML = `
+                <div style="text-align:center; padding:40px; opacity:0.6;">
+                    <div style="font-size:40px;">✅</div>
+                    <p style="color:#fff;">All clear! No reported posts.</p>
+                </div>`;
+            return;
         }
+
+        let html = '';
+        snap.forEach(doc => {
+            const p = doc.data();
+            let urgencyColor = '#ff453a'; 
+            if (p.reportCount > 5) urgencyColor = '#ff0000';
+            if (p.reportCount > 10) urgencyColor = '#ff00d4'; 
+
+            html += `
+            <div class="card" style="border: 1px solid ${urgencyColor}; background: #1a0505; margin-bottom: 15px;">
+                <div class="card-header" style="color: ${urgencyColor}; font-size:14px; display:flex; align-items:center; gap:8px;">
+                    <span><b>${p.reportCount} Reports</b></span>
+                    ${p.reportCount > 5 ? '<span class="badge" style="background:red; color:white;">URGENT</span>' : ''}
+                </div>
+                <div class="card-body" style="color: #ddd;">
+                    <div style="font-weight:bold; margin-bottom:5px; font-size:16px;">${p.title}</div>
+                    <p style="font-size:13px; opacity:0.8; margin-bottom:10px; border-left:2px solid #555; padding-left:10px;">${p.body}</p>
+                    
+                    ${p.imageUrl ? `<img src="${p.imageUrl}" style="height:120px; border-radius:8px; border:1px solid #333; margin-top:5px;">` : ''}
+                    
+                    <div style="margin-top:10px; font-size:11px; color:#888; border-top:1px solid #333; padding-top:8px;">
+                        Posted by: <b style="color:#fff;">${p.authorName}</b> (${p.authorRole})<br>
+                        Posted: ${p.createdAt ? p.createdAt.toDate().toLocaleString() : 'N/A'}
+                    </div>
+                </div>
+                <div class="card-footer" style="gap: 10px; border-top:1px solid rgba(255, 69, 58, 0.2);">
+                    <button class="btn btn-secondary" style="flex:1; font-size:12px;" onclick="adminIgnoreReport('${doc.id}')">
+                        ✅ Ignore
+                    </button>
+                    <button class="btn btn-danger" style="flex:1; font-size:12px;" onclick="adminDeletePost('${doc.id}')">
+                         Ban & Delete
+                    </button>
+                </div>
+            </div>`;
+        });
+
+        listEl.innerHTML = html;
+
+    } catch (e) {
+        console.error(e);
+        listEl.innerHTML = `<p style="color:red; text-align:center;">Error: ${e.message}</p>`;
+    }
+}
         // --- FORGOT PASSWORD LOGIC ---
         let recoveryState = {
             email: "",
@@ -5458,6 +5912,17 @@
                     btn.disabled = false;
                 });
         }
+        function getRoleBadgeHtml(rawRole) {
+    const role = (rawRole || "student").toLowerCase();
+    
+    // 1. MENTOR BADGE (Green/Verified Look)
+    if (role === 'mentor') {
+        return `<span class="badge badge-verified" style="font-size:9px; padding:1px 6px; margin-left:4px; vertical-align:middle;">MENTOR</span>`;
+    } 
+    
+    // 2. STUDENT BADGE (Default Grey)
+    return `<span class="badge" style="font-size:9px; padding:1px 6px; background:rgba(255,255,255,0.1); color:#ccc; border:1px solid var(--border-color); margin-left:4px; vertical-align:middle;">STUDENT</span>`;
+}
 
         function handleFpsVerifyOTP() {
 
@@ -6230,6 +6695,7 @@
         };
 
         // --- 1. LOAD COMMUNITY (Now respects filters) ---
+        /* --- LOAD COMMUNITY (With Report Wall Logic) --- */
         async function loadCommunity() {
             const listEl = document.getElementById('communityPostsList');
             if (!listEl) return;
@@ -6244,7 +6710,7 @@
                 const snap = await db.collection('posts').orderBy('createdAt', 'desc').limit(50).get();
                 let posts = snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
-                // --- FILTERS & SORTING (Keep your existing logic) ---
+                // --- FILTERS ---
                 if (window.activeFilters.years.length > 0) {
                     posts = posts.filter(p => window.activeFilters.years.includes(p.authorYear));
                 }
@@ -6260,97 +6726,120 @@
                     posts.sort((a, b) => b.createdAt - a.createdAt);
                 }
 
-                // 2. Render Posts
                 if (posts.length === 0) {
                     listEl.innerHTML = `<p style="text-align:center; color:var(--text-secondary); margin-top:30px;">No posts found.</p>`;
                     return;
                 }
 
-                // We map to Promises to handle the async "Top Comment" fetch
                 const htmlPromises = posts.map(async p => {
                     const isAuthor = currentUser && p.authorId === currentUser.uid;
 
-                    // --- VISUAL OVERRIDE: If I am the author, use my FRESH session data ---
+                    // --- REPORT CHECK ---
+                    // Check if current user's ID is in the reports array
+                    const isReportedByMe = p.reports && p.reports.includes(currentUser.uid);
+
+                    // --- VISUAL VARIABLES ---
                     const displayPic = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.profilePic || "") : (p.authorPic || "");
                     const displayName = isAuthor && !window.currentUserData.isAnonymousSession ? window.currentUserData.name : p.authorName;
                     const displayRole = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.role || "Student") : (p.authorRole || "Student");
                     const displayYear = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.year || "") : (p.authorYear || "");
-                    // ----------------------------------------------------------------------
 
                     const yearBadge = getYearBadgeHtml(displayYear);
                     const timeString = timeAgo(p.createdAt);
 
-                    // ... (Tags logic stays same) ...
+                    // Tags
                     let tagsHtml = '';
                     if (p.tags) p.tags.forEach(tag => {
                         tagsHtml += `<span style="background:${tag.hex || '#555'}; color:white; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; margin-right:5px;">${tag.name}</span>`;
                     });
 
-                    // ... (Media Logic stays same) ...
+                    // Media
                     let mediaHtml = '';
                     if (p.imageUrl) {
                         if (p.mediaType === 'video') mediaHtml = `<video src="${p.imageUrl}" controls class="post-image" onclick="event.stopPropagation()"></video>`;
-                        else mediaHtml = `<img src="${p.imageUrl}" ; loading="lazy"; class="post-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
+                        else mediaHtml = `<img src="${p.imageUrl}" loading="lazy" class="post-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
                     }
                     const processedBody = p.body.replace(/(https?:\/\/[^\s]+)/g, (url) => `<a href="${url}" target="_blank" style="color:var(--primary-color); text-decoration:underline;">${url}</a>`);
 
-                    // Avatar Logic using overridden 'displayPic'
+                    // Avatar
                     let avatarHtml = displayPic && displayName !== "Anonymous"
-                        ? `<img src="${displayPic}"; loading="lazy"; class="post-avatar-small">`
+                        ? `<img src="${displayPic}" loading="lazy" class="post-avatar-small">`
                         : `<div class="post-avatar-small" style="background:#333; display:flex; align-items:center; justify-content:center; color:#ccc; font-weight:bold;">${displayName.charAt(0)}</div>`;
 
-                    // ... (Top Comment Preview logic stays same) ...
+                    // Top Comment
                     let topCommentHtml = '';
                     try {
                         const cSnap = await db.collection('posts').doc(p.id).collection('comments').orderBy('upvotes', 'desc').limit(1).get();
                         if (!cSnap.empty) {
                             const c = cSnap.docs[0].data();
                             topCommentHtml = `
-                            <div class="top-comment-preview" onclick="viewPost('${p.id}')">
-                                <div style="font-weight:bold; color:var(--text-main); font-size:12px; margin-bottom:2px;">
-                                    ${c.authorName} <span style="font-weight:normal; color:var(--text-secondary);">commented:</span>
-                                </div>
-                                <div style="color:#ccc; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">"${c.text}"</div>
-                            </div>`;
+                    <div class="top-comment-preview" onclick="viewPost('${p.id}')">
+                        <div style="font-weight:bold; color:var(--text-main); font-size:12px; margin-bottom:2px;">
+                            ${c.authorName} <span style="font-weight:normal; color:var(--text-secondary);">commented:</span>
+                        </div>
+                        <div style="color:#ccc; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">"${c.text}"</div>
+                    </div>`;
                         }
                     } catch (e) { }
 
-                    return `
-                    <div class="card" style="position: relative;">
-                        <div class="post-options-wrapper">
-                            <div class="three-dots-btn" onclick="togglePostMenu(event, '${p.id}')">⋮</div>
-                            <div id="menu-${p.id}" class="options-menu">
-                                <div class="menu-item danger" onclick="reportPost(event, '${p.id}')">Report</div>
-                                ${isAuthor ? `<div class="menu-item danger" onclick="deletePost('${p.id}')">Delete</div>` : ''}
-                            </div>
-                        </div>
+                    // --- RENDER LOGIC: WALL vs CONTENT ---
 
-                        <div style="cursor:pointer;" onclick="viewPost('${p.id}')">
-                            <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.05); padding-right: 30px;">
-                                ${avatarHtml}
-                                <div>
-                                    <div style="color:var(--text-main); font-weight:700; font-size:15px; line-height:1.2;">
-                                        ${displayName} <span class="badge badge-verified" style="font-size:9px;">${displayRole}</span>
-                                    </div>
-                                    <div style="color:var(--text-secondary); font-size:12px;">${yearBadge} • ${timeString}</div>
+                    // 1. The Warning Wall HTML (Visible if reported)
+                    const wallHtml = `
+                <div id="wall-${p.id}" class="report-wall-container">
+                    <div class="report-icon-large">⚠️</div>
+                    <div class="report-text-large">You've reported this post</div>
+                    <div style="display:flex; gap:15px;">
+                         <button class="btn btn-secondary" onclick="hidePostLocally('${p.id}')">Hide Post</button>
+                         <button class="btn btn-danger" style="background:transparent; border:1px solid #ff453a; color:#ff453a;" onclick="dismissReportWall('${p.id}')">Dismiss</button>
+                    </div>
+                </div>`;
+
+                    // 2. The Actual Post Content HTML (Hidden if reported)
+                    // Note: We add id="content-${p.id}" and conditionally add 'content-hidden' class
+                    const contentHtml = `
+                <div id="content-${p.id}" class="${isReportedByMe ? 'content-hidden' : ''}">
+                    <div class="post-options-wrapper">
+                        <div class="three-dots-btn" onclick="togglePostMenu(event, '${p.id}')">⋮</div>
+                        <div id="menu-${p.id}" class="options-menu">
+                            <div class="menu-item danger" onclick="reportPost(event, '${p.id}')">Report</div>
+                            ${isAuthor ? `<div class="menu-item danger" onclick="deletePost('${p.id}')">Delete</div>` : ''}
+                        </div>
+                    </div>
+
+                    <div style="cursor:pointer;" onclick="viewPost('${p.id}')">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.05); padding-right: 30px;">
+                            ${avatarHtml}
+                            <div>
+                                <div style="color:var(--text-main); font-weight:700; font-size:15px; line-height:1.2;">
+                                    ${displayName} <span class="badge badge-verified" style="font-size:9px;">${displayRole}</span>
                                 </div>
+                                <div style="color:var(--text-secondary); font-size:12px;">${yearBadge} • ${timeString}</div>
                             </div>
-                            <div style="margin-bottom:8px;">
-                                <div style="font-size:17px; font-weight:700; margin-bottom:6px;">${p.title}</div>
-                                <div>${tagsHtml}</div>
-                            </div>
-                            <div class="card-body" style="white-space: pre-wrap; margin-top:0;">${processedBody}${mediaHtml}</div>
-                            
-                            ${topCommentHtml}
                         </div>
+                        <div style="margin-bottom:8px;">
+                            <div style="font-size:17px; font-weight:700; margin-bottom:6px;">${p.title}</div>
+                            <div>${tagsHtml}</div>
+                        </div>
+                        <div class="card-body" style="white-space: pre-wrap; margin-top:0;">${processedBody}${mediaHtml}</div>
+                        
+                        ${topCommentHtml}
+                    </div>
 
-                        <div class="card-footer" style="justify-content: flex-end; margin-top:15px;">
-                            <div style="display:flex; gap:10px;">
-                                <button class="btn btn-secondary" onclick="viewPost('${p.id}')">Comment</button>
-                                <button class="btn ${currentUser && (p.upvoters || []).includes(currentUser.uid) ? 'btn-primary' : 'btn-secondary'}" onclick="handleUpvote(event, '${p.id}')">↑ ${p.upvotes || 0}</button>
-                            </div>
+                    <div class="card-footer" style="justify-content: flex-end; margin-top:15px;">
+                        <div style="display:flex; gap:10px;">
+                            <button class="btn btn-secondary" onclick="viewPost('${p.id}')">Comment</button>
+                            <button class="btn ${currentUser && (p.upvoters || []).includes(currentUser.uid) ? 'btn-primary' : 'btn-secondary'}" onclick="handleUpvote(event, '${p.id}')">↑ ${p.upvotes || 0}</button>
                         </div>
-                    </div>`;
+                    </div>
+                </div>`;
+
+                    // Combine them into the wrapper card
+                    return `
+            <div id="post-card-${p.id}" class="card" style="position: relative;">
+                ${isReportedByMe ? wallHtml : ''} 
+                ${contentHtml}
+            </div>`;
                 });
 
                 const finalHtml = await Promise.all(htmlPromises);
@@ -6760,19 +7249,19 @@
             }).catch(err => console.error("Error loading comments:", err));
         }
 
-        // --- RECURSIVE THREAD RENDERER ---
         function renderThreadedComments(comments, container, postData) {
             container.innerHTML = '';
 
-            // 1. Organize into Parent/Child Map
             const commentMap = {};
             const roots = [];
 
+            // 1. Map comments
             comments.forEach(c => {
                 commentMap[c.id] = c;
-                c.children = []; // Init children array
+                c.children = [];
             });
 
+            // 2. Build Tree
             comments.forEach(c => {
                 if (c.parentId && commentMap[c.parentId]) {
                     commentMap[c.parentId].children.push(c);
@@ -6781,81 +7270,106 @@
                 }
             });
 
-            // 2. SORT: Move GOATed comment to the very top (Pinning)
+            // 3. Sort: GOAT first
             roots.sort((a, b) => {
-                if (a.id === postData.goatedCommentId) return -1; // Move GOAT up
+                if (a.id === postData.goatedCommentId) return -1;
                 if (b.id === postData.goatedCommentId) return 1;
-                return 0; // Keep timestamp order for others
+                return 0;
             });
 
-            // 3. Recursive Render Function
-            function createCommentNode(comment, level = 0) {
-                const isGoated = (comment.id === postData.goatedCommentId);
-                const isPostAuthor = (currentUser && currentUser.uid === postData.authorId);
-                const isMentor = (comment.authorRole && comment.authorRole !== 'Student');
+            // 4. Recursive Render Function
+            // CHANGED: Now accepts 'targetContainer' to know where to put the element
+            function createCommentNode(comment, targetContainer, level = 0) {
+        
+        // --- LOGIC ---
+        const isGoated = (comment.id === postData.goatedCommentId);
+        const isPostAuthor = (currentUser && currentUser.uid === postData.authorId);
+        
+        // Normalize Role for Logic (force lowercase)
+        const rawRole = comment.authorRole || "Student";
+        const roleLogic = rawRole.toLowerCase(); 
+        const isMentor = roleLogic === 'mentor';
+        
+        // Generate Visual Badge
+        const roleBadge = getRoleBadgeHtml(rawRole);
 
-                const wrapper = document.createElement('div');
-                // Add left margin for nesting
-                wrapper.style.marginLeft = level > 0 ? (level * 20) + 'px' : '0';
-                if (level > 0) wrapper.style.borderLeft = "2px solid var(--border-color)";
+        // Upvote Logic
+        const hasUpvoted = (comment.upvoters || []).includes(currentUser.uid);
+        const btnClass = hasUpvoted ? 'btn-primary' : 'btn-secondary';
 
-                // --- BADGE HTML ---
-                let badgeHTML = '';
-                if (isGoated) {
-                    badgeHTML = `
-            <div class="goat-badge-container">
-                <svg viewBox="0 0 24 24" fill="currentColor" class="goat-icon-svg">
-                    <path d="M12,2L14.5,8H19.5L15.5,11L17,16.5L12,13.5L7,16.5L8.5,11L4.5,8H9.5L12,2Z"/> 
-                </svg>
-                <span>GOATed Answer</span>
-            </div>`;
-                }
+        const wrapper = document.createElement('div');
+        wrapper.style.marginLeft = level > 0 ? (level * 10) + 'px' : '0'; 
+        if (level > 0) wrapper.style.borderLeft = "2px solid var(--border-color)";
 
-                // --- GOAT BUTTON (Only for Post Author on Mentor comments) ---
-                let goatBtn = '';
-                if (isPostAuthor && isMentor && level === 0) { // Usually only top-level answers get GOATed
-                    goatBtn = `
-            <button onclick="toggleGoatStatus('${postData.id}', '${comment.id}')" 
+        // --- BUTTON LOGIC ---
+        let goatBtn = '';
+        // Only show button if: I am Author AND Target is Mentor AND it's a root comment
+        if (isPostAuthor && isMentor && level === 0) {
+            const btnText = isGoated ? 'Un-Goat' : '🏆 Mark GOAT';
+            goatBtn = `
+            <button onclick="toggleGoatStatus('${postData.id}', '${comment.id}', '${roleLogic}')" 
                 class="btn btn-sm" 
                 style="margin-left:auto; font-size:10px; border:1px solid #FFD700; color:#FFD700; background:transparent;">
-                ${isGoated ? 'Remove GOAT' : '🏆 Mark GOAT'}
+                ${btnText}
             </button>`;
-                }
+        }
 
-                wrapper.innerHTML = `
-            <div class="card comment-card ${isGoated ? 'is-goated' : ''}" style="margin-bottom:10px; padding:12px; position:relative;">
-                ${badgeHTML}
+        // --- HTML ---
+        wrapper.innerHTML = `
+            <div id="card-${comment.id}" class="card comment-card ${isGoated ? 'is-goated' : ''}" style="margin-bottom:10px; padding:12px; position:relative;">
+                
                 <div style="display:flex; gap:10px; align-items:start;">
-                    <img src="${comment.authorPic || 'default_avatar.png'}" style="width:32px; height:32px; border-radius:50%; object-fit:cover;">
+                    <img src="${comment.authorPic || 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}" style="width:32px; height:32px; border-radius:50%; object-fit:cover;">
+                    
                     <div style="width:100%;">
+                        <div class="goat-badge-container">
+                            <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px; height:12px;">
+                                <path d="M12,2L14.5,8H19.5L15.5,11L17,16.5L12,13.5L7,16.5L8.5,11L4.5,8H9.5L12,2Z"/> 
+                            </svg>
+                            <span>GOATED</span>
+                        </div>
+
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div>
+                            <div style="display:flex; align-items:center;">
                                 <strong style="font-size:13px;">${comment.authorName}</strong>
-                                <span style="font-size:11px; opacity:0.7;">• ${comment.authorRole || 'Student'}</span>
+                                ${roleBadge}
                             </div>
                             ${goatBtn}
                         </div>
-                        <p style="margin:4px 0; font-size:14px; line-height:1.4;">${comment.text}</p>
                         
-                        <div style="display:flex; gap:10px; margin-top:5px;">
-                            <button onclick="openReplyBox('${postData.id}', '${comment.id}')" style="background:none; border:none; color:var(--text-secondary); font-size:11px; cursor:pointer;">Reply</button>
+                        <p style="margin:4px 0; font-size:14px; line-height:1.4; padding-right: 20px;">${comment.text}</p>
+                        
+                        <div style="display:flex; gap:12px; align-items:center; margin-top:5px;">
+                            <button class="btn ${btnClass}" style="padding:2px 8px; font-size:11px; height:auto; min-height:0;" 
+                                onclick="handleCommentUpvote(event, '${postData.id}', '${comment.id}')">
+                                ↑ ${comment.upvotes || 0}
+                            </button>
+                            
+                            <span style="font-size:11px; color:#aaa; cursor:pointer; font-weight:600;" 
+                                onclick="openReplyBox('${postData.id}', '${comment.id}')">Reply</span>
+
+                            ${(currentUser && comment.authorId === currentUser.uid) ? `<span style="font-size:11px; color:#ff453a; cursor:pointer;" onclick="deleteComment('${postData.id}', '${comment.id}')">Delete</span>` : ''}
+                            
+                            ${comment.children.length > 0 ? `<span style="font-size:11px; color:var(--primary-color); cursor:pointer; margin-left:10px;" onclick="toggleChildren('${comment.id}')">▼ View Replies (${comment.children.length})</span>` : ''}
                         </div>
+
+                        <div id="reply-box-${comment.id}" class="reply-input-container"></div>
                     </div>
                 </div>
             </div>
-            <div id="reply-box-${comment.id}"></div>
+            <div id="children-${comment.id}" class="comment-children"></div>
         `;
 
-                container.appendChild(wrapper);
+        targetContainer.appendChild(wrapper);
 
-                // Render Children recursively
-                if (comment.children.length > 0) {
-                    comment.children.forEach(child => createCommentNode(child, level + 1));
-                }
-            }
+        if (comment.children.length > 0) {
+            const childContainer = wrapper.querySelector(`#children-${comment.id}`);
+            comment.children.forEach(child => createCommentNode(child, childContainer, level + 1));
+        }
+    }
 
-            // Run the renderer
-            roots.forEach(root => createCommentNode(root));
+            // 5. Initial Call: Render roots into the main container
+            roots.forEach(root => createCommentNode(root, container, 0));
         }
         /* --- REPLY LOGIC --- */
 
@@ -6864,23 +7378,25 @@
             const container = document.getElementById(`reply-box-${commentId}`);
             if (!container) return;
 
-            // Toggle: If open, close it
-            if (container.innerHTML !== '') {
-                container.innerHTML = '';
+            // CHECK VISIBILITY STATE
+            // If it has content/is visible, close it.
+            if (container.style.display === 'block' && container.innerHTML !== '') {
+                container.style.display = 'none';
+                container.innerHTML = ''; // Clear content
                 return;
             }
 
-            // Render the Input Field
+            // OPEN IT
+            container.style.display = 'block'; // <--- THIS WAS MISSING
             container.innerHTML = `
-        <div style="margin-top: 10px; margin-left: 20px; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid var(--border-color);">
+        <div style="margin-top: 10px; margin-left: 20px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid var(--border-color);">
             <textarea id="reply-input-${commentId}" 
                       placeholder="Write a reply..." 
                       rows="2" 
-                      class="form-control" 
                       style="width:100%; resize:none; margin-bottom:10px; font-size:14px; background: transparent; color: var(--text-main); border: none; outline: none;"></textarea>
             
             <div style="display:flex; justify-content:flex-end; gap:10px;">
-                <button onclick="document.getElementById('reply-box-${commentId}').innerHTML=''" 
+                <button onclick="openReplyBox('${postId}', '${commentId}')" 
                         class="btn btn-secondary btn-sm" 
                         style="font-size: 11px; padding: 4px 10px;">Cancel</button>
                 <button onclick="submitReply('${postId}', '${commentId}')" 
@@ -6890,8 +7406,11 @@
         </div>
     `;
 
-            // Auto-focus the input
-            setTimeout(() => document.getElementById(`reply-input-${commentId}`).focus(), 100);
+            // Auto-focus
+            setTimeout(() => {
+                const input = document.getElementById(`reply-input-${commentId}`);
+                if (input) input.focus();
+            }, 50);
         }
 
         // 2. Submit the Reply to Firestore
@@ -7030,11 +7549,11 @@
             if (isUpvoted) {
                 btn.classList.remove('btn-primary');
                 btn.classList.add('btn-secondary');
-                btn.innerText = `↑ (${Math.max(0, count - 1)})`;
+                btn.innerText = `↑ ${Math.max(0, count - 1)}`;
             } else {
                 btn.classList.remove('btn-secondary');
                 btn.classList.add('btn-primary');
-                btn.innerText = `↑ (${count + 1})`;
+                btn.innerText = `↑ ${count + 1}`;
             }
 
             // 2. DB Update
@@ -7048,6 +7567,12 @@
                 ref.update({
                     upvotes: firebase.firestore.FieldValue.increment(1),
                     upvoters: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+                }).then(() => {
+                    // --- NEW: ADD POINT TO AUTHOR ---
+                    // Fetch comment to get author ID
+                    ref.get().then(doc => {
+                        if (doc.exists) updateUserScore(doc.data().authorId, 1); // +1 Point
+                    });
                 });
             }
         }
@@ -7182,6 +7707,20 @@
             // Refresh Stats
             if (typeof updateProfileStats === 'function') updateProfileStats();
         }
+        /* --- MARK CHAT AS READ --- */
+        function markChatAsRead(chatId) {
+            if (!currentUser) return;
+
+            // Update the 'lastRead' map in the chat document
+            // We use merge: true logic via update
+            const updateData = {};
+            updateData[`lastRead.${currentUser.uid}`] = firebase.firestore.FieldValue.serverTimestamp();
+
+            db.collection('chats').doc(chatId).update(updateData).catch(err => {
+                // If doc doesn't exist or other error (ignore silently)
+                console.log("Read receipt update skipped");
+            });
+        }
         // --- MISSING FUNCTION FIX ---
         function updateProfileStats() {
             if (!currentUser) return;
@@ -7271,6 +7810,41 @@
                 alert('Error saving profile: ' + error.message);
             });
         }
+        function adminResetScores() {
+    // 1. Security/Confirmation
+    const confirmCode = prompt("Type 'RESET' to set ALL mentor scores to 0.");
+    if (confirmCode !== 'RESET') return;
+
+    // 2. Perform Batch Update
+    const btn = event.target;
+    const oldText = btn.innerText;
+    btn.innerText = "Resetting...";
+    btn.disabled = true;
+
+    db.collection('users').where('role', '==', 'mentor').get()
+        .then(snap => {
+            const batch = db.batch();
+            snap.forEach(doc => {
+                batch.update(doc.ref, { score: 0 });
+            });
+            return batch.commit();
+        })
+        .then(() => {
+            showToast("✅ Leaderboard Reset");
+            btn.innerText = oldText;
+            btn.disabled = false;
+            // Refresh Leaderboard if looking at it
+            if(document.getElementById('leaderboard').classList.contains('active')) {
+                loadLeaderboard();
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Error resetting scores");
+            btn.innerText = oldText;
+            btn.disabled = false;
+        });
+}
 
         function shareProfile() {
             const url = window.location.href;
@@ -7355,123 +7929,139 @@
 
         // 3. The Chat Function
         // --- 4. OPEN CHAT (With "Last Active" Header) ---
+        // --- GLOBAL VARS (Add this at the top with others) ---
+        let chatMetaUnsub;
+
+        /* --- OPEN CHAT (With Real-Time Seen Status) --- */
         function openInlineChat(chatId, otherUserId, name) {
-            if (window.innerWidth <= 600) {
-                lockScroll();
-            }
+            if (window.innerWidth <= 600) lockScroll();
+
+            // 1. Cleanup old listeners
             if (msgUnsub) msgUnsub();
+            if (chatMetaUnsub) chatMetaUnsub();
 
             document.getElementById('selectedChatId').value = chatId;
 
-            // Trigger Mobile View
+            // 2. UI Setup
             document.getElementById('chats').classList.add('mobile-chat-open');
-            if (window.innerWidth <= 600) {
-                document.querySelector('.tabs').style.display = 'none';
-            }
+            if (window.innerWidth <= 600) document.querySelector('.tabs').style.display = 'none';
 
-            // --- HEADER UPDATE START ---
+            // Header Setup
             const headerInfo = document.getElementById('chatHeaderInfo');
+            const initial = name.charAt(0).toUpperCase();
 
-            // 1. Set Initial Header with Placeholder (Initials)
-            // This ensures something shows up immediately while the real image loads
-            headerInfo.innerHTML = `
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div id="headerAvatarStub" style="width: 38px; height: 38px; min-width: 38px; border-radius: 50%; background: #333; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; border: 1px solid var(--glass-border);">
-                        ${name.charAt(0).toUpperCase()}
-                    </div>
-                    <div style="line-height: 1.3;">
-                        <div style="font-size: 16px; font-weight: 700; color: var(--text-main);">${name}</div>
-                        <div id="headerStatus" style="font-size: 12px; color: var(--text-secondary);">Connecting...</div>
-                    </div>
-                </div>`;
-            // --- HEADER UPDATE END ---
+            // Fetch profile for header image
+            db.collection('users').doc(otherUserId).get().then(doc => {
+                let picHtml = `<div style="width:38px; height:38px; border-radius:50%; background:#333; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold;">${initial}</div>`;
+                let statusText = "Connecting...";
+                let statusColor = "var(--text-secondary)";
+
+                if (doc.exists) {
+                    const u = doc.data();
+                    if (u.profilePic) picHtml = `<img src="${u.profilePic}" style="width:38px; height:38px; border-radius:50%; object-fit:cover;">`;
+                    statusText = formatLastActive(u.lastSeen);
+                    if (statusText === 'Active now') statusColor = '#30D158';
+                }
+
+                headerInfo.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+                ${picHtml}
+                <div style="line-height: 1.3;">
+                    <div style="font-size: 16px; font-weight: 700; color: var(--text-main);">${name}</div>
+                    <div style="font-size: 12px; color: ${statusColor};">${statusText}</div>
+                </div>
+            </div>`;
+            });
 
             document.getElementById('sendMessageForm').classList.remove('hidden');
             const cont = document.getElementById('messagesContainer');
-            cont.innerHTML = '<p style="text-align:center; color:var(--text-secondary); margin-top:20px;">Loading...</p>';
+            cont.innerHTML = ''; // Clear immediately
 
-            // 1. Fetch User Data (Pic & Status)
-            let otherUserPic = "";
-            let otherUserInitial = name.charAt(0).toUpperCase();
+            // 3. Mark as Read immediately
+            markChatAsRead(chatId);
 
-            db.collection('users').doc(otherUserId).get().then(doc => {
-                if (doc.exists) {
-                    const u = doc.data();
-                    otherUserPic = u.profilePic || "";
+            // 4. MESSAGE LISTENER
+            let allMessages = [];
 
-                    // --- NEW: Update Header Avatar if image exists ---
-                    if (otherUserPic) {
-                        const stub = document.getElementById('headerAvatarStub');
-                        if (stub) {
-                            // Replace the placeholder div with an IMG tag
-                            stub.outerHTML = `<img src="${otherUserPic}" style="width: 38px; height: 38px; min-width: 38px; border-radius: 50%; object-fit: cover; border: 1px solid var(--glass-border);" loading="lazy">`;
-                        }
-                    }
+            msgUnsub = db.collection('chats').doc(chatId).collection('messages')
+                .orderBy('timestamp', 'asc')
+                .onSnapshot(snap => {
+                    // Keep marking read as new messages arrive while open
+                    if (!snap.empty) markChatAsRead(chatId);
 
-                    // Update Status Text
-                    const statusText = formatLastActive(u.lastSeen);
-                    const statusColor = statusText === 'Active now' ? '#30D158' : 'var(--text-secondary)';
-                    const statusEl = document.getElementById('headerStatus');
-                    if (statusEl) {
-                        statusEl.innerText = statusText;
-                        statusEl.style.color = statusColor;
+                    allMessages = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+                    renderMessages(allMessages, cont, chatId);
+                    cont.scrollTop = cont.scrollHeight;
+                });
+
+            // 5. METADATA LISTENER (Watches for "Seen" updates)
+            chatMetaUnsub = db.collection('chats').doc(chatId).onSnapshot(doc => {
+                if (!doc.exists) return;
+                const data = doc.data();
+
+                // Check if other user has read messages
+                // 'lastRead' is a map: { userId: timestamp }
+                if (data.lastRead && data.lastRead[otherUserId]) {
+                    updateSeenStatus(allMessages, data.lastRead[otherUserId], cont);
+                }
+            });
+        }
+
+        // --- HELPER: Render Messages ---
+        function renderMessages(messages, container, chatId) {
+            let html = '';
+            messages.forEach(m => {
+                const me = m.senderId === currentUser.uid;
+                let content = m.imageUrl
+                    ? (m.mediaType === 'video' ? `<video src="${m.imageUrl}" controls class="chat-image"></video>` : `<img src="${m.imageUrl}" class="chat-image" onclick="openLightbox(this.src)">`)
+                    : `<span>${m.text}</span>`;
+
+                // We add an ID to the last message sent by ME to inject the "Seen" label later
+                const msgIdAttr = `id="msg-${m.id}"`;
+
+                let events = me ? `oncontextmenu="showContextMenu(event, 'message', '${chatId}', '${m.id}')"` : '';
+
+                html += `
+        <div class="chat-message-row ${me ? 'me' : 'them'}" ${msgIdAttr}>
+            <div class="msg-bubble ${me ? 'msg-me' : 'msg-them'}" ${events}>
+                ${content}
+            </div>
+        </div>
+        <div id="seen-${m.id}" class="seen-placeholder" style="width:100%; display:none;"></div>
+        `;
+            });
+            container.innerHTML = html;
+        }
+
+        // --- HELPER: Update Seen Status Dynamically ---
+        function updateSeenStatus(messages, otherUserReadTime, container) {
+            // 1. Clear all existing "Seen" labels
+            container.querySelectorAll('.seen-label').forEach(el => el.remove());
+
+            // 2. Find the LAST message sent by ME
+            const myMessages = messages.filter(m => m.senderId === currentUser.uid);
+            if (myMessages.length === 0) return;
+
+            const lastMyMsg = myMessages[myMessages.length - 1];
+
+            // 3. Compare Timestamps
+            // Ensure both are valid Firestore timestamps or Dates
+            const msgTime = lastMyMsg.timestamp ? lastMyMsg.timestamp.toDate() : new Date();
+            const readTime = otherUserReadTime ? otherUserReadTime.toDate() : new Date(0); // Default to old if null
+
+            if (readTime >= msgTime) {
+                // 4. Inject "Seen" Label
+                const msgRow = document.getElementById(`msg-${lastMyMsg.id}`);
+                if (msgRow) {
+                    // Check if label already exists to prevent dupes
+                    if (!msgRow.nextElementSibling || !msgRow.nextElementSibling.classList.contains('seen-label')) {
+                        const label = document.createElement('div');
+                        label.className = 'seen-label';
+                        label.innerText = 'Seen';
+                        msgRow.after(label); // Insert after the message row
                     }
                 }
-
-                // 2. Start Message Listener
-                msgUnsub = db.collection('chats').doc(chatId).collection('messages')
-                    .orderBy('timestamp', 'asc')
-                    .onSnapshot(snap => {
-                        if (snap.empty) {
-                            cont.innerHTML = '<p style="text-align:center; color:var(--text-secondary); margin-top:20px;">Say hello! 👋</p>';
-                            return;
-                        }
-
-                        let html = '';
-                        snap.forEach(doc => {
-                            const m = doc.data();
-                            if (!currentUser) return;
-                            const me = m.senderId === currentUser.uid;
-
-                            // Content Logic
-                            let content = '';
-                            if (m.imageUrl) {
-                                if (m.mediaType === 'video') content = `<video src="${m.imageUrl}" controls class="chat-image" onclick="event.stopPropagation()"></video>`;
-                                else content = `<img src="${m.imageUrl}" class="chat-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
-                            } else {
-                                content = `<span>${m.text}</span>`;
-                            }
-
-                            // Avatar Logic (For Bubble Rows)
-                            let avatarHtml = '';
-                            if (!me) {
-                                if (otherUserPic) {
-                                    avatarHtml = `<img src="${otherUserPic}" class="chat-msg-avatar" loading="lazy">`;
-                                } else {
-                                    avatarHtml = `<div class="chat-msg-placeholder">${otherUserInitial}</div>`;
-                                }
-                            }
-
-                            let events = me ? `
-                                oncontextmenu="showContextMenu(event, 'message', '${chatId}', '${doc.id}')"
-                                ontouchstart="startLongPress(event, 'message', '${chatId}', '${doc.id}')"
-                                ontouchend="cancelLongPress()"
-                                ontouchmove="cancelLongPress()"
-                            ` : '';
-
-                            html += `
-                            <div class="chat-message-row ${me ? 'me' : 'them'}">
-                                ${avatarHtml}
-                                <div class="msg-bubble ${me ? 'msg-me' : 'msg-them'}" ${events} style="user-select: none;">
-                                    ${content}
-                                </div>
-                            </div>`;
-                        });
-
-                        cont.innerHTML = html;
-                        cont.scrollTop = cont.scrollHeight;
-                    });
-            });
+            }
         }
         function closeChatView() {
             unlockScroll();
@@ -7591,6 +8181,129 @@
                 if (window.loadComments) window.loadComments(postId);
             }).catch(err => console.error(err));
         };
+        /* --- SCORE HELPER --- */
+        function updateUserScore(userId, pointsToAdd) {
+            if (!userId) return;
+            const userRef = db.collection('users').doc(userId);
+            userRef.update({
+                score: firebase.firestore.FieldValue.increment(pointsToAdd)
+            }).catch(err => console.log("Error updating score:", err));
+        }
+        function loadLeaderboard() {
+    console.log("--- DEBUG LEADERBOARD ---");
+    const container = document.getElementById('leaderboard');
+    
+    // 1. Ensure the list container exists (Auto-fix HTML)
+    let listEl = document.getElementById('leaderboardList');
+    if (!listEl) {
+        console.log("Rebuilding Leaderboard HTML structure...");
+        container.innerHTML = `
+            <div class="card" style="margin-bottom: 20px; text-align:center; padding:20px; background: linear-gradient(135deg, #1C1C1E, #2C2C2E);">
+                <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;">🏆 Top Mentors</h2>
+                <p style="font-size:12px; color:var(--text-secondary);">
+                    <span style="color:var(--primary-color); font-weight:bold;">+1</span> per Upvote
+                </p>
+            </div>
+            <div id="leaderboardList" class="grid" style="display: flex; flex-direction: column; gap: 10px;"></div>
+        `;
+        listEl = document.getElementById('leaderboardList');
+    }
+
+    listEl.innerHTML = '<p style="text-align:center; color:var(--text-secondary);">Calculating scores...</p>';
+
+    // 2. ADMIN BUTTON INJECTION (Dynamic)
+    // First, remove any old buttons to prevent duplicates
+    const oldControls = document.getElementById('leaderboardAdminControls');
+    if (oldControls) oldControls.remove();
+
+    // Debugging: See exactly who the system thinks you are
+    if (currentUser) {
+        console.log("My ID:", currentUser.uid);
+        console.log("Admin List:", ADMIN_UIDS);
+        const isAdmin = ADMIN_UIDS.includes(currentUser.uid);
+        console.log("Am I Admin?", isAdmin);
+
+        if (isAdmin) {
+            console.log(" injecting Admin Button...");
+            const adminDiv = document.createElement('div');
+            adminDiv.id = "leaderboardAdminControls";
+            adminDiv.style.cssText = "margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; text-align: center;";
+            adminDiv.innerHTML = `
+                <p style="color: #ff453a; font-size: 10px; margin-bottom: 10px; font-weight: bold;">ADMIN ZONE</p>
+                <button class="btn btn-danger" onclick="adminResetScores()" 
+                    style="width: 100%; border: 1px dashed #ff453a; background: rgba(255, 69, 58, 0.1); color: #ff453a;">
+                    ♻️ Reset All Scores to 0
+                </button>
+            `;
+            // Append to the bottom of the leaderboard tab
+            container.appendChild(adminDiv);
+        }
+    } else {
+        console.log("User not logged in yet.");
+    }
+
+    // 3. FETCH DATA
+    db.collection('users')
+        .where('role', '==', 'mentor')
+        .orderBy('score', 'desc')
+        .limit(50)
+        .get()
+        .then(snap => {
+            if (snap.empty) {
+                listEl.innerHTML = '<p style="text-align:center;">No mentors found yet.</p>';
+                return;
+            }
+
+            let html = '';
+            let rank = 1;
+
+            snap.forEach(doc => {
+                const u = doc.data();
+                const score = u.score || 0;
+
+                let rankClass = 'rank-other';
+                if (rank === 1) rankClass = 'rank-1';
+                if (rank === 2) rankClass = 'rank-2';
+                if (rank === 3) rankClass = 'rank-3';
+
+                const pic = u.profilePic
+                    ? `<img src="${u.profilePic}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">`
+                    : u.name.charAt(0).toUpperCase();
+
+                const skillTxt = (u.skills && u.skills.length > 0)
+                    ? u.skills.slice(0, 2).join(' • ')
+                    : (u.college || 'No info');
+
+                html += `
+              <div class="card" style="padding:15px; display:flex; align-items:center; margin-bottom:0;">
+                  <div class="rank-badge ${rankClass}">${rank}</div>
+                  <div style="flex:1; display:flex; gap:12px; align-items:center;">
+                      <div style="width:50px; height:50px; border-radius:50%; background:#222; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:20px; border:1px solid #444; overflow:hidden;">
+                          ${pic}
+                      </div>
+                      <div style="min-width:0;">
+                          <div style="font-weight:700; font-size:16px; color:white; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                              ${u.name} 
+                              ${u.isVerified ? '<span style="color:#30D158;">✔</span>' : ''}
+                          </div>
+                          <div style="font-size:12px; color:#aaa;">${u.year || ''} • ${skillTxt}</div>
+                      </div>
+                  </div>
+                  <div class="score-display">
+                      <span class="score-val">${score}</span>
+                      <span class="score-label">Points</span>
+                  </div>
+              </div>`;
+                rank++;
+            });
+
+            listEl.innerHTML = html;
+        })
+        .catch(err => {
+            console.error(err);
+            listEl.innerHTML = '<p style="color:red; text-align:center;">Error loading leaderboard.</p>';
+        });
+}
 
         // --- 2. FIX CRASH IN POST MODAL (Safety Checks) ---
         // --- 2. FIX CRASH IN POST MODAL (Safety Checks) ---
@@ -7923,6 +8636,111 @@
                 unlockScroll(); // <--- Ensure this line exists!
             }
         });
+        /* --- V-SYNC SPLASH LOGIC --- */
+        window.addEventListener('load', () => {
+            // 2.2 seconds provides enough time for the intro animation to "breath"
+            setTimeout(() => {
+                const splash = document.getElementById('splashScreen');
+                if (splash) {
+                    splash.classList.add('fade-out');
+
+                    // Remove from DOM after fade finishes
+                    setTimeout(() => {
+                        splash.remove();
+                    }, 600);
+                }
+            }, 2200);
+        });
+        function toggleGoatStatus(postId, commentId, authorRole) {
+            // 1. STRICT SECURITY CHECK: Only Mentors
+            if (!authorRole || authorRole.toLowerCase() !== 'mentor') {
+                showToast("🚫 Only Mentors can be GOATed!");
+                return;
+            }
+
+            const card = document.getElementById(`card-${commentId}`);
+            if (!card) return;
+
+            const btn = card.querySelector('button[onclick*="toggleGoatStatus"]');
+
+            // 2. Optimistic Update (Visuals)
+            const isCurrentlyGoated = card.classList.contains('is-goated');
+
+            // Reset ALL cards first (Single Winner logic)
+            document.querySelectorAll('.comment-card.is-goated').forEach(c => {
+                c.classList.remove('is-goated');
+                const otherBtn = c.querySelector('button[onclick*="toggleGoatStatus"]');
+                if (otherBtn) otherBtn.innerHTML = '🏆 Mark GOAT';
+            });
+
+            if (!isCurrentlyGoated) {
+                // TURN ON
+                card.classList.add('is-goated');
+                if (btn) btn.innerHTML = 'Un-Goat';
+                if (navigator.vibrate) navigator.vibrate(50);
+            } else {
+                // TURN OFF (Un-Goat)
+                card.classList.remove('is-goated');
+                if (btn) btn.innerHTML = '🏆 Mark GOAT';
+            }
+
+            // 3. Database Update with Score Logic
+            const postRef = db.collection('posts').doc(postId);
+
+            db.runTransaction(async (transaction) => {
+                const postDoc = await transaction.get(postRef);
+                if (!postDoc.exists) return;
+
+                const currentGoatId = postDoc.data().goatedCommentId;
+
+                if (currentGoatId === commentId) {
+                    // UN-GOAT: Remove status
+                    transaction.update(postRef, { goatedCommentId: firebase.firestore.FieldValue.delete() });
+                    return { action: 'remove', targetId: commentId };
+                } else {
+                    // GOAT: Set status (and return old ID if we are switching)
+                    transaction.update(postRef, { goatedCommentId: commentId });
+                    return { action: 'add', targetId: commentId, oldId: currentGoatId };
+                }
+            }).then((res) => {
+                if (!res) return;
+
+                // --- HELPER TO ADJUST SCORE ---
+                const adjustScore = (cId, points) => {
+                    db.collection('posts').doc(postId).collection('comments').doc(cId).get()
+                        .then(doc => {
+                            if (doc.exists) updateUserScore(doc.data().authorId, points);
+                        });
+                };
+
+                if (res.action === 'add') {
+                    showToast("🏆 Answer marked as GOATED!");
+                    // 1. Give points to the NEW Goat
+                    adjustScore(res.targetId, 5);
+
+                    // 2. Remove points from the OLD Goat (if we switched winners)
+                    if (res.oldId) {
+                        adjustScore(res.oldId, -5);
+                    }
+                } else if (res.action === 'remove') {
+                    showToast("Tag removed. Points deducted.");
+                    // 3. Remove points from the Un-Goated user
+                    adjustScore(res.targetId, -5);
+                }
+
+            }).catch(error => {
+                console.error("Goat error:", error);
+                // Revert UI on failure
+                if (isCurrentlyGoated) {
+                    card.classList.add('is-goated');
+                    if (btn) btn.innerHTML = 'Un-Goat';
+                } else {
+                    card.classList.remove('is-goated');
+                    if (btn) btn.innerHTML = '🏆 Mark GOAT';
+                }
+                showToast("Action failed.");
+            });
+        }
     </script>
 
 </body>
