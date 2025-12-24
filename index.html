@@ -1261,6 +1261,19 @@
             background: #333;
             color: #fff;
         }
+        /* Disable scrolling on the inner list so the wrapper handles it */
+#communityPostsList {
+    overflow-y: visible !important; 
+    height: auto !important;
+}
+
+/* Ensure the wrapper handles the physics */
+#communityScrollWrapper {
+    scrollbar-width: none; /* Hide scrollbar for cleaner look */
+}
+#communityScrollWrapper::-webkit-scrollbar {
+    display: none;
+}
 
         /* 🥇 GOLD (Rank 1) */
         .rank-1 {
@@ -1555,6 +1568,42 @@
             background: var(--glass-border);
             border-radius: 4px;
         }
+        /* --- PULL TO REFRESH STYLES --- */
+.ptr-container {
+    position: absolute;
+    top: 40px; /* Just below header */
+    left: 0;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none; /* Let touches pass through */
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.ptr-icon {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    border-top-color: transparent; /* Makes it look like a "C" or spinner */
+    transition: transform 0.1s linear; /* Smooth rotation while pulling */
+}
+
+/* The Spinning Animation (Triggered via JS) */
+.ptr-loading .ptr-icon {
+    animation: ptrSpin 0.8s linear infinite;
+    border-top-color: transparent; /* Ensure consistent look */
+}
+
+@keyframes ptrSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 
         /* --- CHAT SCROLL FIX --- */
@@ -4274,48 +4323,43 @@
                 </div>
             </div>
 
-            <div id="community" class="tab-content">
+            <div id="community" class="tab-content" style="position: relative; height: 100%;">
+    
+    <div id="ptr-visual" class="ptr-container" style="top: 0px; z-index: 0;">
+        <div class="ptr-icon"></div>
+    </div>
 
-                <div class="center-icon-wrapper">
-
-                    <div style="display: flex; gap: 12px; align-items: center; flex-shrink: 0;">
-
-                        <div class="sort-btn-style" onclick="openSortModal()">
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="4" y1="21" x2="4" y2="14"></line>
-                                <line x1="4" y1="10" x2="4" y2="3"></line>
-                                <line x1="12" y1="21" x2="12" y2="12"></line>
-                                <line x1="12" y1="8" x2="12" y2="3"></line>
-                                <line x1="20" y1="21" x2="20" y2="16"></line>
-                                <line x1="20" y1="12" x2="20" y2="3"></line>
-                                <line x1="2" y1="14" x2="6" y2="14"></line>
-                                <line x1="10" y1="8" x2="14" y2="8"></line>
-                                <line x1="18" y1="16" x2="22" y2="16"></line>
-                            </svg>
-                            <span class="sort-btn-text">Sort</span>
-                        </div>
-
-                        <div id="createPostIcon" class="create-icon-style" onclick="openCreatePostModal()">
-                            <span style="font-size: 32px; line-height: 1; margin-bottom: 3px;">+</span>
-                            <span class="create-icon-text">Post</span>
-                        </div>
-                    </div>
-
-                    <div class="daily-poll-style" onclick="openDailyPoll()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <line x1="18" y1="20" x2="18" y2="10"></line>
-                            <line x1="12" y1="20" x2="12" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="14"></line>
-                        </svg>
-                        <span>Daily Poll</span>
-                    </div>
-
+    <div id="communityScrollWrapper" style="height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; position: relative; z-index: 1; background: transparent;">
+        
+        <div class="center-icon-wrapper" style="padding-top: 15px;">
+            <div style="display: flex; gap: 12px; align-items: center; flex-shrink: 0;">
+                <div class="sort-btn-style" onclick="openSortModal()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="2" y1="14" x2="6" y2="14"></line><line x1="10" y1="8" x2="14" y2="8"></line>
+                        <line x1="18" y1="16" x2="22" y2="16"></line>
+                    </svg>
+                    <span class="sort-btn-text">Sort</span>
                 </div>
-
-                <div id="communityPostsList" style="margin-top: 20px; padding: 0 5px;"></div>
+                <div id="createPostIcon" class="create-icon-style" onclick="openCreatePostModal()">
+                    <span style="font-size: 32px; line-height: 1; margin-bottom: 3px;">+</span>
+                    <span class="create-icon-text">Post</span>
+                </div>
             </div>
+
+            <div class="daily-poll-style" onclick="openDailyPoll()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                <span>Daily Poll</span>
+            </div>
+        </div>
+
+        <div id="communityPostsList" style="margin-top: 10px; padding: 0 5px; padding-bottom: 100px;"></div>
+    </div>
+</div>
             <div id="exploreFilterModal" class="modal" style="z-index: 10002;">
     <div class="modal-content" style="max-width: 400px; max-height: 85vh; display: flex; flex-direction: column;">
         <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center;">
@@ -5995,6 +6039,108 @@
                 input.value = "";
             }
         }
+        /* --- PULL TO REFRESH LOGIC --- */
+function initPullToRefresh(listId, refreshCallback) {
+    const list = document.getElementById(listId);
+    const ptrVisual = document.getElementById('ptr-visual');
+    const icon = ptrVisual.querySelector('.ptr-icon');
+    
+    if (!list || !ptrVisual) return;
+
+    let startY = 0;
+    let isPulling = false;
+    let isRefreshing = false;
+    const threshold = 120; // How far to pull to trigger (px)
+
+    // 1. TOUCH START
+    list.addEventListener('touchstart', (e) => {
+        if (list.scrollTop === 0 && !isRefreshing) {
+            startY = e.touches[0].pageY;
+            isPulling = true;
+            ptrVisual.style.transition = 'none'; // Remove transition for instant drag feel
+        }
+    }, { passive: true });
+
+    // 2. TOUCH MOVE
+    list.addEventListener('touchmove', (e) => {
+        if (!isPulling) return;
+
+        const currentY = e.touches[0].pageY;
+        const diff = currentY - startY;
+
+        // Only activate if pulling DOWN at the top
+        if (diff > 0 && list.scrollTop <= 0) {
+            // Prevent default browser refresh/scroll behavior
+            if (e.cancelable) e.preventDefault();
+
+            // Calculate "Resistance" (Rubber banding effect)
+            const moveY = Math.min(diff * 0.4, 100); // Max visual pull 100px
+            
+            // Move List Down & Show Icon
+            list.style.transform = `translateY(${moveY}px)`;
+            ptrVisual.style.opacity = Math.min(moveY / 50, 1); // Fade in
+            ptrVisual.style.transform = `translateY(${moveY - 20}px) scale(1)`; 
+            
+            // Rotate Icon based on pull distance
+            icon.style.transform = `rotate(${diff * 2}deg)`;
+        }
+    }, { passive: false });
+
+    // 3. TOUCH END
+    list.addEventListener('touchend', () => {
+        if (!isPulling) return;
+        isPulling = false;
+
+        // Reset Styles
+        ptrVisual.style.transition = 'transform 0.3s, opacity 0.3s';
+        list.style.transition = 'transform 0.3s cubic-bezier(0.2, 1, 0.3, 1)';
+
+        // CHECK THRESHOLD via current visual position
+        // We read the current transform value or just rely on CSS logic
+        // Simplified: Check if we moved the list visually enough
+        const currentTransform = new WebKitCSSMatrix(window.getComputedStyle(list).transform).m42;
+
+        if (currentTransform > 60) {
+            // TRIGGER REFRESH
+            isRefreshing = true;
+            
+            // Snap to "Loading" position
+            list.style.transform = `translateY(50px)`; 
+            ptrVisual.style.opacity = '1';
+            ptrVisual.style.transform = `translateY(30px) scale(1)`;
+            ptrVisual.classList.add('ptr-loading'); // Start Spin
+
+            // Haptic Feedback
+            if(navigator.vibrate) navigator.vibrate(10);
+
+            // Call the data function
+            refreshCallback().then(() => {
+                // Done! Reset UI
+                setTimeout(() => {
+                    resetPullState();
+                }, 500); // Minimal delay so user sees "Done"
+            });
+
+        } else {
+            // Cancel (Snap back)
+            resetPullState();
+        }
+    });
+
+    function resetPullState() {
+        isRefreshing = false;
+        list.style.transform = `translateY(0px)`;
+        ptrVisual.style.opacity = '0';
+        ptrVisual.style.transform = `translateY(0px) scale(0.8)`;
+        ptrVisual.classList.remove('ptr-loading');
+        
+        // Remove transition properties after animation finishes
+        setTimeout(() => {
+            list.style.transition = '';
+            ptrVisual.style.transition = '';
+        }, 300);
+    }
+}
 
         function sendChatFile(base64String, type) {
             // ... existing code ...
@@ -7113,96 +7259,121 @@
 
         // --- 1. LOAD COMMUNITY (Now respects filters) ---
         /* --- LOAD COMMUNITY (With Report Wall Logic) --- */
-        async function loadCommunity() {
-            const listEl = document.getElementById('communityPostsList');
-            if (!listEl) return;
-            if (!currentUser) return;
+       async function loadCommunity() {
+    const listEl = document.getElementById('communityPostsList');
+    if (!listEl) return;
+    if (!currentUser) return;
 
-            if (listEl.innerHTML.trim() === '' || listEl.textContent.includes('No posts')) {
-                listEl.innerHTML = '<p style="text-align:center; color:var(--text-secondary); margin-top:20px;">Loading posts...</p>';
+    // --- 1. SKELETON LOADING STATE (Premium Feel) ---
+    // Instead of text, show a shimmering placeholder structure
+    if (listEl.innerHTML.trim() === '' || listEl.textContent.includes('No posts')) {
+        listEl.innerHTML = `
+            <div class="card" style="padding: 20px; margin-bottom: 20px;">
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div style="flex:1;">
+                        <div class="skeleton skeleton-text" style="width: 40%;"></div>
+                        <div class="skeleton skeleton-text" style="width: 20%;"></div>
+                    </div>
+                </div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-img" style="margin-top:10px;"></div>
+            </div>
+            <div class="card" style="padding: 20px;">
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <div class="skeleton skeleton-avatar"></div>
+                    <div style="flex:1;">
+                        <div class="skeleton skeleton-text" style="width: 40%;"></div>
+                        <div class="skeleton skeleton-text" style="width: 20%;"></div>
+                    </div>
+                </div>
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text"></div>
+            </div>
+        `;
+    }
+
+    try {
+        // 2. Get Posts
+        const snap = await db.collection('posts').orderBy('createdAt', 'desc').limit(50).get();
+        let posts = snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+        // --- FILTERS ---
+        if (window.activeFilters.years.length > 0) {
+            posts = posts.filter(p => window.activeFilters.years.includes(p.authorYear));
+        }
+        if (window.activeFilters.tags.length > 0) {
+            posts = posts.filter(p => {
+                if (!p.tags) return false;
+                return p.tags.some(t => window.activeFilters.tags.includes(t.name));
+            });
+        }
+        if (window.activeFilters.sortBy === 'upvotes') {
+            posts.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
+        } else {
+            posts.sort((a, b) => b.createdAt - a.createdAt);
+        }
+
+        if (posts.length === 0) {
+            listEl.innerHTML = `<p style="text-align:center; color:var(--text-secondary); margin-top:30px;">No posts found.</p>`;
+            return;
+        }
+
+        const htmlPromises = posts.map(async p => {
+            const isAuthor = currentUser && p.authorId === currentUser.uid;
+
+            // --- REPORT CHECK ---
+            const isReportedByMe = p.reports && p.reports.includes(currentUser.uid);
+
+            // --- VISUAL VARIABLES ---
+            const displayPic = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.profilePic || "") : (p.authorPic || "");
+            const displayName = isAuthor && !window.currentUserData.isAnonymousSession ? window.currentUserData.name : p.authorName;
+            const displayRole = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.role || "Student") : (p.authorRole || "Student");
+            const displayYear = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.year || "") : (p.authorYear || "");
+
+            const yearBadge = getYearBadgeHtml(displayYear);
+            const timeString = timeAgo(p.createdAt);
+
+            // Tags
+            let tagsHtml = '';
+            if (p.tags) p.tags.forEach(tag => {
+                tagsHtml += `<span style="background:${tag.hex || '#555'}; color:white; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; margin-right:5px;">${tag.name}</span>`;
+            });
+
+            // Media
+            let mediaHtml = '';
+            if (p.imageUrl) {
+                if (p.mediaType === 'video') mediaHtml = `<video src="${p.imageUrl}" controls class="post-image" onclick="event.stopPropagation()"></video>`;
+                else mediaHtml = `<img src="${p.imageUrl}" loading="lazy" class="post-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
             }
+            const processedBody = p.body.replace(/(https?:\/\/[^\s]+)/g, (url) => `<a href="${url}" target="_blank" style="color:var(--primary-color); text-decoration:underline;">${url}</a>`);
 
+            // Avatar
+            let avatarHtml = displayPic && displayName !== "Anonymous"
+                ? `<img src="${displayPic}" loading="lazy" class="post-avatar-small">`
+                : `<div class="post-avatar-small" style="background:#333; display:flex; align-items:center; justify-content:center; color:#ccc; font-weight:bold;">${displayName.charAt(0)}</div>`;
+
+            // Top Comment
+            let topCommentHtml = '';
             try {
-                // 1. Get Posts
-                const snap = await db.collection('posts').orderBy('createdAt', 'desc').limit(50).get();
-                let posts = snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-
-                // --- FILTERS ---
-                if (window.activeFilters.years.length > 0) {
-                    posts = posts.filter(p => window.activeFilters.years.includes(p.authorYear));
-                }
-                if (window.activeFilters.tags.length > 0) {
-                    posts = posts.filter(p => {
-                        if (!p.tags) return false;
-                        return p.tags.some(t => window.activeFilters.tags.includes(t.name));
-                    });
-                }
-                if (window.activeFilters.sortBy === 'upvotes') {
-                    posts.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
-                } else {
-                    posts.sort((a, b) => b.createdAt - a.createdAt);
-                }
-
-                if (posts.length === 0) {
-                    listEl.innerHTML = `<p style="text-align:center; color:var(--text-secondary); margin-top:30px;">No posts found.</p>`;
-                    return;
-                }
-
-                const htmlPromises = posts.map(async p => {
-                    const isAuthor = currentUser && p.authorId === currentUser.uid;
-
-                    // --- REPORT CHECK ---
-                    // Check if current user's ID is in the reports array
-                    const isReportedByMe = p.reports && p.reports.includes(currentUser.uid);
-
-                    // --- VISUAL VARIABLES ---
-                    const displayPic = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.profilePic || "") : (p.authorPic || "");
-                    const displayName = isAuthor && !window.currentUserData.isAnonymousSession ? window.currentUserData.name : p.authorName;
-                    const displayRole = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.role || "Student") : (p.authorRole || "Student");
-                    const displayYear = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.year || "") : (p.authorYear || "");
-
-                    const yearBadge = getYearBadgeHtml(displayYear);
-                    const timeString = timeAgo(p.createdAt);
-
-                    // Tags
-                    let tagsHtml = '';
-                    if (p.tags) p.tags.forEach(tag => {
-                        tagsHtml += `<span style="background:${tag.hex || '#555'}; color:white; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; margin-right:5px;">${tag.name}</span>`;
-                    });
-
-                    // Media
-                    let mediaHtml = '';
-                    if (p.imageUrl) {
-                        if (p.mediaType === 'video') mediaHtml = `<video src="${p.imageUrl}" controls class="post-image" onclick="event.stopPropagation()"></video>`;
-                        else mediaHtml = `<img src="${p.imageUrl}" loading="lazy" class="post-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
-                    }
-                    const processedBody = p.body.replace(/(https?:\/\/[^\s]+)/g, (url) => `<a href="${url}" target="_blank" style="color:var(--primary-color); text-decoration:underline;">${url}</a>`);
-
-                    // Avatar
-                    let avatarHtml = displayPic && displayName !== "Anonymous"
-                        ? `<img src="${displayPic}" loading="lazy" class="post-avatar-small">`
-                        : `<div class="post-avatar-small" style="background:#333; display:flex; align-items:center; justify-content:center; color:#ccc; font-weight:bold;">${displayName.charAt(0)}</div>`;
-
-                    // Top Comment
-                    let topCommentHtml = '';
-                    try {
-                        const cSnap = await db.collection('posts').doc(p.id).collection('comments').orderBy('upvotes', 'desc').limit(1).get();
-                        if (!cSnap.empty) {
-                            const c = cSnap.docs[0].data();
-                            topCommentHtml = `
+                const cSnap = await db.collection('posts').doc(p.id).collection('comments').orderBy('upvotes', 'desc').limit(1).get();
+                if (!cSnap.empty) {
+                    const c = cSnap.docs[0].data();
+                    topCommentHtml = `
                     <div class="top-comment-preview" onclick="viewPost('${p.id}')">
                         <div style="font-weight:bold; color:var(--text-main); font-size:12px; margin-bottom:2px;">
                             ${c.authorName} <span style="font-weight:normal; color:var(--text-secondary);">commented:</span>
                         </div>
                         <div style="color:#ccc; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">"${c.text}"</div>
                     </div>`;
-                        }
-                    } catch (e) { }
+                }
+            } catch (e) { }
 
-                    // --- RENDER LOGIC: WALL vs CONTENT ---
+            // --- RENDER LOGIC: WALL vs CONTENT ---
 
-                    // 1. The Warning Wall HTML (Visible if reported)
-                    const wallHtml = `
+            // 1. The Warning Wall HTML (Visible if reported)
+            const wallHtml = `
                 <div id="wall-${p.id}" class="report-wall-container">
                     <div class="report-icon-large">⚠️</div>
                     <div class="report-text-large">You've reported this post</div>
@@ -7212,9 +7383,8 @@
                     </div>
                 </div>`;
 
-                    // 2. The Actual Post Content HTML (Hidden if reported)
-                    // Note: We add id="content-${p.id}" and conditionally add 'content-hidden' class
-                    const contentHtml = `
+            // 2. The Actual Post Content HTML (Hidden if reported)
+            const contentHtml = `
                 <div id="content-${p.id}" class="${isReportedByMe ? 'content-hidden' : ''}">
                     <div class="post-options-wrapper">
                         <div class="three-dots-btn" onclick="togglePostMenu(event, '${p.id}')">⋮</div>
@@ -7251,22 +7421,23 @@
                     </div>
                 </div>`;
 
-                    // Combine them into the wrapper card
-                    return `
+            // --- 3. APPLY STAGGERED ANIMATION CLASS ---
+            // Added 'animate-item' to the class list
+            return `
             <div id="post-card-${p.id}" class="card animate-item" style="position: relative;">
                 ${isReportedByMe ? wallHtml : ''} 
                 ${contentHtml}
             </div>`;
-                });
+        });
 
-                const finalHtml = await Promise.all(htmlPromises);
-                listEl.innerHTML = finalHtml.join('');
+        const finalHtml = await Promise.all(htmlPromises);
+        listEl.innerHTML = finalHtml.join('');
 
-            } catch (e) {
-                console.error(e);
-                listEl.innerHTML = '<p style="text-align:center; color:var(--danger-color);">Error loading posts.</p>';
-            }
-        }
+    } catch (e) {
+        console.error(e);
+        listEl.innerHTML = '<p style="text-align:center; color:var(--danger-color);">Error loading posts.</p>';
+    }
+}
 
         // --- 2. FILTER & SORT UI LOGIC ---
         // --- FIXED UPVOTE HANDLER ---
@@ -7624,17 +7795,7 @@ function applyExploreFilters() {
 
         function loadPosts() { loadCommunity(); } // Alias for cleaner calls
 
-        // --- MISSING FUNCTION: OPEN POST MODAL ---
 
-        /* =========================================
-   FIXED POST SUBMIT HANDLER (Prevents Freezing)
-   ========================================= */
-        /* =========================================
-   FIXED POST SUBMIT HANDLER (With Anonymous Logic)
-   ========================================= */
-        /* =========================================
-           FIXED POST SUBMIT HANDLER
-           ========================================= */
         window.handleCreatePostSubmit = async function (e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submitPostBtn');
@@ -8131,6 +8292,15 @@ function applyExploreFilters() {
                 }
             );
         }
+        // Init Pull-to-Refresh on the Community List
+// We wrap loadCommunity in a promise-returning function if it isn't already
+// Init Pull-to-Refresh on the Wrapper (Buttons + List)
+initPullToRefresh('communityScrollWrapper', async () => {
+    // 1. Re-fetch Posts
+    await loadCommunity(); 
+    // 2. Also refresh the Poll status (just in case)
+    loadActivePoll(); 
+});
         function upvote(id) { const ref = db.collection('posts').doc(id); ref.get().then(doc => { if (doc.data().authorId === currentUser.uid) return alert("Cannot upvote self"); const upvoters = doc.data().upvoters || []; const hasUpvoted = upvoters.includes(currentUser.uid); ref.update({ upvotes: firebase.firestore.FieldValue.increment(hasUpvoted ? -1 : 1), upvoters: hasUpvoted ? upvoters.filter(x => x !== currentUser.uid) : [...upvoters, currentUser.uid] }).then(loadCommunity); }); }
         function upvoteComment(pid, cid) { const ref = db.collection('posts').doc(pid).collection('comments').doc(cid); ref.get().then(doc => { const data = doc.data(); if (data.authorId === currentUser.uid) return; const upvoters = data.upvoters || []; const hasUpvoted = upvoters.includes(currentUser.uid); ref.update({ upvotes: firebase.firestore.FieldValue.increment(hasUpvoted ? -1 : 1), upvoters: hasUpvoted ? upvoters.filter(id => id !== currentUser.uid) : [...upvoters, currentUser.uid] }).then(() => loadComments(pid)); }); }
 
