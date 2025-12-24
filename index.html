@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,10 +6,11 @@
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VidyaGenie</title>
+    <title>V-SYNC</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* --- DYNAMIC POLL INPUTS --- */
@@ -183,25 +183,50 @@
             width: 150px;
             height: 150px;
             margin: 0 auto 25px;
-            border-radius: 50%;
-            border: 4px solid var(--primary-color);
-            background: var(--bg-input);
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: transparent;
+            border: none;
+            /* REMOVED THE DOUBLE BORDER */
+            border-radius: 50%;
+            padding: 0;
+            overflow: visible;
+            /* Fix clipping issues */
         }
 
         .profile-pic-large-new {
-            width: 100%;
-            height: 100%;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
             object-fit: cover;
+
+            /* Blue Border for real users */
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 10px 30px rgba(10, 132, 255, 0.2);
         }
 
         .profile-initial-large-new {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+
+            /* FIX: Solid Dark Grey Background */
+            background: #333 !important;
+            color: #ccc !important;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             font-size: 60px;
             font-weight: bold;
-            color: var(--primary-color);
+
+            /* FIX: Neutral Grey Border */
+            border: 4px solid var(--border-color) !important;
+
+            /* FIX: Remove Glow */
+            box-shadow: none !important;
         }
 
 
@@ -1375,6 +1400,64 @@
             background: linear-gradient(90deg, rgba(255, 87, 34, 0.3), rgba(255, 55, 95, 0.3));
         }
 
+        /* POLL HIGHLIGHT (Only for Unvoted) */
+        .poll-card.active-poll {
+            border: 1px solid var(--primary-color) !important;
+            box-shadow: 0 0 15px rgba(255, 69, 58, 0.15);
+            /* Soft Red Glow */
+            animation: pollPulse 3s infinite;
+        }
+
+        @keyframes pollPulse {
+            0% {
+                box-shadow: 0 0 10px rgba(255, 69, 58, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(255, 69, 58, 0.3);
+            }
+
+            100% {
+                box-shadow: 0 0 10px rgba(255, 69, 58, 0.1);
+            }
+        }
+        /* Define the keyframes */
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Base class for items */
+.animate-item {
+    animation: slideUpFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0; /* Start hidden */
+}
+
+/* Stagger delays for up to 10 items */
+.animate-item:nth-child(1) { animation-delay: 0.05s; }
+.animate-item:nth-child(2) { animation-delay: 0.1s; }
+.animate-item:nth-child(3) { animation-delay: 0.15s; }
+.animate-item:nth-child(4) { animation-delay: 0.2s; }
+.animate-item:nth-child(5) { animation-delay: 0.25s; }
+.animate-item:nth-child(6) { animation-delay: 0.3s; }
+.animate-item:nth-child(7) { animation-delay: 0.35s; }
+.animate-item:nth-child(8) { animation-delay: 0.4s; }
+.animate-item:nth-child(9) { animation-delay: 0.45s; }
+.animate-item:nth-child(10) { animation-delay: 0.5s; }
+
+        /* COMPLETED POLL (Voted) */
+        .poll-card.completed-poll {
+            border: 1px solid var(--border-color) !important;
+            box-shadow: none !important;
+            opacity: 0.9;
+        }
+
         /* --- THREADED COMMENT PREVIEWS --- */
         .preview-comments-container {
             margin-top: 15px;
@@ -2156,6 +2239,7 @@
 
             /* Premium Silver Gradient */
             background: linear-gradient(180deg, #FFFFFF 0%, #B0B0B0 100%);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
@@ -2336,7 +2420,7 @@
             font-weight: 600;
         }
 
-        /* --- MOBILE BOTTOM NAVIGATION (The "Real App" Feel) --- */
+        /* --- MOBILE BOTTOM NAVIGATION (FIXED ALIGNMENT) --- */
         @media (max-width: 600px) {
             .tabs {
                 position: fixed;
@@ -2344,74 +2428,88 @@
                 left: 0;
                 right: 0;
                 width: 100%;
-                max-width: 100%;
-
                 margin: 0;
-                border-radius: 0;
                 border: none;
                 border-top: 1px solid var(--border-color);
-
                 background: rgba(28, 28, 30, 0.95);
-                /* Glassy dark background */
                 backdrop-filter: blur(20px);
                 -webkit-backdrop-filter: blur(20px);
-
-                padding: 10px 0 25px 0;
-                /* Extra padding for iPhone Home Indicator */
+                padding: 8px 0 25px 0;
+                /* Padding for iPhone Home Indicator */
                 z-index: 1000;
-                /* Sit above everything */
-                gap: 0;
+                display: flex;
                 justify-content: space-around;
+                gap: 0;
             }
 
             .tab-button {
-                flex-direction: column;
-                gap: 0;
-                /* Reset gap */
-                padding: 10px 0;
+                flex: 1;
+                display: flex !important;
+                flex-direction: column !important;
+                /* Forces vertical stacking */
+                align-items: center !important;
+                /* Centers items horizontally */
+                justify-content: center !important;
+                gap: 0 !important;
+                padding: 6px 0 !important;
                 background: transparent !important;
-                transition: all 0.3s var(--transition-bounce);
+                border-radius: 0;
+                box-shadow: none !important;
+                transition: all 0.2s ease;
             }
 
-            .tab-label {
-                font-size: 10px;
-                font-weight: 700;
-                max-height: 0;
-                opacity: 0;
-                overflow: hidden;
-                transition: all 0.3s var(--transition-bounce);
-                transform: translateY(10px);
+            /* Icon Container - Force Center */
+            .tab-button>div,
+            .tab-button svg {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto;
+                /* Auto margins to force horizontal centering */
             }
 
-            .tab-button.active .tab-label {
-                max-height: 20px;
-                opacity: 1;
-                transform: translateY(4px);
-                /* Moves text slightly below icon */
-                margin-top: 2px;
-            }
-
-            /* Icon size adjustment for mobile */
             .tab-button svg {
                 width: 24px;
                 height: 24px;
                 stroke: var(--text-secondary);
-                transition: all 0.3s var(--transition-bounce);
+                transition: transform 0.2s ease, stroke 0.2s ease;
             }
 
+            /* The Text Label - Hidden by default, slides down when active */
+            .tab-label {
+                font-size: 10px !important;
+                font-weight: 600;
+                text-align: center;
+                width: 100%;
+                display: block;
+                line-height: 1;
+
+                /* Animation Props */
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                transform: translateY(5px);
+                /* Start slightly lower */
+            }
+
+            /* ACTIVE STATE */
             .tab-button.active svg {
                 stroke: var(--primary-color) !important;
                 transform: translateY(-2px);
-                /* Slight lift effect */
+                /* Icon moves up slightly */
             }
 
-            /* Make sure content doesn't get hidden behind the bar */
-            .container {
-                padding-bottom: 90px;
+            .tab-button.active .tab-label {
+                max-height: 15px;
+                /* Reveal text space */
+                opacity: 1;
+                transform: translateY(0);
+                /* Slide into place */
+                margin-top: 4px !important;
+                /* Space between icon and text */
+                color: var(--primary-color);
             }
-
-            /* Hide the navbar on scroll (Optional: makes it feel cleaner) */
-            /* .navbar { position: static; } */
         }
 
         .tab-button:hover {
@@ -2434,6 +2532,7 @@
         .tab-content.active {
             display: block;
         }
+        
 
         /* --- MOBILE TOUCH FIXES --- */
         * {
@@ -2441,10 +2540,7 @@
             /* Removes blue box on touch */
         }
 
-        /* Optional: Improve scroll smoothness on iOS */
-        body {
-            -webkit-overflow-scrolling: touch;
-        }
+        
 
         /* Ensure buttons don't select text on double tap */
         .btn,
@@ -3140,18 +3236,30 @@
 
         .stats-grid-new {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
+            /* CHANGE: Force 3 equal columns always, instead of auto-fitting */
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            /* Slightly tighter gap */
             margin: 30px 0;
         }
 
+        /* Ensure content inside doesn't break the layout */
         .stat-card-new {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 20px;
+            padding: 15px 5px;
+            /* Reduced side padding to fit text */
             text-align: center;
             transition: all 0.3s;
+
+            /* NEW: Flex column ensures content centers nicely */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-width: 0;
+            /* Critical for grid children to shrink properly */
         }
 
         .stat-card-new:hover {
@@ -3160,19 +3268,21 @@
             transform: translateY(-4px);
         }
 
-        .stat-number-new {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-        }
+        @media (max-width: 600px) {
+            .stat-label-new {
+                font-size: 10px !important;
+                /* Smaller label on mobile */
+                white-space: nowrap;
+                /* Prevent wrapping */
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+            }
 
-        .stat-label-new {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            .stat-number-new {
+                font-size: 22px !important;
+                /* Slightly smaller number */
+            }
         }
 
         .section-title-new {
@@ -3781,7 +3891,7 @@
         style="max-width: 900px; margin: 60px auto; padding: 40px; background: var(--bg-card); border-radius: 24px; border: 1px solid var(--border-color);">
         <h2
             style="margin-bottom: 20px; font-size: 32px; background: var(--primary-color);background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; text-align: center;">
-            VidyaGenie Portal</h2>
+            V-SYNC Portal</h2>
 
         <div style="display: flex; gap: 40px; align-items: flex-start; text-align: left;">
 
@@ -3847,7 +3957,6 @@
                                         the public won't.</div>
                                 </div>
                             </div>
-
                             <div class="form-group"><label>Full Name</label><input type="text" id="regName" required>
                             </div>
                             <div class="form-group"><label>College Email</label><input type="email" id="regEmail"
@@ -3880,7 +3989,7 @@
                     </div>
                     <div class="form-group">
                         <label>Current Year</label>
-                        <select id="regYear" required
+                        <select id="regYear" required onchange="validateRoleOptions()"
                             style="width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 12px;">
                             <option value="" disabled selected>Select Year</option>
                             <option value="FE">First Year (FE)</option>
@@ -3889,8 +3998,24 @@
                             <option value="BE">Fourth Year (BE)</option>
                         </select>
                     </div>
-                    <div class="form-group"><label>College / University</label><input type="text" id="regCollege"
-                            required></div>
+                    <div class="form-group">
+                                <label>I am a...</label>
+                                <select id="regRole" required
+                                    style="width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 12px; font-family: inherit;">
+                                    <option value="student" selected>Student</option>
+                                    <option value="mentor">Mentor</option>
+                                </select>
+                            </div>
+                    <div class="form-group">
+                        <label>College / University</label>
+                        <select id="regCollege" required
+                            style="width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 12px; font-family: inherit;">
+                            <option value="" disabled selected>Select College</option>
+                            <option value="VIT">Vidyalankar Institute of Technology</option>
+                            <option value="VSIT">Vidyalankar School of Information Technology</option>
+                            <option value="VP">Vidyalankar Polytechnic</option>
+                        </select>
+                    </div>
 
                     <div class="form-group">
                         <label>Profile Picture (Optional)</label>
@@ -3944,7 +4069,7 @@
         <div class="container">
             <div class="navbar">
                 <div class="navbar-brand">
-                    <h1>VidyaGenie</h1>
+                    <h1>V-SYNC</h1>
                     <p id="userInfo"></p>
                 </div>
                 <div class="navbar-right">
@@ -4023,18 +4148,31 @@
             </div>
 
             <div id="mentors" class="tab-content">
-                <div class="card" style="margin-bottom: 30px; border: 1px solid var(--border-color);">
-                    <div class="card-header" style="color: var(--text-main);">Search Users</div>
-                    <div class="card-body">
-                        <form id="userSearchForm" onsubmit="handleUserSearch(event)">
-                            <div class="form-group" style="display: flex; gap: 10px; margin-bottom: 0;">
-                                <input type="text" id="searchInput" placeholder="Search by Name" style="flex-grow: 1;"
-                                    oninput="handleUserSearch(event)">
-                                <button type="submit" class="btn btn-primary">Search</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <div class="card" style="margin-bottom: 20px; border: 1px solid var(--border-color); padding: 15px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <span style="font-size:16px; font-weight:700; color:var(--text-main);">Find Connections</span>
+        
+        <button class="btn btn-secondary" onclick="openExploreSortModal()" 
+            style="padding: 6px 12px; font-size: 12px; display: flex; align-items: center; gap: 6px; border-radius: 20px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line>
+                <line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line>
+                <line x1="2" y1="14" x2="6" y2="14"></line><line x1="10" y1="8" x2="14" y2="8"></line>
+                <line x1="18" y1="16" x2="22" y2="16"></line>
+            </svg>
+            Filter
+        </button>
+    </div>
+
+    <form id="userSearchForm" onsubmit="handleUserSearch(event)" style="display:flex; gap:10px;">
+        <input type="text" id="searchInput" placeholder="Search by Name..." 
+            style="flex-grow: 1; padding: 10px 15px; border-radius: 12px;"
+            oninput="handleUserSearch(event)">
+    </form>
+</div>
+
+<div id="searchResultsList" class="grid"></div>
                 <div id="searchResultsList" class="grid"></div>
             </div>
             <div id="leaderboard" class="tab-content">
@@ -4051,7 +4189,7 @@
                 <div id="leaderboard" class="tab-content">
                     <div class="card"
                         style="margin-bottom: 20px; text-align:center; padding:20px; background: linear-gradient(135deg, #1C1C1E, #2C2C2E);">
-                        <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;">🏆 Top Mentors of the
+                        <h2 style="font-size:20px; color:var(--text-main); margin-bottom:5px;"> Top Mentors of the
                             month</h2>
                         <p style="font-size:12px; color:var(--text-secondary);">
                             <span style="color:var(--primary-color); font-weight:bold;">+1</span> per Upvote
@@ -4178,6 +4316,44 @@
 
                 <div id="communityPostsList" style="margin-top: 20px; padding: 0 5px;"></div>
             </div>
+            <div id="exploreFilterModal" class="modal" style="z-index: 10002;">
+    <div class="modal-content" style="max-width: 400px; max-height: 85vh; display: flex; flex-direction: column;">
+        <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <span>Filter Connections</span>
+            <span class="close-modal-btn" onclick="closeModal('exploreFilterModal')" style="font-size:24px; cursor:pointer; padding:0 10px;">&times;</span>
+        </div>
+
+        <div style="flex: 1; overflow-y: auto; padding-right: 5px;">
+            
+            <div class="filter-section-title">By Role</div>
+            <div style="display: flex; flex-wrap: wrap;">
+                <div class="filter-pill" id="expRole_student" onclick="toggleExploreFilter('roles', 'student')">Student</div>
+                <div class="filter-pill" id="expRole_mentor" onclick="toggleExploreFilter('roles', 'mentor')">Mentor</div>
+            </div>
+
+            <div class="filter-section-title">By Year</div>
+            <div style="display: flex; flex-wrap: wrap;">
+                <div class="filter-pill" id="expYear_FE" onclick="toggleExploreFilter('years', 'FE')">FE</div>
+                <div class="filter-pill" id="expYear_SE" onclick="toggleExploreFilter('years', 'SE')">SE</div>
+                <div class="filter-pill" id="expYear_TE" onclick="toggleExploreFilter('years', 'TE')">TE</div>
+                <div class="filter-pill" id="expYear_BE" onclick="toggleExploreFilter('years', 'BE')">BE</div>
+            </div>
+
+            <div class="filter-section-title">By College</div>
+            <div style="display: flex; flex-wrap: wrap;">
+                <div class="filter-pill" id="expCol_VIT" onclick="toggleExploreFilter('colleges', 'VIT')">VIT</div>
+                <div class="filter-pill" id="expCol_VSIT" onclick="toggleExploreFilter('colleges', 'VSIT')">VSIT</div>
+                <div class="filter-pill" id="expCol_VP" onclick="toggleExploreFilter('colleges', 'VP')">VP</div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer" style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+            <button class="btn btn-secondary" onclick="clearExploreFilters()">Clear All</button>
+            <button class="btn btn-primary" onclick="applyExploreFilters()">Apply Filters</button>
+        </div>
+    </div>
+</div>
 
             <div id="sortFilterModal" class="modal" style="z-index: 10002;">
                 <div class="modal-content"
@@ -4259,7 +4435,7 @@
 
                     <!-- SKILLS SECTION -->
                     <div>
-                        <h2 class="section-title-new">💡 Skills & Expertise</h2>
+                        <h2 class="section-title-new">Skills & Expertise</h2>
                         <div id="skillsContainer" class="skills-container-new">
                             <div class="empty-state-new">No skills added yet. Click Edit Profile to add your expertise.
                             </div>
@@ -4268,7 +4444,7 @@
 
                     <!-- ABOUT SECTION -->
                     <div class="about-section-new">
-                        <h2 class="section-title-new">📋 Profile Information</h2>
+                        <h2 class="section-title-new">Profile Information</h2>
                         <div class="info-row-new">
                             <span class="info-label-new">College</span>
                             <span class="info-value-new" id="infoCollege">Not specified</span>
@@ -4291,7 +4467,6 @@
                     <div class="action-buttons-new">
                         <button class="btn-new btn-primary-new" onclick="toggleEditMode()">Edit Profile</button>
                         <button class="btn-new btn-secondary-new" onclick="shareProfile()">Share Profile</button>
-                        <button class="btn-new btn-danger-new" onclick="deleteAccount()">Delete Account</button>
                     </div>
 
                     <!-- EDIT MODE FORM (Hidden by default) -->
@@ -4348,10 +4523,19 @@
                         </div>
                     </div>
 
-                    <!-- LOGOUT SECTION -->
                     <div
-                        style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-color); display: flex; gap: 12px; justify-content: center;">
-                        <button class="btn-new btn-secondary-new" onclick="window.location.reload()">Log Out</button>
+                        style="margin-top: 40px; padding-top: 25px; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center; gap: 15px;">
+
+                        <button class="btn-new btn-secondary-new" onclick="window.location.reload()"
+                            style="width: 100%; max-width: 250px;">
+                            Log Out
+                        </button>
+
+                        <button class="btn-new btn-danger-new" onclick="deleteAccount()"
+                            style="width: 100%; max-width: 250px; font-size: 12px; opacity: 0.8;">
+                            Delete Account
+                        </button>
+
                     </div>
                 </div>
             </div>
@@ -4365,7 +4549,7 @@
             <div class="modal-header">My Connections</div>
             <div id="connectionsModalList" style="max-height: 50vh; overflow-y: auto; padding-right: 5px;"></div>
             <div class="modal-footer" style="flex-direction: column; gap: 10px;">
-                <button class="btn btn-secondary" style="width: 100%;" onclick="closeModal('adminPanelModal')">Close
+                <button class="btn btn-secondary" style="width: 100%;" onclick="closeModal('connectionsModal')">Close
                     Panel</button>
 
                 <button id="btnResetScores" class="btn btn-danger"
@@ -4383,7 +4567,7 @@
             <div style="margin-bottom: 20px;">
                 <span style="font-size: 40px; display: block; animation: flameFlicker 1s infinite alternate;">🔥</span>
                 <h2
-                    style="font-size: 24px; font-weight: 800; background: linear-gradient(to right, #FF9F0A, #FF375F); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 10px;">
+                    style="font-size: 24px; font-weight: 800; background: linear-gradient(to right, #FF9F0A, #FF375F); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-top: 10px;">
                     DAILY POLL
                 </h2>
             </div>
@@ -4625,8 +4809,13 @@
                 style="flex: 1; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 12px; margin-top: 10px;">
             </div>
 
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('adminPanelModal')">Close Panel</button>
+            <div class="modal-footer" style="flex-direction: column; gap: 10px;">
+                <button class="btn btn-secondary" style="width: 100%;" onclick="closeModal('adminPanelModal')">Close
+                    Panel</button>
+
+                <button id="btnResetScores" class="btn btn-danger" ...>
+                    ...
+                </button>
             </div>
         </div>
     </div>
@@ -4670,115 +4859,140 @@
 
         let currentPollData = null;
 
+        let pollUnsub; // Global variable to stop duplicate listeners
+
         function openDailyPoll() {
             lockScroll();
             const modal = document.getElementById('dailyPollModal');
-            modal.classList.add('active');
+            if (modal) modal.classList.add('active');
 
             // Check Admin Status
-            if (currentUser && ADMIN_UIDS.includes(currentUser.uid)) {
-                document.getElementById('btnEditPoll').style.display = 'block';
-            } else {
-                document.getElementById('btnEditPoll').style.display = 'none';
+            const editBtn = document.getElementById('btnEditPoll');
+            if (editBtn) {
+                if (currentUser && typeof ADMIN_UIDS !== 'undefined' && ADMIN_UIDS.includes(currentUser.uid)) {
+                    editBtn.style.display = 'block';
+                } else {
+                    editBtn.style.display = 'none';
+                }
             }
 
-            loadActivePoll();
+            // Ensure listener is running (in case it wasn't started on login)
+            if (!pollUnsub) {
+                loadActivePoll();
+            }
         }
 
         function loadActivePoll() {
-            const container = document.getElementById('pollOptionsContainer');
-            const questionEl = document.getElementById('pollQuestionDisplay');
-            const votesEl = document.getElementById('pollTotalVotes');
-            // 1. SELECT THE MAIN BUTTON
-            const pollBtn = document.querySelector('.daily-poll-style');
+    const container = document.getElementById('pollOptionsContainer');
+    const questionEl = document.getElementById('pollQuestionDisplay');
+    const votesEl = document.getElementById('pollTotalVotes');
+    const pollBtn = document.querySelector('.daily-poll-style'); 
 
-            container.innerHTML = '<p style="color:#888;">Loading...</p>';
+    if (container) container.innerHTML = '<p style="color:#888;">Loading...</p>';
 
-            db.collection('system').doc('daily_poll').onSnapshot(doc => {
-                if (!doc.exists) {
-                    questionEl.innerText = "No active poll today.";
-                    container.innerHTML = "";
-                    return;
-                }
+    if (pollUnsub) pollUnsub(); // Clear old listener
 
-                currentPollData = doc.data();
-                questionEl.innerText = currentPollData.question;
-
-                const totalVotes = currentPollData.totalVotes || 0;
-                votesEl.innerText = `${totalVotes} Votes`;
-
-                // Render Options
-                let html = '';
-                const myVote = currentPollData.votes ? currentPollData.votes[currentUser.uid] : undefined;
-
-                // --- NEW: TOGGLE DULL STATE ---
-                if (myVote !== undefined) {
-                    // User has voted: Add class to make it dull
-                    pollBtn.classList.add('voted');
-                } else {
-                    // User hasn't voted: Ensure it's flashy
-                    pollBtn.classList.remove('voted');
-                }
-                // ------------------------------
-
-                currentPollData.options.forEach((opt, index) => {
-                    const voteCount = currentPollData.counts ? (currentPollData.counts[index] || 0) : 0;
-                    const percent = totalVotes > 0 ? Math.round((voteCount / totalVotes) * 100) : 0;
-
-                    const isVotedClass = myVote === index ? 'voted' : '';
-                    const showResults = myVote !== undefined || (currentUser && ADMIN_UIDS.includes(currentUser.uid));
-
-                    html += `
-                    <div class="poll-option-btn ${isVotedClass}" onclick="submitVote(${index})">
-                        <div class="poll-fill-bar" style="width: ${showResults ? percent : 0}%"></div>
-                        <div class="poll-text-wrapper">
-                            <span>${opt}</span>
-                            ${showResults ? `<span>${percent}%</span>` : ''}
-                        </div>
-                    </div>`;
-                });
-
-                container.innerHTML = html;
-            });
+    pollUnsub = db.collection('system').doc('daily_poll').onSnapshot(doc => {
+        if (!doc.exists) {
+            if (questionEl) questionEl.innerText = "No active poll today.";
+            if (container) container.innerHTML = "";
+            currentPollData = null; // Reset if doc deleted
+            return;
         }
+
+        const data = doc.data();
+        
+        // 🚨 CRITICAL FIX: Update the global variable
+        currentPollData = data; 
+
+        // 2. CHECK VOTE STATUS (For Button Glow)
+        let hasVoted = false;
+        if (data.votes && data.votes[currentUser.uid] !== undefined) hasVoted = true;
+        else if (data.voters && data.voters.includes(currentUser.uid)) hasVoted = true;
+
+        if (pollBtn) {
+            if (hasVoted) pollBtn.classList.add('voted');
+            else pollBtn.classList.remove('voted');
+        }
+
+        // 3. RENDER MODAL CONTENT
+        if (!questionEl || !container) return; 
+
+        questionEl.innerText = data.question;
+        const totalVotes = data.totalVotes || 0;
+        if (votesEl) votesEl.innerText = `${totalVotes} Votes`;
+
+        let html = '';
+        const myVoteIndex = data.votes ? data.votes[currentUser.uid] : undefined;
+        const showResults = hasVoted || (currentUser && typeof ADMIN_UIDS !== 'undefined' && ADMIN_UIDS.includes(currentUser.uid));
+
+        data.options.forEach((opt, index) => {
+            const voteCount = data.counts ? (data.counts[index] || 0) : 0;
+            const percent = totalVotes > 0 ? Math.round((voteCount / totalVotes) * 100) : 0;
+            const isSelected = myVoteIndex === index ? 'voted' : '';
+
+            html += `
+            <div class="poll-option-btn ${isSelected}" onclick="submitVote(${index})" style="${hasVoted ? 'pointer-events:none;' : ''}">
+                <div class="poll-fill-bar" style="width: ${showResults ? percent : 0}%"></div>
+                <div class="poll-text-wrapper">
+                    <span>${opt}</span>
+                    ${showResults ? `<span>${percent}%</span>` : ''}
+                </div>
+            </div>`;
+        });
+
+        container.innerHTML = html;
+    });
+}
 
         function submitVote(optionIndex) {
-            if (!currentUser) return showToast("Please login to vote.");
+    if (!currentUser) return showToast("Please login to vote.");
 
-            // Optimistic check: prevent double clicks visually, DB rules handles logic
-            if (currentPollData.votes && currentPollData.votes[currentUser.uid] !== undefined) {
-                return showToast("You already voted today!");
-            }
+    // 1. SAFETY CHECK: Ensure poll data exists
+    if (!currentPollData) {
+        console.error("Poll data not loaded yet.");
+        return showToast("Poll is loading, please wait...");
+    }
 
-            const pollRef = db.collection('system').doc('daily_poll');
+    // 2. SAFETY CHECK: Ensure 'votes' object exists (Initialize if missing)
+    const votesMap = currentPollData.votes || {}; 
 
-            // 1. Register who voted for what
-            const voteKey = `votes.${currentUser.uid}`;
+    // 3. Optimistic check using safe variable
+    if (votesMap[currentUser.uid] !== undefined) {
+        return showToast("You already voted today!");
+    }
 
-            db.runTransaction(async (t) => {
-                const doc = await t.get(pollRef);
-                const data = doc.data();
+    const pollRef = db.collection('system').doc('daily_poll');
 
-                if (data.votes && data.votes[currentUser.uid] !== undefined) {
-                    throw "Already voted";
-                }
+    db.runTransaction(async (t) => {
+        const doc = await t.get(pollRef);
+        if (!doc.exists) throw "Poll does not exist";
 
-                const newCounts = data.counts || new Array(data.options.length).fill(0);
-                newCounts[optionIndex] = (newCounts[optionIndex] || 0) + 1;
+        const data = doc.data();
+        const safeVotes = data.votes || {}; // Double safety inside transaction
 
-                t.update(pollRef, {
-                    [`votes.${currentUser.uid}`]: optionIndex,
-                    counts: newCounts,
-                    totalVotes: firebase.firestore.FieldValue.increment(1)
-                });
-            }).then(() => {
-                showToast("Vote cast!");
-            }).catch(e => {
-                if (e === "Already voted") showToast("You already voted.");
-                else console.error(e);
-            });
+        if (safeVotes[currentUser.uid] !== undefined) {
+            throw "Already voted";
         }
 
+        const newCounts = data.counts || new Array(data.options.length).fill(0);
+        newCounts[optionIndex] = (newCounts[optionIndex] || 0) + 1;
+
+        t.update(pollRef, {
+            [`votes.${currentUser.uid}`]: optionIndex,
+            counts: newCounts,
+            totalVotes: firebase.firestore.FieldValue.increment(1)
+        });
+    }).then(() => {
+        showToast("Vote cast!");
+    }).catch(e => {
+        if (e === "Already voted") showToast("You already voted.");
+        else {
+            console.error(e);
+            showToast("Error processing vote.");
+        }
+    });
+}
         // --- ADMIN ONLY FUNCTIONS ---
 
         // --- ADMIN ONLY FUNCTIONS ---
@@ -5208,6 +5422,7 @@
                     navRight.children[0].children[0].classList.remove('hidden');
                     navRight.children[0].children[1].classList.remove('hidden');
 
+                    loadActivePoll();
                     initMessageBadgeListener();
                     updateUserInfo();
                     loadDevUsers();
@@ -5327,70 +5542,86 @@
         }
 
         function handleRegister(e) {
-            e.preventDefault();
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerText;
+    e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerText;
 
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Creating Account...";
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Creating Account...";
 
-            // 1. Get Values
-            const isAnon = document.getElementById('regAnon').checked;
-            const name = document.getElementById('regName').value.trim();
-            const email = document.getElementById('regEmail').value.trim().toLowerCase();
-            const password = document.getElementById('regPass').value; // Store raw password
-            const year = document.getElementById('regYear').value;
-            const college = document.getElementById('regCollege').value;
-            const role = "student";
+    // 1. Get Values
+    const isAnon = document.getElementById('regAnon').checked;
+    const name = document.getElementById('regName').value.trim();
+    const email = document.getElementById('regEmail').value.trim().toLowerCase();
+    const password = document.getElementById('regPass').value; 
+    const age = document.getElementById('regAge').value;
+    const gender = document.getElementById('regGender').value;
+    const year = document.getElementById('regYear').value;
+    const college = document.getElementById('regCollege').value;
+    
+    // --- NEW: CAPTURE SELECTED ROLE ---
+    const role = document.getElementById('regRole').value; 
+    // ----------------------------------
 
-            if (!password || password.length < 6) {
-                alert("Password must be at least 6 characters.");
-                submitBtn.disabled = false;
+    if (!password || password.length < 6) {
+        alert("Password must be at least 6 characters.");
+        submitBtn.disabled = false;
+        submitBtn.innerText = originalText;
+        return;
+    }
+
+    const performRegistration = (base64Pic) => {
+        const newUserId = "user_" + Date.now();
+
+        // Collect Work Experience (if any)
+        const workExpInputs = document.querySelectorAll('.exp-input');
+        const expertise = [];
+        workExpInputs.forEach(input => {
+            if(input.value.trim()) expertise.push(input.value.trim());
+        });
+
+        const newUser = {
+            userId: newUserId,
+            name: name,
+            email: email,
+            role: role, // <--- SAVES 'student' OR 'mentor'
+            year: year,
+            college: college,
+            age: age,
+            gender: gender,
+            profilePic: base64Pic || "",
+            expertise: expertise, // Save work experience
+            isVerified: false,
+            score: 0, // Initialize score
+            createdAt: new Date(),
+            password: password 
+        };
+
+        // 2. Save to Firestore
+        db.collection('users').doc(newUserId).set(newUser)
+            .then(() => {
+                if (typeof showToast === 'function') showToast("Account created!");
+                // 3. Log them in immediately
+                simulateLogin(newUserId, isAnon);
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error: " + err.message);
                 submitBtn.innerText = originalText;
-                return;
-            }
+                submitBtn.disabled = false;
+            });
+    };
 
-            const performRegistration = (base64Pic) => {
-                const newUserId = "user_" + Date.now();
-
-                const newUser = {
-                    userId: newUserId,
-                    name: name,
-                    email: email,
-                    year: year,
-                    role: role,
-                    college: college,
-                    profilePic: base64Pic || "",
-                    isVerified: false,
-                    createdAt: new Date(),
-                    password: password // CRITICAL: Saving password to DB for verification
-                };
-
-                // 2. Save to Firestore
-                db.collection('users').doc(newUserId).set(newUser)
-                    .then(() => {
-                        if (typeof showToast === 'function') showToast("Account created!");
-                        // 3. Log them in immediately
-                        simulateLogin(newUserId, isAnon);
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        alert("Error: " + err.message);
-                        submitBtn.innerText = originalText;
-                        submitBtn.disabled = false;
-                    });
-            };
-
-            // 4. Handle File Upload
-            const fileInput = document.getElementById('regFile');
-            if (fileInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = function (e) { performRegistration(e.target.result); };
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                performRegistration(null);
-            }
-        }
+    // 4. Handle File Upload
+    const fileInput = document.getElementById('regFile');
+    if (fileInput.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function (e) { performRegistration(e.target.result); };
+        reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        performRegistration(null);
+    }
+}
         /* --- TOGGLE PASSWORD VISIBILITY --- */
         function togglePasswordVisibility(inputId, iconDiv) {
             const input = document.getElementById(inputId);
@@ -6237,20 +6468,51 @@
 
         // --- EXPLORE & SEARCH ---
         function loadMentors() {
-            const listEl = document.getElementById('searchResultsList');
-            listEl.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-secondary);">Loading available connections...</p>';
-            const usersPromise = db.collection('users').get();
-            const requestsPromise = db.collection('connection_requests').where('recipientId', '==', currentUser.uid).get();
-            const sentRequestsPromise = db.collection('connection_requests').where('senderId', '==', currentUser.uid).get();
+    const listEl = document.getElementById('searchResultsList');
+    listEl.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-secondary);">Loading connections...</p>';
+    
+    const usersPromise = db.collection('users').get();
+    const requestsPromise = db.collection('connection_requests').where('recipientId', '==', currentUser.uid).get();
+    const sentRequestsPromise = db.collection('connection_requests').where('senderId', '==', currentUser.uid).get();
 
-            Promise.all([usersPromise, requestsPromise, sentRequestsPromise]).then(([userSnap, receivedReqSnap, sentReqSnap]) => {
-                const allRequests = [...receivedReqSnap.docs, ...sentReqSnap.docs];
-                renderUserResults(userSnap, allRequests);
-            }).catch(e => {
-                listEl.innerHTML = '<p style="color:var(--danger-color); text-align:center;">Failed to load connections. Check console (Index required).</p>';
-                console.error("Error in loadMentors:", e);
+    Promise.all([usersPromise, requestsPromise, sentRequestsPromise]).then(([userSnap, receivedReqSnap, sentReqSnap]) => {
+        const allRequests = [...receivedReqSnap.docs, ...sentReqSnap.docs];
+        
+        // --- 1. FILTER LOGIC START ---
+        // Convert snapshot to array of docs
+        let filteredDocs = userSnap.docs;
+
+        // A. Filter by Role
+        if (window.exploreFilters.roles.length > 0) {
+            filteredDocs = filteredDocs.filter(doc => {
+                const r = (doc.data().role || 'student').toLowerCase();
+                return window.exploreFilters.roles.includes(r);
             });
         }
+
+        // B. Filter by Year
+        if (window.exploreFilters.years.length > 0) {
+            filteredDocs = filteredDocs.filter(doc => {
+                const y = doc.data().year;
+                return window.exploreFilters.years.includes(y);
+            });
+        }
+
+        // C. Filter by College
+        if (window.exploreFilters.colleges.length > 0) {
+            filteredDocs = filteredDocs.filter(doc => {
+                const c = doc.data().college;
+                return window.exploreFilters.colleges.includes(c);
+            });
+        }
+        // --- FILTER LOGIC END ---
+
+        renderUserResults(filteredDocs, allRequests); // Pass ARRAY, not snapshot
+    }).catch(e => {
+        listEl.innerHTML = '<p style="color:var(--danger-color); text-align:center;">Failed to load.</p>';
+        console.error("Error in loadMentors:", e);
+    });
+}
 
         function handleUserSearch(event) {
             // 1. Prevent page refresh if "Enter" is pressed
@@ -6391,7 +6653,7 @@
                 }
 
                 html += `
-                <div class="card">
+                <div class="card animate-item">
                     <div class="card-content-wrapper">
                         <img src="${profileSrc}" 
                              loading="lazy" 
@@ -6450,7 +6712,7 @@
                     recipientName: targetName,
                     status: 'pending',
                     subject: 'General Connection',
-                    message: "I'd like to connect with you on VidyaGenie!",
+                    message: "I'd like to connect with you on V-SYNC!",
                     createdAt: new Date()
                 });
             }).then(() => {
@@ -6591,94 +6853,135 @@
         // --- LOAD CHATS (Clean UI - Search Connections + Active Conversations) ---
         // --- 3. LOAD CHATS (With Green Dot & Search) ---
         function loadChats() {
-            const listEl = document.getElementById('chatsListContent');
-            const searchTerm = document.getElementById('chatSearchInput').value.toLowerCase().trim();
+    const listEl = document.getElementById('chatsListContent');
+    const searchTerm = document.getElementById('chatSearchInput').value.toLowerCase().trim();
 
-            if (!searchTerm) listEl.innerHTML = '<p style="color:var(--text-secondary); padding:15px;">Loading...</p>';
+    if (!searchTerm) listEl.innerHTML = '<p style="color:var(--text-secondary); padding:15px;">Loading...</p>';
 
-            const sentPromise = db.collection('connection_requests').where('senderId', '==', currentUser.uid).where('status', '==', 'accepted').get();
-            const receivedPromise = db.collection('connection_requests').where('recipientId', '==', currentUser.uid).where('status', '==', 'accepted').get();
-            const chatsPromise = db.collection('chats').where('participants', 'array-contains', currentUser.uid).get();
+    const sentPromise = db.collection('connection_requests').where('senderId', '==', currentUser.uid).where('status', '==', 'accepted').get();
+    const receivedPromise = db.collection('connection_requests').where('recipientId', '==', currentUser.uid).where('status', '==', 'accepted').get();
+    const chatsPromise = db.collection('chats').where('participants', 'array-contains', currentUser.uid).get();
 
-            Promise.all([sentPromise, receivedPromise, chatsPromise]).then(async ([sentSnap, recSnap, chatsSnap]) => {
-                const chatMap = {};
-                chatsSnap.forEach(doc => {
-                    const data = doc.data();
-                    const otherId = data.participants.find(id => id !== currentUser.uid);
-                    chatMap[otherId] = { ...data, id: doc.id };
-                });
+    Promise.all([sentPromise, receivedPromise, chatsPromise]).then(async ([sentSnap, recSnap, chatsSnap]) => {
+        const chatMap = {};
+        
+        // 1. Process Chats & Extract Time for Sorting
+        chatsSnap.forEach(doc => {
+            const data = doc.data();
+            const otherId = data.participants.find(id => id !== currentUser.uid);
+            
+            // Get Sort Time (Handle Firestore Timestamp or Date)
+            let sortTime = 0;
+            if (data.updatedAt && data.updatedAt.toDate) {
+                sortTime = data.updatedAt.toDate().getTime();
+            } else if (data.updatedAt) {
+                sortTime = new Date(data.updatedAt).getTime();
+            }
 
-                const connectedUserIds = new Set();
-                sentSnap.forEach(doc => connectedUserIds.add(doc.data().recipientId));
-                recSnap.forEach(doc => connectedUserIds.add(doc.data().senderId));
+            chatMap[otherId] = { 
+                ...data, 
+                id: doc.id,
+                _sortTime: sortTime // Store for sorting
+            };
+        });
 
-                const renderPromises = Array.from(connectedUserIds).map(async (otherId) => {
-                    let otherUser = null;
-                    try {
-                        const uDoc = await db.collection('users').doc(otherId).get();
-                        if (uDoc.exists) otherUser = uDoc.data();
-                    } catch (e) { }
+        // 2. Collect All Connections
+        const connectedUserIds = new Set();
+        sentSnap.forEach(doc => connectedUserIds.add(doc.data().recipientId));
+        recSnap.forEach(doc => connectedUserIds.add(doc.data().senderId));
 
-                    // FIX: If user not found, just return empty string (don't look for MOCK_USERS)
-                    if (!otherUser) return '';
+        // 3. Create a Sortable Array
+        let conversationList = Array.from(connectedUserIds).map(otherId => {
+            const chat = chatMap[otherId];
+            return {
+                otherId: otherId,
+                // If chat exists, use its time. If new connection (no chat), use 0 (bottom).
+                time: chat ? chat._sortTime : 0 
+            };
+        });
 
-                    const name = (otherUser.name || 'User').toLowerCase();
-                    if (searchTerm && !name.includes(searchTerm)) return '';
+        // 4. SORT: Descending Order (Newest First) [Instagram Style Bubble Up]
+        conversationList.sort((a, b) => b.time - a.time);
 
-                    const displayName = otherUser.name.charAt(0).toUpperCase() + otherUser.name.slice(1);
-                    const role = (otherUser.role || '').toUpperCase();
+        // 5. Render in Sorted Order
+        const renderPromises = conversationList.map(async (item) => {
+            const otherId = item.otherId;
+            
+            let otherUser = null;
+            try {
+                const uDoc = await db.collection('users').doc(otherId).get();
+                if (uDoc.exists) otherUser = uDoc.data();
+            } catch (e) { }
 
-                    // STATUS DOT
-                    let statusColor = '#636366';
-                    if (otherUser.lastSeen) {
-                        const diffMins = (new Date() - otherUser.lastSeen.toDate()) / 60000;
-                        if (diffMins < 5) statusColor = '#30D158';
-                    }
+            if (!otherUser) return '';
 
-                    // Inside loadChats function...
-                    let avatarContent = otherUser.profilePic
-                        // FIXED: Removed extra semicolons and fixed quote placement
-                        ? `<img src="${otherUser.profilePic}" loading="lazy" style="width:45px; height:45px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">`
-                        : `<div style="width:45px; height:45px; border-radius:50%; background:black; color:white; display:flex; align-items:center; justify-content:center; border:1px solid var(--border-color); font-weight:bold; font-size:18px;">${displayName.charAt(0)}</div>`;
+            const name = (otherUser.name || 'User').toLowerCase();
+            if (searchTerm && !name.includes(searchTerm)) return '';
 
-                    const avatarHtml = `
-                    <div style="position: relative; flex-shrink: 0;">
-                        ${avatarContent}
-                        <div style="position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: ${statusColor}; border: 2px solid var(--bg-card); border-radius: 50%;"></div>
-                    </div>`;
+            const displayName = otherUser.name.charAt(0).toUpperCase() + otherUser.name.slice(1);
+            const role = (otherUser.role || '').toUpperCase();
 
-                    const existingChat = chatMap[otherId];
-                    const lastMsg = existingChat ? (existingChat.lastMessage || 'Sent media') : 'Start a conversation';
-                    const msgColor = existingChat ? 'var(--text-secondary)' : 'var(--primary-color)';
-                    const chatId = existingChat ? existingChat.id : [currentUser.uid, otherId].sort().join('_');
+            // Status Dot
+            let statusColor = '#636366';
+            if (otherUser.lastSeen) {
+                const diffMins = (new Date() - otherUser.lastSeen.toDate()) / 60000;
+                if (diffMins < 5) statusColor = '#30D158';
+            }
 
-                    return `
-                    <div class="card chat-item" onclick="openInlineChat('${chatId}', '${otherId}', '${displayName}')" 
-                         style="cursor:pointer; padding: 15px; margin-bottom: 5px; display: flex; align-items: center; gap: 12px; user-select: none;"
-                         oncontextmenu="showContextMenu(event, 'chat', '${chatId}')"
-                         ontouchstart="startLongPress(event, 'chat', '${chatId}')"
-                         ontouchend="cancelLongPress()"
-                         ontouchmove="cancelLongPress()">
-                        ${avatarHtml}
-                        <div style="flex: 1; min-width: 0;">
-                            <div style="font-weight: 600; font-size: 15px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                ${displayName} <span style="font-size: 11px; color: var(--text-secondary);">(${role})</span>
-                            </div>
-                            <small style="color: ${msgColor}; display: block; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                ${lastMsg}
-                            </small>
+            let avatarContent = otherUser.profilePic
+                ? `<img src="${otherUser.profilePic}" loading="lazy" style="width:45px; height:45px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">`
+                : `<div style="width:45px; height:45px; border-radius:50%; background:black; color:white; display:flex; align-items:center; justify-content:center; border:1px solid var(--border-color); font-weight:bold; font-size:18px;">${displayName.charAt(0)}</div>`;
+
+            const avatarHtml = `
+            <div style="position: relative; flex-shrink: 0;">
+                ${avatarContent}
+                <div style="position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: ${statusColor}; border: 2px solid var(--bg-card); border-radius: 50%;"></div>
+            </div>`;
+
+            const existingChat = chatMap[otherId];
+            const hasMessage = existingChat && existingChat.lastMessage && existingChat.lastMessage.trim() !== "";
+            const lastMsg = hasMessage ? existingChat.lastMessage : 'Start a conversation';
+            const msgColor = hasMessage ? 'var(--text-secondary)' : 'var(--primary-color)';
+            const chatId = existingChat ? existingChat.id : [currentUser.uid, otherId].sort().join('_');
+
+            // Unread Check
+            const myReadTime = (existingChat && existingChat.lastRead && existingChat.lastRead[currentUser.uid]) 
+                               ? existingChat.lastRead[currentUser.uid].toDate() 
+                               : new Date(0);
+            const lastUpdate = existingChat && existingChat.updatedAt ? existingChat.updatedAt.toDate() : new Date(0);
+            const isUnread = hasMessage && (lastUpdate > myReadTime) && (existingChat.lastSenderId !== currentUser.uid);
+
+            return `
+            <div class="card chat-item animate-item" onclick="openInlineChat('${chatId}', '${otherId}', '${displayName}')" 
+                 style="cursor:pointer; padding: 15px; margin-bottom: 5px; display: flex; align-items: center; gap: 12px; user-select: none; border-left: ${isUnread ? '3px solid var(--primary-color)' : 'none'};"
+                 oncontextmenu="showContextMenu(event, 'chat', '${chatId}')"
+                 ontouchstart="startLongPress(event, 'chat', '${chatId}')"
+                 ontouchend="cancelLongPress()"
+                 ontouchmove="cancelLongPress()">
+
+                ${avatarHtml}
+                <div style="flex: 1; min-width: 0;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <div style="font-weight: 600; font-size: 15px; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            ${displayName} <span style="font-size: 11px; color: var(--text-secondary);">(${role})</span>
                         </div>
-                    </div>`;
-                });
+                        ${isUnread ? '<span style="width:8px; height:8px; background:var(--primary-color); border-radius:50%;"></span>' : ''}
+                    </div>
+                    <small style="color: ${msgColor}; display: block; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        ${lastMsg}
+                    </small>
+                </div>
+            </div>`;
+        });
 
-                const renderedItems = await Promise.all(renderPromises);
-                listEl.innerHTML = renderedItems.join('') || '<p style="color:var(--text-secondary); padding:15px;">No connections found.</p>';
+        const renderedItems = await Promise.all(renderPromises);
+        listEl.innerHTML = renderedItems.join('') || '<p style="color:var(--text-secondary); padding:15px;">No connections found.</p>';
 
-            }).catch(e => {
-                console.error(e);
-                listEl.innerHTML = '<p style="color:var(--danger-color)">Error loading chats.</p>';
-            });
-        }
+    }).catch(e => {
+        console.error(e);
+        listEl.innerHTML = '<p style="color:var(--danger-color)">Error loading chats.</p>';
+    });
+}
         // Helper: Extract dominant color from an image file object
         function getDominantColor(file) {
             return new Promise((resolve) => {
@@ -6770,32 +7073,43 @@
 
 
         function handleSendMessage(e) {
-            // ... existing code ...
-            if (!text) return;
+    // 1. CRITICAL: Stop the page from reloading immediately
+    if (e) e.preventDefault(); 
 
-            // 1. Add Message
-            db.collection('chats').doc(chatId).collection('messages').add({
-                text,
-                senderId: currentUser.uid,
-                timestamp: new Date()
-            });
+    // 2. Get Data
+    const input = document.getElementById('messageText');
+    const text = input.value.trim();
+    const chatId = document.getElementById('selectedChatId').value;
 
-            // 2. Update Chat Metadata (ADD lastSenderId)
-            db.collection('chats').doc(chatId).update({
-                lastMessage: text,
-                updatedAt: new Date(),
-                lastSenderId: currentUser.uid // <--- ADD THIS LINE
-            });
+    // 3. Validation Checks
+    if (!text) return; // Don't send empty messages
+    if (!chatId) {
+        console.error("No chat ID selected");
+        return;
+    }
+    if (!currentUser) {
+        console.error("User not logged in");
+        return;
+    }
 
-            document.getElementById('messageText').value = '';
-        }
+    // 4. Send Message to Firestore
+    db.collection('chats').doc(chatId).collection('messages').add({
+        text: text,
+        senderId: currentUser.uid,
+        timestamp: new Date()
+    }).catch(err => console.error("Error sending msg:", err));
 
-        // --- GLOBAL FILTER STATE ---
-        window.activeFilters = {
-            sortBy: 'latest', // 'latest' or 'upvotes'
-            years: [],        // ['FE', 'TE'] etc
-            tags: []          // ['Sports', 'Technical'] etc
-        };
+    // 5. Update Chat Metadata (Last Message & Sender)
+    db.collection('chats').doc(chatId).update({
+        lastMessage: text,
+        updatedAt: new Date(),
+        lastSenderId: currentUser.uid 
+    }).catch(err => console.error("Error updating chat:", err));
+
+    // 6. Clear Input
+    input.value = '';
+    input.focus(); // Keep keyboard open
+}
 
         // --- 1. LOAD COMMUNITY (Now respects filters) ---
         /* --- LOAD COMMUNITY (With Report Wall Logic) --- */
@@ -6939,7 +7253,7 @@
 
                     // Combine them into the wrapper card
                     return `
-            <div id="post-card-${p.id}" class="card" style="position: relative;">
+            <div id="post-card-${p.id}" class="card animate-item" style="position: relative;">
                 ${isReportedByMe ? wallHtml : ''} 
                 ${contentHtml}
             </div>`;
@@ -7030,6 +7344,7 @@
         };
         // --- SYNC PROFILE CHANGES TO OLD POSTS ---
         // --- SYNC PROFILE CHANGES TO OLD POSTS ---
+        /* --- FIXED SYNC FUNCTION (Protects Anonymous Posts) --- */
         async function syncUserProfileToContent() {
             if (!currentUser) return;
 
@@ -7041,24 +7356,35 @@
                 authorPic: uData.profilePic || "",
                 authorRole: uData.role || "Student",
                 authorYear: uData.year || "",
-                // NEW: Sync the theme color too
                 authorColor: uData.themeColor || "#FF5722"
             };
 
-            console.log("Syncing profile to old posts...");
+            console.log("Syncing profile...");
 
             try {
-                // 1. Find all my posts
                 const postsSnap = await db.collection('posts').where('authorId', '==', currentUser.uid).get();
-
-                // 2. Batch update them (batches allow 500 ops at once)
                 const batch = db.batch();
+                let updateCount = 0;
+
                 postsSnap.forEach(doc => {
+                    const p = doc.data();
+
+                    // 🚨 SECURITY CHECK: 
+                    // If the post was made by "Guest" (Anonymous) or explicitly flagged, DO NOT update it with real name.
+                    if (p.authorRole === 'Guest' || p.isAnonymous === true) {
+                        return; // Skip this post
+                    }
+
                     batch.update(doc.ref, updates);
+                    updateCount++;
                 });
 
-                await batch.commit();
-                console.log("Old posts updated.");
+                if (updateCount > 0) {
+                    await batch.commit();
+                    console.log(`Updated ${updateCount} public posts.`);
+                } else {
+                    console.log("No public posts to update.");
+                }
 
             } catch (e) {
                 console.error("Sync error:", e);
@@ -7115,13 +7441,13 @@
         };
 
         /* --- FILTER APPLY FIX --- */
-function applyFilters() {
-    // 1. Close the modal properly (This triggers unlockScroll)
-    closeModal('sortFilterModal'); 
-    
-    // 2. Reload the feed with the new filters
-    loadCommunity(); 
-}
+        function applyFilters() {
+            // 1. Close the modal properly (This triggers unlockScroll)
+            closeModal('sortFilterModal');
+
+            // 2. Reload the feed with the new filters
+            loadCommunity();
+        }
         function applyTheme(color) {
             document.documentElement.style.setProperty('--primary-color', color);
             // Add other variables if needed
@@ -7195,6 +7521,60 @@ function applyFilters() {
             window.activeFilters.sortBy = type;
             updateFilterUI();
         }
+        /* --- EXPLORE / MENTOR FILTER LOGIC --- */
+window.exploreFilters = {
+    roles: [],
+    years: [],
+    colleges: []
+};
+
+function openExploreSortModal() {
+    lockScroll();
+    const modal = document.getElementById('exploreFilterModal');
+    modal.classList.add('active');
+    updateExploreFilterUI();
+}
+
+function toggleExploreFilter(category, value) {
+    const list = window.exploreFilters[category];
+    const index = list.indexOf(value);
+
+    if (index > -1) list.splice(index, 1); // Remove
+    else list.push(value); // Add
+
+    updateExploreFilterUI();
+}
+
+function updateExploreFilterUI() {
+    // 1. Roles
+    ['student', 'mentor'].forEach(r => {
+        const btn = document.getElementById(`expRole_${r}`);
+        if(btn) btn.className = `filter-pill ${window.exploreFilters.roles.includes(r) ? 'active' : ''}`;
+    });
+
+    // 2. Years
+    ['FE', 'SE', 'TE', 'BE'].forEach(y => {
+        const btn = document.getElementById(`expYear_${y}`);
+        if(btn) btn.className = `filter-pill ${window.exploreFilters.years.includes(y) ? 'active' : ''}`;
+    });
+
+    // 3. Colleges
+    ['VIT', 'VSIT', 'VP'].forEach(c => {
+        const btn = document.getElementById(`expCol_${c}`);
+        if(btn) btn.className = `filter-pill ${window.exploreFilters.colleges.includes(c) ? 'active' : ''}`;
+    });
+}
+
+function clearExploreFilters() {
+    window.exploreFilters = { roles: [], years: [], colleges: [] };
+    updateExploreFilterUI();
+    loadMentors(); // Reload list
+}
+
+function applyExploreFilters() {
+    closeModal('exploreFilterModal');
+    loadMentors(); // Trigger reload with new filters
+}
 
         function toggleFilter(type, value) {
             const list = type === 'year' ? window.activeFilters.years : window.activeFilters.tags;
@@ -7300,23 +7680,29 @@ function applyFilters() {
                 const isAnon = window.currentUserData.isAnonymousSession;
                 const currentYear = isAnon ? window.currentUserData.realYear : window.currentUserData.year;
 
+                // Inside handleCreatePostSubmit...
+
                 await db.collection('posts').add({
                     title: title,
                     body: body,
                     tags: finalTags,
-                    imageUrl: fileUrl, // Now stores a short URL (e.g. https://firebasestorage...)
+                    imageUrl: fileUrl,
                     mediaType: mediaType,
 
                     authorId: window.currentUser.uid,
+
+                    // LOGIC: If Anon, use "Anonymous" / "Guest". If Public, use real data.
                     authorName: isAnon ? "Anonymous" : (window.currentUserData.name || "Anonymous"),
                     authorRole: isAnon ? "Guest" : (window.currentUserData.role || "Student"),
-                    authorYear: currentYear || "",
                     authorPic: isAnon ? "" : (window.currentUserData.profilePic || ""),
 
+                    // 🚨 NEW SAFETY FLAG
+                    isAnonymous: isAnon,
+
+                    authorYear: currentYear || "",
                     upvotes: 0,
                     upvoters: [],
                     createdAt: new Date(),
-                    // Initialize empty fields to prevent errors later
                     linkUrl: "",
                     reportCount: 0,
                     reports: []
@@ -8009,7 +8395,7 @@ function applyFilters() {
             if (navigator.share) {
                 navigator.share({
                     title: document.getElementById('profileName').textContent,
-                    text: `Check out my profile on VidyaGenie`,
+                    text: `Check out my profile on V-SYNC`,
                     url: url
                 });
             } else {
@@ -8091,105 +8477,126 @@ function applyFilters() {
         let chatMetaUnsub;
 
         /* --- OPEN CHAT (With Real-Time Seen Status) --- */
-        function openInlineChat(chatId, otherUserId, name) {
-            if (window.innerWidth <= 600) lockScroll();
+        /* --- OPEN CHAT (With Profile Pics) --- */
+function openInlineChat(chatId, otherUserId, name) {
+    if (window.innerWidth <= 600) lockScroll();
 
-            // 1. Cleanup old listeners
-            if (msgUnsub) msgUnsub();
-            if (chatMetaUnsub) chatMetaUnsub();
+    // 1. Cleanup
+    if (msgUnsub) msgUnsub();
+    if (chatMetaUnsub) chatMetaUnsub();
 
-            document.getElementById('selectedChatId').value = chatId;
+    document.getElementById('selectedChatId').value = chatId;
 
-            // 2. UI Setup
-            document.getElementById('chats').classList.add('mobile-chat-open');
-            if (window.innerWidth <= 600) document.querySelector('.tabs').style.display = 'none';
+    // 2. UI Setup
+    document.getElementById('chats').classList.add('mobile-chat-open');
+    if (window.innerWidth <= 600) document.querySelector('.tabs').style.display = 'none';
 
-            // Header Setup
-            const headerInfo = document.getElementById('chatHeaderInfo');
-            const initial = name.charAt(0).toUpperCase();
+    const headerInfo = document.getElementById('chatHeaderInfo');
+    const initial = name.charAt(0).toUpperCase();
+    
+    // --- NEW: Store messages and pic to handle async loading ---
+    let currentChatPartnerPic = null; 
+    let currentMessages = []; 
+    const cont = document.getElementById('messagesContainer');
 
-            // Fetch profile for header image
-            db.collection('users').doc(otherUserId).get().then(doc => {
-                let picHtml = `<div style="width:38px; height:38px; border-radius:50%; background:#333; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold;">${initial}</div>`;
-                let statusText = "Connecting...";
-                let statusColor = "var(--text-secondary)";
+    // 3. Fetch User Data (Header + Pic for messages)
+    db.collection('users').doc(otherUserId).get().then(doc => {
+        let picHtml = `<div style="width:38px; height:38px; border-radius:50%; background:#333; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold;">${initial}</div>`;
+        let statusText = "Connecting...";
+        let statusColor = "var(--text-secondary)";
 
-                if (doc.exists) {
-                    const u = doc.data();
-                    if (u.profilePic) picHtml = `<img src="${u.profilePic}" style="width:38px; height:38px; border-radius:50%; object-fit:cover;">`;
-                    statusText = formatLastActive(u.lastSeen);
-                    if (statusText === 'Active now') statusColor = '#30D158';
-                }
+        if (doc.exists) {
+            const u = doc.data();
+            
+            // SAVE PIC FOR MESSAGES
+            currentChatPartnerPic = u.profilePic; 
 
-                headerInfo.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 12px;">
-                ${picHtml}
-                <div style="line-height: 1.3;">
-                    <div style="font-size: 16px; font-weight: 700; color: var(--text-main);">${name}</div>
-                    <div style="font-size: 12px; color: ${statusColor};">${statusText}</div>
-                </div>
-            </div>`;
-            });
-
-            document.getElementById('sendMessageForm').classList.remove('hidden');
-            const cont = document.getElementById('messagesContainer');
-            cont.innerHTML = ''; // Clear immediately
-
-            // 3. Mark as Read immediately
-            markChatAsRead(chatId);
-
-            // 4. MESSAGE LISTENER
-            let allMessages = [];
-
-            msgUnsub = db.collection('chats').doc(chatId).collection('messages')
-                .orderBy('timestamp', 'asc')
-                .onSnapshot(snap => {
-                    // Keep marking read as new messages arrive while open
-                    if (!snap.empty) markChatAsRead(chatId);
-
-                    allMessages = snap.docs.map(d => ({ ...d.data(), id: d.id }));
-                    renderMessages(allMessages, cont, chatId);
-                    cont.scrollTop = cont.scrollHeight;
-                });
-
-            // 5. METADATA LISTENER (Watches for "Seen" updates)
-            chatMetaUnsub = db.collection('chats').doc(chatId).onSnapshot(doc => {
-                if (!doc.exists) return;
-                const data = doc.data();
-
-                // Check if other user has read messages
-                // 'lastRead' is a map: { userId: timestamp }
-                if (data.lastRead && data.lastRead[otherUserId]) {
-                    updateSeenStatus(allMessages, data.lastRead[otherUserId], cont);
-                }
-            });
+            if (u.profilePic) picHtml = `<img src="${u.profilePic}" style="width:38px; height:38px; border-radius:50%; object-fit:cover;">`;
+            statusText = formatLastActive(u.lastSeen);
+            if (statusText === 'Active now') statusColor = '#30D158';
+            
+            // Re-render messages now that we have the pic
+            if (currentMessages.length > 0) {
+                renderMessages(currentMessages, cont, chatId, currentChatPartnerPic);
+            }
         }
 
+        headerInfo.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px;">
+            ${picHtml}
+            <div style="line-height: 1.3;">
+                <div style="font-size: 16px; font-weight: 700; color: var(--text-main);">${name}</div>
+                <div style="font-size: 12px; color: ${statusColor};">${statusText}</div>
+            </div>
+        </div>`;
+    });
+
+    document.getElementById('sendMessageForm').classList.remove('hidden');
+    cont.innerHTML = ''; 
+
+    markChatAsRead(chatId);
+
+    // 4. MESSAGE LISTENER
+    msgUnsub = db.collection('chats').doc(chatId).collection('messages')
+        .orderBy('timestamp', 'asc')
+        .onSnapshot(snap => {
+            if (!snap.empty) markChatAsRead(chatId);
+
+            currentMessages = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+            
+            // Pass the pic variable here
+            renderMessages(currentMessages, cont, chatId, currentChatPartnerPic);
+            
+            cont.scrollTop = cont.scrollHeight;
+        });
+
+    // 5. SEEN STATUS LISTENER
+    chatMetaUnsub = db.collection('chats').doc(chatId).onSnapshot(doc => {
+        if (!doc.exists) return;
+        const data = doc.data();
+        if (data.lastRead && data.lastRead[otherUserId]) {
+            updateSeenStatus(currentMessages, data.lastRead[otherUserId], cont);
+        }
+    });
+}
+
         // --- HELPER: Render Messages ---
-        function renderMessages(messages, container, chatId) {
-            let html = '';
-            messages.forEach(m => {
-                const me = m.senderId === currentUser.uid;
-                let content = m.imageUrl
-                    ? (m.mediaType === 'video' ? `<video src="${m.imageUrl}" controls class="chat-image"></video>` : `<img src="${m.imageUrl}" class="chat-image" onclick="openLightbox(this.src)">`)
-                    : `<span>${m.text}</span>`;
+        /* --- RENDER MESSAGES (With Avatars) --- */
+function renderMessages(messages, container, chatId, otherPic) {
+    let html = '';
+    
+    // Helper to generate avatar HTML
+    const getAvatar = (name) => {
+        if (otherPic) return `<img src="${otherPic}" class="chat-msg-avatar">`;
+        // Fallback placeholder
+        return `<div class="chat-msg-placeholder" style="width:28px; height:28px; font-size:10px;">${name ? name.charAt(0) : '?'}</div>`;
+    };
 
-                // We add an ID to the last message sent by ME to inject the "Seen" label later
-                const msgIdAttr = `id="msg-${m.id}"`;
+    messages.forEach(m => {
+        const me = m.senderId === currentUser.uid;
+        
+        let content = m.imageUrl
+            ? (m.mediaType === 'video' ? `<video src="${m.imageUrl}" controls class="chat-image"></video>` : `<img src="${m.imageUrl}" class="chat-image" onclick="openLightbox(this.src)">`)
+            : `<span>${m.text}</span>`;
 
-                let events = me ? `oncontextmenu="showContextMenu(event, 'message', '${chatId}', '${m.id}')"` : '';
+        const msgIdAttr = `id="msg-${m.id}"`;
+        let events = me ? `oncontextmenu="showContextMenu(event, 'message', '${chatId}', '${m.id}')"` : '';
 
-                html += `
+        // Insert Avatar ONLY for 'them'
+        const avatarHtml = !me ? getAvatar("User") : '';
+
+        html += `
         <div class="chat-message-row ${me ? 'me' : 'them'}" ${msgIdAttr}>
+            ${avatarHtml}
             <div class="msg-bubble ${me ? 'msg-me' : 'msg-them'}" ${events}>
                 ${content}
             </div>
         </div>
         <div id="seen-${m.id}" class="seen-placeholder" style="width:100%; display:none;"></div>
         `;
-            });
-            container.innerHTML = html;
-        }
+    });
+    container.innerHTML = html;
+}
 
         // --- HELPER: Update Seen Status Dynamically ---
         function updateSeenStatus(messages, otherUserReadTime, container) {
@@ -8761,6 +9168,33 @@ function applyFilters() {
 
             return "Just now";
         }
+        function validateRoleOptions() {
+    const yearSelect = document.getElementById('regYear');
+    const roleSelect = document.getElementById('regRole');
+    
+    if (!yearSelect || !roleSelect) return;
+
+    const selectedYear = yearSelect.value;
+    const mentorOption = roleSelect.querySelector('option[value="mentor"]');
+
+    // Logic: If FE is selected, Disable Mentor
+    if (selectedYear === 'FE') {
+        mentorOption.disabled = true;
+        mentorOption.innerText = "Mentor (Available for SE+)"; // Helpful text
+        
+        // If they had already selected Mentor, force them back to Student
+        if (roleSelect.value === 'mentor') {
+            roleSelect.value = 'student';
+            // Optional: Alert the user
+            if(typeof showToast === 'function') showToast("Mentorship is available from Second Year onwards.");
+            else alert("First Year students cannot be mentors yet.");
+        }
+    } else {
+        // Re-enable for SE, TE, BE
+        mentorOption.disabled = false;
+        mentorOption.innerText = "Mentor";
+    }
+}
         function getYearBadgeHtml(yearCode) {
             if (!yearCode) return '';
 
