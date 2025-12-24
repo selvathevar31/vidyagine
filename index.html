@@ -1261,19 +1261,22 @@
             background: #333;
             color: #fff;
         }
-        /* Disable scrolling on the inner list so the wrapper handles it */
-#communityPostsList {
-    overflow-y: visible !important; 
-    height: auto !important;
-}
 
-/* Ensure the wrapper handles the physics */
-#communityScrollWrapper {
-    scrollbar-width: none; /* Hide scrollbar for cleaner look */
-}
-#communityScrollWrapper::-webkit-scrollbar {
-    display: none;
-}
+        /* Disable scrolling on the inner list so the wrapper handles it */
+        #communityPostsList {
+            overflow-y: visible !important;
+            height: auto !important;
+        }
+
+        /* Ensure the wrapper handles the physics */
+        #communityScrollWrapper {
+            scrollbar-width: none;
+            /* Hide scrollbar for cleaner look */
+        }
+
+        #communityScrollWrapper::-webkit-scrollbar {
+            display: none;
+        }
 
         /* 🥇 GOLD (Rank 1) */
         .rank-1 {
@@ -1434,35 +1437,67 @@
                 box-shadow: 0 0 10px rgba(255, 69, 58, 0.1);
             }
         }
+
         /* Define the keyframes */
-@keyframes slideUpFade {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
-/* Base class for items */
-.animate-item {
-    animation: slideUpFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    opacity: 0; /* Start hidden */
-}
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-/* Stagger delays for up to 10 items */
-.animate-item:nth-child(1) { animation-delay: 0.05s; }
-.animate-item:nth-child(2) { animation-delay: 0.1s; }
-.animate-item:nth-child(3) { animation-delay: 0.15s; }
-.animate-item:nth-child(4) { animation-delay: 0.2s; }
-.animate-item:nth-child(5) { animation-delay: 0.25s; }
-.animate-item:nth-child(6) { animation-delay: 0.3s; }
-.animate-item:nth-child(7) { animation-delay: 0.35s; }
-.animate-item:nth-child(8) { animation-delay: 0.4s; }
-.animate-item:nth-child(9) { animation-delay: 0.45s; }
-.animate-item:nth-child(10) { animation-delay: 0.5s; }
+        /* Base class for items */
+        .animate-item {
+            animation: slideUpFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+            /* Start hidden */
+        }
+
+        /* Stagger delays for up to 10 items */
+        .animate-item:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .animate-item:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .animate-item:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .animate-item:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .animate-item:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .animate-item:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        .animate-item:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        .animate-item:nth-child(8) {
+            animation-delay: 0.4s;
+        }
+
+        .animate-item:nth-child(9) {
+            animation-delay: 0.45s;
+        }
+
+        .animate-item:nth-child(10) {
+            animation-delay: 0.5s;
+        }
 
         /* COMPLETED POLL (Voted) */
         .poll-card.completed-poll {
@@ -1568,42 +1603,53 @@
             background: var(--glass-border);
             border-radius: 4px;
         }
+
         /* --- PULL TO REFRESH STYLES --- */
-.ptr-container {
-    position: absolute;
-    top: 40px; /* Just below header */
-    left: 0;
-    width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 5;
-    pointer-events: none; /* Let touches pass through */
-    opacity: 0;
-    transform: scale(0.8);
-    transition: opacity 0.2s, transform 0.2s;
-}
+        .ptr-container {
+            position: absolute;
+            top: 0px;
+            /* Just below header */
+            left: 0;
+            width: 100%;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            pointer-events: none;
+            /* Let touches pass through */
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.2s, transform 0.2s;
+        }
 
-.ptr-icon {
-    width: 24px;
-    height: 24px;
-    border: 2px solid var(--primary-color);
-    border-radius: 50%;
-    border-top-color: transparent; /* Makes it look like a "C" or spinner */
-    transition: transform 0.1s linear; /* Smooth rotation while pulling */
-}
+        .ptr-icon {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            border-top-color: transparent;
+            /* Makes it look like a "C" or spinner */
+            transition: transform 0.1s linear;
+            /* Smooth rotation while pulling */
+        }
 
-/* The Spinning Animation (Triggered via JS) */
-.ptr-loading .ptr-icon {
-    animation: ptrSpin 0.8s linear infinite;
-    border-top-color: transparent; /* Ensure consistent look */
-}
+        /* The Spinning Animation (Triggered via JS) */
+        .ptr-loading .ptr-icon {
+            animation: ptrSpin 0.8s linear infinite;
+            border-top-color: transparent;
+            /* Ensure consistent look */
+        }
 
-@keyframes ptrSpin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+        @keyframes ptrSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
 
 
         /* --- CHAT SCROLL FIX --- */
@@ -1895,6 +1941,63 @@
             --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* --- FILE ATTACHMENT CARD --- */
+.file-attachment-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-top: 5px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    max-width: 100%;
+    text-decoration: none; /* For the <a> wrapper */
+}
+
+.file-attachment-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+}
+
+.file-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: rgba(10, 132, 255, 0.2); /* Blue tint */
+    color: #0A84FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.file-icon-box.pdf { background: rgba(255, 69, 58, 0.2); color: #FF453A; } /* Red for PDF */
+.file-icon-box.doc { background: rgba(48, 209, 88, 0.2); color: #30D158; } /* Green for Doc */
+
+.file-info {
+    flex: 1;
+    overflow: hidden;
+    color: var(--text-main);
+}
+
+.file-name {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    line-height: 1.2;
+}
+
+.file-meta {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
         /* --- POLL ICON SPECIFIC --- */
         .daily-poll-style svg {
             width: 20px;
@@ -2332,6 +2435,64 @@
             border-color: rgba(255, 255, 255, 0.3);
         }
 
+        /* --- CLOSING ANIMATIONS --- */
+
+        /* 1. Backdrop Fade Out (Global) */
+        .modal.closing {
+            animation: fadeOutBackdrop 0.3s forwards !important;
+            pointer-events: none;
+            /* Prevent clicks while animating out */
+        }
+
+        @keyframes fadeOutBackdrop {
+            from {
+                background: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
+
+            to {
+                background: rgba(0, 0, 0, 0);
+                backdrop-filter: blur(0);
+                -webkit-backdrop-filter: blur(0);
+            }
+        }
+
+        /* 2. Desktop Closing (Scale Down & Fade) */
+        .modal.closing .modal-content {
+            animation: modalPopOut 0.3s forwards !important;
+        }
+
+        @keyframes modalPopOut {
+            from {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            to {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+        }
+
+        /* 3. Mobile Closing (Slide Down Bottom Sheet) */
+        @media (max-width: 600px) {
+            .modal.closing .modal-content {
+                /* Force override of opening animation */
+                animation: slideDownModal 0.3s cubic-bezier(0.3, 0, 0.2, 1) forwards !important;
+            }
+
+            @keyframes slideDownModal {
+                from {
+                    transform: translateY(0);
+                }
+
+                to {
+                    transform: translateY(100%);
+                }
+            }
+        }
+
         /* --- ICONS & AVATARS --- */
         .profile-circle,
         .requests-icon-style {
@@ -2581,7 +2742,7 @@
         .tab-content.active {
             display: block;
         }
-        
+
 
         /* --- MOBILE TOUCH FIXES --- */
         * {
@@ -2589,7 +2750,7 @@
             /* Removes blue box on touch */
         }
 
-        
+
 
         /* Ensure buttons don't select text on double tap */
         .btn,
@@ -4048,13 +4209,13 @@
                         </select>
                     </div>
                     <div class="form-group">
-                                <label>I am a...</label>
-                                <select id="regRole" required
-                                    style="width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 12px; font-family: inherit;">
-                                    <option value="student" selected>Student</option>
-                                    <option value="mentor">Mentor</option>
-                                </select>
-                            </div>
+                        <label>I am a...</label>
+                        <select id="regRole" required
+                            style="width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border-color); color: white; border-radius: 12px; font-family: inherit;">
+                            <option value="student" selected>Student</option>
+                            <option value="mentor">Mentor</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label>College / University</label>
                         <select id="regCollege" required
@@ -4198,30 +4359,35 @@
 
             <div id="mentors" class="tab-content">
                 <div class="card" style="margin-bottom: 20px; border: 1px solid var(--border-color); padding: 15px;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <span style="font-size:16px; font-weight:700; color:var(--text-main);">Find Connections</span>
-        
-        <button class="btn btn-secondary" onclick="openExploreSortModal()" 
-            style="padding: 6px 12px; font-size: 12px; display: flex; align-items: center; gap: 6px; border-radius: 20px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line>
-                <line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line>
-                <line x1="2" y1="14" x2="6" y2="14"></line><line x1="10" y1="8" x2="14" y2="8"></line>
-                <line x1="18" y1="16" x2="22" y2="16"></line>
-            </svg>
-            Filter
-        </button>
-    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                        <span style="font-size:16px; font-weight:700; color:var(--text-main);">Find Connections</span>
 
-    <form id="userSearchForm" onsubmit="handleUserSearch(event)" style="display:flex; gap:10px;">
-        <input type="text" id="searchInput" placeholder="Search by Name..." 
-            style="flex-grow: 1; padding: 10px 15px; border-radius: 12px;"
-            oninput="handleUserSearch(event)">
-    </form>
-</div>
+                        <button class="btn btn-secondary" onclick="openExploreSortModal()"
+                            style="padding: 6px 12px; font-size: 12px; display: flex; align-items: center; gap: 6px; border-radius: 20px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="4" y1="21" x2="4" y2="14"></line>
+                                <line x1="4" y1="10" x2="4" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12" y2="3"></line>
+                                <line x1="20" y1="21" x2="20" y2="16"></line>
+                                <line x1="20" y1="12" x2="20" y2="3"></line>
+                                <line x1="2" y1="14" x2="6" y2="14"></line>
+                                <line x1="10" y1="8" x2="14" y2="8"></line>
+                                <line x1="18" y1="16" x2="22" y2="16"></line>
+                            </svg>
+                            Filter
+                        </button>
+                    </div>
 
-<div id="searchResultsList" class="grid"></div>
+                    <form id="userSearchForm" onsubmit="handleUserSearch(event)" style="display:flex; gap:10px;">
+                        <input type="text" id="searchInput" placeholder="Search by Name..."
+                            style="flex-grow: 1; padding: 10px 15px; border-radius: 12px;"
+                            oninput="handleUserSearch(event)">
+                    </form>
+                </div>
+
+                <div id="searchResultsList" class="grid"></div>
                 <div id="searchResultsList" class="grid"></div>
             </div>
             <div id="leaderboard" class="tab-content">
@@ -4289,8 +4455,10 @@
                     </div>
 
                     <div id="messageView">
-                        <input type="file" id="chatFileInput" accept="image/*,video/*" style="display: none;"
-                            onchange="handleChatFileSelect(this)">
+                        <input type="file" id="chatFileInput" 
+       accept="image/*,video/*,.pdf,.doc,.docx,.ppt,.pptx,.txt" 
+       style="display: none;" 
+       onchange="handleChatFileSelect(this)">
 
                         <div id="chatHeader"
                             style="padding: 15px 20px; font-weight: 800; font-size: 18px; border-bottom: 1px solid var(--glass-border); background: rgba(0,0,0,0.2); display: flex; align-items: center;">
@@ -4324,80 +4492,186 @@
             </div>
 
             <div id="community" class="tab-content" style="position: relative; height: 100%;">
-    
-    <div id="ptr-visual" class="ptr-container" style="top: 0px; z-index: 0;">
-        <div class="ptr-icon"></div>
-    </div>
 
-    <div id="communityScrollWrapper" style="height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; position: relative; z-index: 1; background: transparent;">
-        
-        <div class="center-icon-wrapper" style="padding-top: 15px;">
-            <div style="display: flex; gap: 12px; align-items: center; flex-shrink: 0;">
-                <div class="sort-btn-style" onclick="openSortModal()">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line>
-                        <line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line>
-                        <line x1="2" y1="14" x2="6" y2="14"></line><line x1="10" y1="8" x2="14" y2="8"></line>
-                        <line x1="18" y1="16" x2="22" y2="16"></line>
-                    </svg>
-                    <span class="sort-btn-text">Sort</span>
+                <div id="ptr-visual" class="ptr-container" style="top: -5px; z-index: 0;">
+                    <div class="ptr-icon"></div>
                 </div>
-                <div id="createPostIcon" class="create-icon-style" onclick="openCreatePostModal()">
-                    <span style="font-size: 32px; line-height: 1; margin-bottom: 3px;">+</span>
-                    <span class="create-icon-text">Post</span>
+
+                <div id="communityScrollWrapper"
+                    style="height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-y: contain; position: relative; z-index: 1; background: transparent;">
+
+                    <div class="center-icon-wrapper" style="padding-top: 15px;">
+                        <div style="display: flex; gap: 12px; align-items: center; flex-shrink: 0;">
+                            <div class="sort-btn-style" onclick="openSortModal()">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                                    <line x1="2" y1="14" x2="6" y2="14"></line>
+                                    <line x1="10" y1="8" x2="14" y2="8"></line>
+                                    <line x1="18" y1="16" x2="22" y2="16"></line>
+                                </svg>
+                                <span class="sort-btn-text">Sort</span>
+                            </div>
+                            <div id="createPostIcon" class="create-icon-style" onclick="openCreatePostModal()">
+                                <span style="font-size: 32px; line-height: 1; margin-bottom: 3px;">+</span>
+                                <span class="create-icon-text">Post</span>
+                            </div>
+                        </div>
+
+                        <div class="daily-poll-style" onclick="openDailyPoll()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                            <span>Daily Poll</span>
+                        </div>
+                    </div>
+
+                    <div id="communityPostsList" style="margin-top: 10px; padding: 0 5px; padding-bottom: 100px;"></div>
                 </div>
             </div>
-
-            <div class="daily-poll-style" onclick="openDailyPoll()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line>
-                </svg>
-                <span>Daily Poll</span>
-            </div>
-        </div>
-
-        <div id="communityPostsList" style="margin-top: 10px; padding: 0 5px; padding-bottom: 100px;"></div>
-    </div>
-</div>
             <div id="exploreFilterModal" class="modal" style="z-index: 10002;">
-    <div class="modal-content" style="max-width: 400px; max-height: 85vh; display: flex; flex-direction: column;">
-        <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center;">
-            <span>Filter Connections</span>
-            <span class="close-modal-btn" onclick="closeModal('exploreFilterModal')" style="font-size:24px; cursor:pointer; padding:0 10px;">&times;</span>
-        </div>
+                <div class="modal-content"
+                    style="max-width: 400px; max-height: 85vh; display: flex; flex-direction: column;">
+                    <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>Filter Connections</span>
+                        <span class="close-modal-btn" onclick="closeModal('exploreFilterModal')"
+                            style="font-size:24px; cursor:pointer; padding:0 10px;">&times;</span>
+                    </div>
 
-        <div style="flex: 1; overflow-y: auto; padding-right: 5px;">
-            
-            <div class="filter-section-title">By Role</div>
-            <div style="display: flex; flex-wrap: wrap;">
-                <div class="filter-pill" id="expRole_student" onclick="toggleExploreFilter('roles', 'student')">Student</div>
-                <div class="filter-pill" id="expRole_mentor" onclick="toggleExploreFilter('roles', 'mentor')">Mentor</div>
+                    <div style="flex: 1; overflow-y: auto; padding-right: 5px;">
+
+                        <div class="filter-section-title">By Role</div>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="filter-pill" id="expRole_student"
+                                onclick="toggleExploreFilter('roles', 'student')">Student</div>
+                            <div class="filter-pill" id="expRole_mentor"
+                                onclick="toggleExploreFilter('roles', 'mentor')">Mentor</div>
+                        </div>
+
+                        <div class="filter-section-title">By Year</div>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="filter-pill" id="expYear_FE" onclick="toggleExploreFilter('years', 'FE')">FE
+                            </div>
+                            <div class="filter-pill" id="expYear_SE" onclick="toggleExploreFilter('years', 'SE')">SE
+                            </div>
+                            <div class="filter-pill" id="expYear_TE" onclick="toggleExploreFilter('years', 'TE')">TE
+                            </div>
+                            <div class="filter-pill" id="expYear_BE" onclick="toggleExploreFilter('years', 'BE')">BE
+                            </div>
+                        </div>
+
+                        <div class="filter-section-title">By College</div>
+                        <div style="display: flex; flex-wrap: wrap;">
+                            <div class="filter-pill" id="expCol_VIT" onclick="toggleExploreFilter('colleges', 'VIT')">
+                                VIT</div>
+                            <div class="filter-pill" id="expCol_VSIT" onclick="toggleExploreFilter('colleges', 'VSIT')">
+                                VSIT</div>
+                            <div class="filter-pill" id="expCol_VP" onclick="toggleExploreFilter('colleges', 'VP')">VP
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer" style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+                        <button class="btn btn-secondary" onclick="clearExploreFilters()">Clear All</button>
+                        <button class="btn btn-primary" onclick="applyExploreFilters()">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+            <div id="viewProfileModal" class="modal" style="z-index: 10050;">
+                <div class="modal-content"
+                    style="padding: 0; background: var(--bg-body); overflow-y: auto; max-height: 85vh; scrollbar-width: none; -ms-overflow-style: none;">
+
+                    <style>
+                        #viewProfileModal .modal-content::-webkit-scrollbar {
+                            display: none;
+                        }
+                    </style>
+
+                    <div
+                        style="position: relative; padding: 20px 15px; text-align: center; background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(48, 209, 88, 0.05)); border-bottom: 1px solid var(--border-color);">
+
+                        <div class="close-modal-btn" onclick="closeModal('viewProfileModal')"
+                            style="position: absolute; top: 15px; right: 15px; font-size: 24px; cursor: pointer; color: var(--text-secondary); line-height: 1;">
+                            &times;</div>
+
+                        <div id="viewProfilePicContainer"
+                            style="width: 100px; height: 100px; margin: 0 auto 10px; border-radius: 50%; border: 3px solid var(--bg-card); box-shadow: 0 5px 20px rgba(0,0,0,0.3); overflow: hidden; display: flex; align-items: center; justify-content: center; background: #333;">
+                        </div>
+
+                        <h2 id="viewProfileName"
+                            style="font-size: 20px; font-weight: 800; margin-bottom: 4px; color: var(--text-main);">User
+                            Name</h2>
+                        <span id="viewProfileBadge" class="badge" style="font-size: 10px;">STUDENT</span>
+
+                        <div id="viewProfileActions"
+                            style="margin-top: 15px; display: flex; justify-content: center; gap: 10px;">
+                        </div>
+                    </div>
+
+                    <div style="padding: 15px;">
+                        <div class="stats-grid-new" style="margin: 0 0 20px 0;">
+                            <div class="stat-card-new" style="padding: 10px 5px;">
+                                <div class="stat-number-new" id="viewStatConnections" style="font-size: 18px;">0</div>
+                                <div class="stat-label-new" style="font-size: 10px;">Connections</div>
+                            </div>
+                            <div class="stat-card-new" style="padding: 10px 5px;">
+                                <div class="stat-number-new" id="viewStatPosts" style="font-size: 18px;">0</div>
+                                <div class="stat-label-new" style="font-size: 10px;">Posts</div>
+                            </div>
+                            <div class="stat-card-new" style="padding: 10px 5px;">
+                                <div class="stat-number-new" id="viewStatScore" style="font-size: 18px;">0</div>
+                                <div class="stat-label-new" style="font-size: 10px;">Score</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h4
+                                style="font-size: 12px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 8px; font-weight: 700;">
+                                Skills</h4>
+                            <div id="viewSkillsContainer" class="skills-container-new"></div>
+                        </div>
+
+                        <div class="about-section-new" style="margin-bottom: 15px; padding: 15px;">
+                            <div class="info-row-new" style="padding: 8px 0; font-size: 13px;">
+                                <span class="info-label-new">College</span>
+                                <span class="info-value-new" id="viewInfoCollege">--</span>
+                            </div>
+                            <div class="info-row-new" style="padding: 8px 0; font-size: 13px;">
+                                <span class="info-label-new">Year</span>
+                                <span class="info-value-new" id="viewInfoYear">--</span>
+                            </div>
+                            <div class="info-row-new" style="padding: 8px 0; font-size: 13px;">
+                                <span class="info-label-new">Member Since</span>
+                                <span class="info-value-new" id="viewInfoJoined">--</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-secondary" onclick="shareViewedProfile()"
+                            style="width: 100%; font-size: 13px; padding: 10px;">Share Profile</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="filter-section-title">By Year</div>
-            <div style="display: flex; flex-wrap: wrap;">
-                <div class="filter-pill" id="expYear_FE" onclick="toggleExploreFilter('years', 'FE')">FE</div>
-                <div class="filter-pill" id="expYear_SE" onclick="toggleExploreFilter('years', 'SE')">SE</div>
-                <div class="filter-pill" id="expYear_TE" onclick="toggleExploreFilter('years', 'TE')">TE</div>
-                <div class="filter-pill" id="expYear_BE" onclick="toggleExploreFilter('years', 'BE')">BE</div>
+            <div id="savedPostsModal" class="modal">
+                <div class="modal-content" style="height: 90vh; display: flex; flex-direction: column;">
+                    <div class="modal-header">
+                        <span>Saved Posts</span>
+                        <span class="close-modal-btn" onclick="closeModal('savedPostsModal')"
+                            style="font-size:24px; cursor:pointer;">&times;</span>
+                    </div>
+                    <div id="savedPostsList" style="flex: 1; overflow-y: auto; padding-right: 5px;">
+                    </div>
+                </div>
             </div>
-
-            <div class="filter-section-title">By College</div>
-            <div style="display: flex; flex-wrap: wrap;">
-                <div class="filter-pill" id="expCol_VIT" onclick="toggleExploreFilter('colleges', 'VIT')">VIT</div>
-                <div class="filter-pill" id="expCol_VSIT" onclick="toggleExploreFilter('colleges', 'VSIT')">VSIT</div>
-                <div class="filter-pill" id="expCol_VP" onclick="toggleExploreFilter('colleges', 'VP')">VP</div>
-            </div>
-
-        </div>
-
-        <div class="modal-footer" style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">
-            <button class="btn btn-secondary" onclick="clearExploreFilters()">Clear All</button>
-            <button class="btn btn-primary" onclick="applyExploreFilters()">Apply Filters</button>
-        </div>
-    </div>
-</div>
 
             <div id="sortFilterModal" class="modal" style="z-index: 10002;">
                 <div class="modal-content"
@@ -4508,9 +4782,19 @@
                     </div>
 
                     <!-- ACTION BUTTONS -->
-                    <div class="action-buttons-new">
-                        <button class="btn-new btn-primary-new" onclick="toggleEditMode()">Edit Profile</button>
-                        <button class="btn-new btn-secondary-new" onclick="shareProfile()">Share Profile</button>
+                    <div class="action-buttons-new" style="grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <button class="btn-new btn-primary-new" onclick="toggleEditMode()">Edit</button>
+
+                        <button class="btn-new btn-secondary-new" onclick="openSavedPosts()"
+                            style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                            </svg>
+                            Saved
+                        </button>
+
+                        <button class="btn-new btn-secondary-new" onclick="shareProfile()">Share</button>
                     </div>
 
                     <!-- EDIT MODE FORM (Hidden by default) -->
@@ -4664,8 +4948,10 @@
     </div>
 
     <div id="createPostModal" class="modal">
-        <input type="file" id="postFileInput" accept="image/*,video/*" style="display: none;"
-            onchange="handlePostFileSelect()">
+       <input type="file" id="postFileInput" 
+       accept="image/*,video/*,.pdf,.doc,.docx,.ppt,.pptx,.txt" 
+       style="display: none;" 
+       onchange="handlePostFileSelect()">
 
         <div class="modal-content" style="max-width: 500px; width: 90%; overflow: visible;">
             <div class="modal-header">Create Discussion Post</div>
@@ -4927,55 +5213,55 @@
         }
 
         function loadActivePoll() {
-    const container = document.getElementById('pollOptionsContainer');
-    const questionEl = document.getElementById('pollQuestionDisplay');
-    const votesEl = document.getElementById('pollTotalVotes');
-    const pollBtn = document.querySelector('.daily-poll-style'); 
+            const container = document.getElementById('pollOptionsContainer');
+            const questionEl = document.getElementById('pollQuestionDisplay');
+            const votesEl = document.getElementById('pollTotalVotes');
+            const pollBtn = document.querySelector('.daily-poll-style');
 
-    if (container) container.innerHTML = '<p style="color:#888;">Loading...</p>';
+            if (container) container.innerHTML = '<p style="color:#888;">Loading...</p>';
 
-    if (pollUnsub) pollUnsub(); // Clear old listener
+            if (pollUnsub) pollUnsub(); // Clear old listener
 
-    pollUnsub = db.collection('system').doc('daily_poll').onSnapshot(doc => {
-        if (!doc.exists) {
-            if (questionEl) questionEl.innerText = "No active poll today.";
-            if (container) container.innerHTML = "";
-            currentPollData = null; // Reset if doc deleted
-            return;
-        }
+            pollUnsub = db.collection('system').doc('daily_poll').onSnapshot(doc => {
+                if (!doc.exists) {
+                    if (questionEl) questionEl.innerText = "No active poll today.";
+                    if (container) container.innerHTML = "";
+                    currentPollData = null; // Reset if doc deleted
+                    return;
+                }
 
-        const data = doc.data();
-        
-        // 🚨 CRITICAL FIX: Update the global variable
-        currentPollData = data; 
+                const data = doc.data();
 
-        // 2. CHECK VOTE STATUS (For Button Glow)
-        let hasVoted = false;
-        if (data.votes && data.votes[currentUser.uid] !== undefined) hasVoted = true;
-        else if (data.voters && data.voters.includes(currentUser.uid)) hasVoted = true;
+                // 🚨 CRITICAL FIX: Update the global variable
+                currentPollData = data;
 
-        if (pollBtn) {
-            if (hasVoted) pollBtn.classList.add('voted');
-            else pollBtn.classList.remove('voted');
-        }
+                // 2. CHECK VOTE STATUS (For Button Glow)
+                let hasVoted = false;
+                if (data.votes && data.votes[currentUser.uid] !== undefined) hasVoted = true;
+                else if (data.voters && data.voters.includes(currentUser.uid)) hasVoted = true;
 
-        // 3. RENDER MODAL CONTENT
-        if (!questionEl || !container) return; 
+                if (pollBtn) {
+                    if (hasVoted) pollBtn.classList.add('voted');
+                    else pollBtn.classList.remove('voted');
+                }
 
-        questionEl.innerText = data.question;
-        const totalVotes = data.totalVotes || 0;
-        if (votesEl) votesEl.innerText = `${totalVotes} Votes`;
+                // 3. RENDER MODAL CONTENT
+                if (!questionEl || !container) return;
 
-        let html = '';
-        const myVoteIndex = data.votes ? data.votes[currentUser.uid] : undefined;
-        const showResults = hasVoted || (currentUser && typeof ADMIN_UIDS !== 'undefined' && ADMIN_UIDS.includes(currentUser.uid));
+                questionEl.innerText = data.question;
+                const totalVotes = data.totalVotes || 0;
+                if (votesEl) votesEl.innerText = `${totalVotes} Votes`;
 
-        data.options.forEach((opt, index) => {
-            const voteCount = data.counts ? (data.counts[index] || 0) : 0;
-            const percent = totalVotes > 0 ? Math.round((voteCount / totalVotes) * 100) : 0;
-            const isSelected = myVoteIndex === index ? 'voted' : '';
+                let html = '';
+                const myVoteIndex = data.votes ? data.votes[currentUser.uid] : undefined;
+                const showResults = hasVoted || (currentUser && typeof ADMIN_UIDS !== 'undefined' && ADMIN_UIDS.includes(currentUser.uid));
 
-            html += `
+                data.options.forEach((opt, index) => {
+                    const voteCount = data.counts ? (data.counts[index] || 0) : 0;
+                    const percent = totalVotes > 0 ? Math.round((voteCount / totalVotes) * 100) : 0;
+                    const isSelected = myVoteIndex === index ? 'voted' : '';
+
+                    html += `
             <div class="poll-option-btn ${isSelected}" onclick="submitVote(${index})" style="${hasVoted ? 'pointer-events:none;' : ''}">
                 <div class="poll-fill-bar" style="width: ${showResults ? percent : 0}%"></div>
                 <div class="poll-text-wrapper">
@@ -4983,60 +5269,61 @@
                     ${showResults ? `<span>${percent}%</span>` : ''}
                 </div>
             </div>`;
-        });
+                });
 
-        container.innerHTML = html;
-    });
-}
+                container.innerHTML = html;
+            });
+        }
 
         function submitVote(optionIndex) {
-    if (!currentUser) return showToast("Please login to vote.");
+            triggerHaptic();
+            if (!currentUser) return showToast("Please login to vote.");
 
-    // 1. SAFETY CHECK: Ensure poll data exists
-    if (!currentPollData) {
-        console.error("Poll data not loaded yet.");
-        return showToast("Poll is loading, please wait...");
-    }
+            // 1. SAFETY CHECK: Ensure poll data exists
+            if (!currentPollData) {
+                console.error("Poll data not loaded yet.");
+                return showToast("Poll is loading, please wait...");
+            }
 
-    // 2. SAFETY CHECK: Ensure 'votes' object exists (Initialize if missing)
-    const votesMap = currentPollData.votes || {}; 
+            // 2. SAFETY CHECK: Ensure 'votes' object exists (Initialize if missing)
+            const votesMap = currentPollData.votes || {};
 
-    // 3. Optimistic check using safe variable
-    if (votesMap[currentUser.uid] !== undefined) {
-        return showToast("You already voted today!");
-    }
+            // 3. Optimistic check using safe variable
+            if (votesMap[currentUser.uid] !== undefined) {
+                return showToast("You already voted today!");
+            }
 
-    const pollRef = db.collection('system').doc('daily_poll');
+            const pollRef = db.collection('system').doc('daily_poll');
 
-    db.runTransaction(async (t) => {
-        const doc = await t.get(pollRef);
-        if (!doc.exists) throw "Poll does not exist";
+            db.runTransaction(async (t) => {
+                const doc = await t.get(pollRef);
+                if (!doc.exists) throw "Poll does not exist";
 
-        const data = doc.data();
-        const safeVotes = data.votes || {}; // Double safety inside transaction
+                const data = doc.data();
+                const safeVotes = data.votes || {}; // Double safety inside transaction
 
-        if (safeVotes[currentUser.uid] !== undefined) {
-            throw "Already voted";
+                if (safeVotes[currentUser.uid] !== undefined) {
+                    throw "Already voted";
+                }
+
+                const newCounts = data.counts || new Array(data.options.length).fill(0);
+                newCounts[optionIndex] = (newCounts[optionIndex] || 0) + 1;
+
+                t.update(pollRef, {
+                    [`votes.${currentUser.uid}`]: optionIndex,
+                    counts: newCounts,
+                    totalVotes: firebase.firestore.FieldValue.increment(1)
+                });
+            }).then(() => {
+                showToast("Vote cast!");
+            }).catch(e => {
+                if (e === "Already voted") showToast("You already voted.");
+                else {
+                    console.error(e);
+                    showToast("Error processing vote.");
+                }
+            });
         }
-
-        const newCounts = data.counts || new Array(data.options.length).fill(0);
-        newCounts[optionIndex] = (newCounts[optionIndex] || 0) + 1;
-
-        t.update(pollRef, {
-            [`votes.${currentUser.uid}`]: optionIndex,
-            counts: newCounts,
-            totalVotes: firebase.firestore.FieldValue.increment(1)
-        });
-    }).then(() => {
-        showToast("Vote cast!");
-    }).catch(e => {
-        if (e === "Already voted") showToast("You already voted.");
-        else {
-            console.error(e);
-            showToast("Error processing vote.");
-        }
-    });
-}
         // --- ADMIN ONLY FUNCTIONS ---
 
         // --- ADMIN ONLY FUNCTIONS ---
@@ -5191,32 +5478,36 @@
         }
         // --- UPLOAD HELPER ---
         function uploadFileToStorage(file) {
-            return new Promise((resolve, reject) => {
-                // Create a unique file name: timestamp_filename
-                const fileName = Date.now() + "_" + file.name;
-                const storageRef = storage.ref().child('uploads/' + fileName);
+    return new Promise((resolve, reject) => {
+        // Create a unique file name
+        const fileName = Date.now() + "_" + file.name;
+        const storageRef = storage.ref().child('uploads/' + fileName);
 
-                const uploadTask = storageRef.put(file);
+        // --- NEW: FORCE DOWNLOAD METADATA ---
+        const metadata = {
+            contentType: file.type,
+            contentDisposition: `attachment; filename="${file.name}"` 
+        };
 
-                uploadTask.on('state_changed',
-                    (snapshot) => {
-                        // Optional: You can console log progress here
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log('Upload is ' + progress + '% done');
-                    },
-                    (error) => {
-                        console.error("Upload failed:", error);
-                        reject(error);
-                    },
-                    () => {
-                        // Success! Get the URL
-                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                            resolve(downloadURL);
-                        });
-                    }
-                );
-            });
-        }
+        const uploadTask = storageRef.put(file, metadata); // <--- Pass metadata here
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+            },
+            (error) => {
+                console.error("Upload failed:", error);
+                reject(error);
+            },
+            () => {
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    resolve(downloadURL);
+                });
+            }
+        );
+    });
+}
         // --- YEAR BADGE HELPER ---
         function getYearBadgeHtml(year) {
             if (!year || year === 'undefined') return '';
@@ -5586,86 +5877,86 @@
         }
 
         function handleRegister(e) {
-    e.preventDefault();
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerText;
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
 
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Creating Account...";
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Creating Account...";
 
-    // 1. Get Values
-    const isAnon = document.getElementById('regAnon').checked;
-    const name = document.getElementById('regName').value.trim();
-    const email = document.getElementById('regEmail').value.trim().toLowerCase();
-    const password = document.getElementById('regPass').value; 
-    const age = document.getElementById('regAge').value;
-    const gender = document.getElementById('regGender').value;
-    const year = document.getElementById('regYear').value;
-    const college = document.getElementById('regCollege').value;
-    
-    // --- NEW: CAPTURE SELECTED ROLE ---
-    const role = document.getElementById('regRole').value; 
-    // ----------------------------------
+            // 1. Get Values
+            const isAnon = document.getElementById('regAnon').checked;
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim().toLowerCase();
+            const password = document.getElementById('regPass').value;
+            const age = document.getElementById('regAge').value;
+            const gender = document.getElementById('regGender').value;
+            const year = document.getElementById('regYear').value;
+            const college = document.getElementById('regCollege').value;
 
-    if (!password || password.length < 6) {
-        alert("Password must be at least 6 characters.");
-        submitBtn.disabled = false;
-        submitBtn.innerText = originalText;
-        return;
-    }
+            // --- NEW: CAPTURE SELECTED ROLE ---
+            const role = document.getElementById('regRole').value;
+            // ----------------------------------
 
-    const performRegistration = (base64Pic) => {
-        const newUserId = "user_" + Date.now();
-
-        // Collect Work Experience (if any)
-        const workExpInputs = document.querySelectorAll('.exp-input');
-        const expertise = [];
-        workExpInputs.forEach(input => {
-            if(input.value.trim()) expertise.push(input.value.trim());
-        });
-
-        const newUser = {
-            userId: newUserId,
-            name: name,
-            email: email,
-            role: role, // <--- SAVES 'student' OR 'mentor'
-            year: year,
-            college: college,
-            age: age,
-            gender: gender,
-            profilePic: base64Pic || "",
-            expertise: expertise, // Save work experience
-            isVerified: false,
-            score: 0, // Initialize score
-            createdAt: new Date(),
-            password: password 
-        };
-
-        // 2. Save to Firestore
-        db.collection('users').doc(newUserId).set(newUser)
-            .then(() => {
-                if (typeof showToast === 'function') showToast("Account created!");
-                // 3. Log them in immediately
-                simulateLogin(newUserId, isAnon);
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Error: " + err.message);
-                submitBtn.innerText = originalText;
+            if (!password || password.length < 6) {
+                alert("Password must be at least 6 characters.");
                 submitBtn.disabled = false;
-            });
-    };
+                submitBtn.innerText = originalText;
+                return;
+            }
 
-    // 4. Handle File Upload
-    const fileInput = document.getElementById('regFile');
-    if (fileInput.files.length > 0) {
-        const reader = new FileReader();
-        reader.onload = function (e) { performRegistration(e.target.result); };
-        reader.readAsDataURL(fileInput.files[0]);
-    } else {
-        performRegistration(null);
-    }
-}
+            const performRegistration = (base64Pic) => {
+                const newUserId = "user_" + Date.now();
+
+                // Collect Work Experience (if any)
+                const workExpInputs = document.querySelectorAll('.exp-input');
+                const expertise = [];
+                workExpInputs.forEach(input => {
+                    if (input.value.trim()) expertise.push(input.value.trim());
+                });
+
+                const newUser = {
+                    userId: newUserId,
+                    name: name,
+                    email: email,
+                    role: role, // <--- SAVES 'student' OR 'mentor'
+                    year: year,
+                    college: college,
+                    age: age,
+                    gender: gender,
+                    profilePic: base64Pic || "",
+                    expertise: expertise, // Save work experience
+                    isVerified: false,
+                    score: 0, // Initialize score
+                    createdAt: new Date(),
+                    password: password
+                };
+
+                // 2. Save to Firestore
+                db.collection('users').doc(newUserId).set(newUser)
+                    .then(() => {
+                        if (typeof showToast === 'function') showToast("Account created!");
+                        // 3. Log them in immediately
+                        simulateLogin(newUserId, isAnon);
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        alert("Error: " + err.message);
+                        submitBtn.innerText = originalText;
+                        submitBtn.disabled = false;
+                    });
+            };
+
+            // 4. Handle File Upload
+            const fileInput = document.getElementById('regFile');
+            if (fileInput.files.length > 0) {
+                const reader = new FileReader();
+                reader.onload = function (e) { performRegistration(e.target.result); };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                performRegistration(null);
+            }
+        }
         /* --- TOGGLE PASSWORD VISIBILITY --- */
         function togglePasswordVisibility(inputId, iconDiv) {
             const input = document.getElementById(inputId);
@@ -5876,6 +6167,119 @@
             }
             hideContextMenu();
         }
+        /* --- BOOKMARK SYSTEM --- */
+
+        // 1. Toggle Bookmark (Save/Unsave)
+        function toggleBookmark(event, postId) {
+            triggerHaptic();
+            event.stopPropagation(); // Prevent opening post details
+
+            if (!currentUser) return showToast("Login to save posts.");
+
+            const btn = event.currentTarget;
+            const isActive = btn.classList.contains('bookmarked');
+            const icon = btn.querySelector('svg');
+
+            // Optimistic UI Update (Instant Feedback)
+            if (isActive) {
+                btn.classList.remove('bookmarked');
+                btn.style.color = "var(--text-secondary)";
+                icon.style.fill = "none";
+                icon.style.stroke = "currentColor";
+
+                // DB Update
+                db.collection('users').doc(currentUser.uid).update({
+                    bookmarks: firebase.firestore.FieldValue.arrayRemove(postId)
+                }).catch(e => console.error(e));
+
+                // Local State Update
+                if (window.currentUserData.bookmarks) {
+                    window.currentUserData.bookmarks = window.currentUserData.bookmarks.filter(id => id !== postId);
+                }
+
+            } else {
+                btn.classList.add('bookmarked');
+                btn.style.color = "#FFD700"; // Gold color
+                icon.style.fill = "#FFD700";
+                icon.style.stroke = "#FFD700";
+
+                // DB Update
+                db.collection('users').doc(currentUser.uid).update({
+                    bookmarks: firebase.firestore.FieldValue.arrayUnion(postId)
+                }).then(() => showToast("Post Saved to Profile"))
+                    .catch(e => console.error(e));
+
+                // Local State Update
+                if (!window.currentUserData.bookmarks) window.currentUserData.bookmarks = [];
+                window.currentUserData.bookmarks.push(postId);
+            }
+        }
+
+        // 2. Open Saved Posts Modal
+        async function openSavedPosts() {
+            lockScroll();
+            const modal = document.getElementById('savedPostsModal');
+            const listEl = document.getElementById('savedPostsList');
+
+            modal.classList.add('active');
+            listEl.innerHTML = '<p style="text-align:center; margin-top:20px; color:#888;">Loading saved items...</p>';
+
+            const bookmarks = window.currentUserData.bookmarks || [];
+
+            if (bookmarks.length === 0) {
+                listEl.innerHTML = `
+            <div class="empty-state-new" style="margin-top:20px;">
+                <div style="font-size:30px; margin-bottom:10px;">🔖</div>
+                You haven't saved any posts yet.
+            </div>`;
+                return;
+            }
+
+            try {
+                // Fetch all bookmarked posts
+                // Note: Firestore doesn't support "where id IN huge_array" well, so we fetch by doc ID in parallel
+                const promises = bookmarks.map(id => db.collection('posts').doc(id).get());
+                const snapshots = await Promise.all(promises);
+
+                const posts = snapshots
+                    .filter(doc => doc.exists) // Remove deleted posts
+                    .map(doc => ({ ...doc.data(), id: doc.id }));
+
+                if (posts.length === 0) {
+                    listEl.innerHTML = '<p style="text-align:center; margin-top:20px; color:#888;">Saved posts may have been deleted by authors.</p>';
+                    return;
+                }
+
+                // Reuse your existing logic to render posts (Simplified for this view)
+                // We'll create a simple render loop here to avoid complexity
+                const html = posts.map(p => {
+                    const timeString = timeAgo(p.createdAt);
+                    return `
+    <div class="card" onclick="viewPost('${p.id}')" style="cursor:pointer; border:1px solid var(--border-color); padding:15px; margin-bottom:15px; transition: opacity 0.3s;">
+        <div style="font-size:11px; color:var(--text-secondary); margin-bottom:5px;">
+            Saved • Posted by ${p.authorName} • ${timeString}
+        </div>
+        <div style="font-weight:700; font-size:16px; margin-bottom:5px;">${p.title}</div>
+        <div style="font-size:14px; color:#ddd; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            ${p.body}
+        </div>
+        <div style="margin-top:10px; display:flex; justify-content:flex-end;">
+            <button class="btn btn-sm btn-secondary" 
+                    onclick="removeFromSaved(event, '${p.id}')"
+                    style="border: 1px solid var(--danger-color); color: var(--danger-color); background: rgba(255, 69, 58, 0.1);">
+                Remove
+            </button>
+        </div>
+    </div>`;
+                }).join('');
+
+                listEl.innerHTML = html;
+
+            } catch (e) {
+                console.error(e);
+                listEl.innerHTML = '<p style="color:red; text-align:center;">Error loading bookmarks.</p>';
+            }
+        }
 
         function performDeleteChat() {
             if (contextMenuTarget.type === 'chat') {
@@ -6012,34 +6416,54 @@
         }
 
         function handleChatFileSelect(input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const chatId = document.getElementById('selectedChatId').value;
 
-                // 1. Detect Type
-                const type = file.type.startsWith('video/') ? 'video' : 'image';
+        // 1. Detect Type
+        let type = 'image';
+        if (file.type.startsWith('video/')) type = 'video';
+        else if (file.type.includes('pdf') || file.type.includes('document') || file.name.match(/\.(doc|docx|ppt|pptx|txt)$/i)) type = 'document';
 
-                // 2. Limit Size (Increased to 15MB for Video Support)
-                // Firebase Storage handles large files well, but let's keep it reasonable for a demo
-                if (file.size > 15 * 1024 * 1024) {
-                    alert("File too large. Max 15MB allowed.");
-                    input.value = "";
-                    return;
-                }
-
-                // 3. Show "Uploading..." Toast (Optional but good UX)
-                if (typeof showToast === 'function') showToast("Uploading media...");
-
-                // 4. Upload to Cloud Storage -> Get URL -> Send
-                uploadFileToStorage(file).then(url => {
-                    sendChatFile(url, type);
-                }).catch(err => {
-                    alert("Upload failed: " + err.message);
-                });
-
-                input.value = "";
-            }
+        // 2. Limit Size (20MB)
+        if (file.size > 20 * 1024 * 1024) {
+            alert("File too large. Max 20MB allowed.");
+            input.value = "";
+            return;
         }
+
+        if (typeof showToast === 'function') showToast("Uploading file...");
+
+        uploadFileToStorage(file).then(url => {
+            // 3. Send Message with Metadata
+            db.collection('chats').doc(chatId).collection('messages').add({
+                imageUrl: url, // Reuse this field for file URL
+                mediaType: type,
+                fileName: file.name, // Save name
+                fileSize: file.size, // Save size
+                text: type === 'document' ? "Sent a file" : (type === 'video' ? "Sent a video" : "Sent an image"),
+                senderId: currentUser.uid,
+                timestamp: new Date()
+            });
+
+            // Update Metadata
+            let lastMsgText = "📷 Image";
+            if (type === 'video') lastMsgText = "🎥 Video";
+            if (type === 'document') lastMsgText = "📄 File";
+
+            db.collection('chats').doc(chatId).update({
+                lastMessage: lastMsgText,
+                updatedAt: new Date(),
+                lastSenderId: currentUser.uid
+            });
+
+        }).catch(err => alert("Upload failed: " + err.message));
+
+        input.value = "";
+    }
+}
         /* --- PULL TO REFRESH LOGIC --- */
+        /* --- PULL TO REFRESH LOGIC (FIXED SENSITIVITY) --- */
 function initPullToRefresh(listId, refreshCallback) {
     const list = document.getElementById(listId);
     const ptrVisual = document.getElementById('ptr-visual');
@@ -6050,79 +6474,76 @@ function initPullToRefresh(listId, refreshCallback) {
     let startY = 0;
     let isPulling = false;
     let isRefreshing = false;
-    const threshold = 120; // How far to pull to trigger (px)
-
-    // 1. TOUCH START
+    
     list.addEventListener('touchstart', (e) => {
+        // STRICT CHECK: Only enable if we are EXACTLY at the top
         if (list.scrollTop === 0 && !isRefreshing) {
             startY = e.touches[0].pageY;
             isPulling = true;
-            ptrVisual.style.transition = 'none'; // Remove transition for instant drag feel
+            ptrVisual.style.transition = 'none'; // Remove lag
+        } else {
+            isPulling = false;
         }
     }, { passive: true });
 
-    // 2. TOUCH MOVE
     list.addEventListener('touchmove', (e) => {
         if (!isPulling) return;
+
+        // 1. SAFETY: If the list has scrolled down AT ALL, cancel pull immediately
+        if (list.scrollTop > 0) {
+            isPulling = false;
+            resetPullState(); 
+            return;
+        }
 
         const currentY = e.touches[0].pageY;
         const diff = currentY - startY;
 
-        // Only activate if pulling DOWN at the top
-        if (diff > 0 && list.scrollTop <= 0) {
-            // Prevent default browser refresh/scroll behavior
+        // 2. DEAD ZONE: Ignore micro-movements (15px buffer)
+        if (diff < 15) return; 
+
+        // Only activate if pulling DOWN
+        if (diff > 0) {
+            // Prevent native browser scroll ONLY if we are definitely refreshing
             if (e.cancelable) e.preventDefault();
 
-            // Calculate "Resistance" (Rubber banding effect)
-            const moveY = Math.min(diff * 0.4, 100); // Max visual pull 100px
+            // Resistance Calculation
+            const moveY = Math.min((diff - 15) * 0.4, 100); 
             
-            // Move List Down & Show Icon
             list.style.transform = `translateY(${moveY}px)`;
-            ptrVisual.style.opacity = Math.min(moveY / 50, 1); // Fade in
+            ptrVisual.style.opacity = Math.min(moveY / 50, 1);
             ptrVisual.style.transform = `translateY(${moveY - 20}px) scale(1)`; 
-            
-            // Rotate Icon based on pull distance
             icon.style.transform = `rotate(${diff * 2}deg)`;
         }
     }, { passive: false });
 
-    // 3. TOUCH END
     list.addEventListener('touchend', () => {
         if (!isPulling) return;
         isPulling = false;
 
-        // Reset Styles
         ptrVisual.style.transition = 'transform 0.3s, opacity 0.3s';
         list.style.transition = 'transform 0.3s cubic-bezier(0.2, 1, 0.3, 1)';
 
-        // CHECK THRESHOLD via current visual position
-        // We read the current transform value or just rely on CSS logic
-        // Simplified: Check if we moved the list visually enough
+        // Check if pulled enough (Threshold: 60px)
         const currentTransform = new WebKitCSSMatrix(window.getComputedStyle(list).transform).m42;
 
         if (currentTransform > 60) {
-            // TRIGGER REFRESH
             isRefreshing = true;
             
             // Snap to "Loading" position
             list.style.transform = `translateY(50px)`; 
             ptrVisual.style.opacity = '1';
             ptrVisual.style.transform = `translateY(30px) scale(1)`;
-            ptrVisual.classList.add('ptr-loading'); // Start Spin
+            ptrVisual.classList.add('ptr-loading');
 
-            // Haptic Feedback
             if(navigator.vibrate) navigator.vibrate(10);
 
-            // Call the data function
             refreshCallback().then(() => {
-                // Done! Reset UI
                 setTimeout(() => {
                     resetPullState();
-                }, 500); // Minimal delay so user sees "Done"
+                }, 500);
             });
-
         } else {
-            // Cancel (Snap back)
             resetPullState();
         }
     });
@@ -6134,7 +6555,6 @@ function initPullToRefresh(listId, refreshCallback) {
         ptrVisual.style.transform = `translateY(0px) scale(0.8)`;
         ptrVisual.classList.remove('ptr-loading');
         
-        // Remove transition properties after animation finishes
         setTimeout(() => {
             list.style.transition = '';
             ptrVisual.style.transition = '';
@@ -6485,6 +6905,157 @@ function initPullToRefresh(listId, refreshCallback) {
                 document.getElementById('userInfo').textContent = `${displayName}`;
             }
         }
+        /* --- OPEN USER PROFILE (Global) --- */
+        let currentViewedUserId = null;
+
+        function openUserProfile(targetUserId) {
+            // 1. Prevent opening if it's me (optional: or redirect to My Profile tab)
+            if (currentUser && targetUserId === currentUser.uid) {
+                switchTab('profile');
+                return;
+            }
+
+            currentViewedUserId = targetUserId;
+            lockScroll();
+
+            const modal = document.getElementById('viewProfileModal');
+            modal.classList.add('active');
+
+            // Reset UI
+            document.getElementById('viewProfilePicContainer').innerHTML = '...';
+            document.getElementById('viewProfileName').innerText = 'Loading...';
+            document.getElementById('viewProfileActions').innerHTML = '<button class="btn btn-secondary" disabled>Checking status...</button>';
+            document.getElementById('viewSkillsContainer').innerHTML = '';
+
+            // 2. Fetch User Data
+            db.collection('users').doc(targetUserId).get().then(async (doc) => {
+                if (!doc.exists) {
+                    alert("User not found.");
+                    closeModal('viewProfileModal');
+                    return;
+                }
+
+                const u = doc.data();
+
+                // RENDER HEADER
+                document.getElementById('viewProfileName').innerHTML = u.name + (u.isVerified ? ' <span style="color:#30D158">✔</span>' : '');
+
+                // Render Badge
+                const badge = document.getElementById('viewProfileBadge');
+                if (u.role === 'mentor') {
+                    badge.innerText = u.isVerified ? "VERIFIED MENTOR" : "MENTOR";
+                    badge.className = u.isVerified ? "badge badge-verified" : "badge";
+                    badge.style.background = u.isVerified ? "rgba(48, 209, 88, 0.2)" : "rgba(255,255,255,0.1)";
+                    badge.style.color = u.isVerified ? "#30D158" : "#ccc";
+                } else {
+                    badge.innerText = "STUDENT";
+                    badge.className = "badge";
+                    badge.style.background = "rgba(255,255,255,0.1)";
+                    badge.style.color = "#ccc";
+                }
+
+                // Render Pic
+                const picContainer = document.getElementById('viewProfilePicContainer');
+                if (u.profilePic) {
+                    picContainer.innerHTML = `<img src="${u.profilePic}" style="width:100%; height:100%; object-fit:cover;">`;
+                } else {
+                    picContainer.innerHTML = `<div style="font-size:40px; color:#888; font-weight:bold;">${u.name.charAt(0).toUpperCase()}</div>`;
+                }
+
+                // Render Info
+                document.getElementById('viewInfoCollege').innerText = u.college || "N/A";
+                document.getElementById('viewInfoYear').innerText = u.year || "N/A";
+                if (u.joinedDate) {
+                    const d = u.joinedDate.toDate ? u.joinedDate.toDate() : new Date(u.joinedDate);
+                    document.getElementById('viewInfoJoined').innerText = d.toLocaleDateString();
+                }
+
+                // Render Skills
+                const skillsContainer = document.getElementById('viewSkillsContainer');
+                if (u.skills && u.skills.length > 0) {
+                    skillsContainer.innerHTML = u.skills.map(s => `<span class="skill-tag-new">${s}</span>`).join('');
+                } else {
+                    skillsContainer.innerHTML = '<span style="color:#666; font-size:13px;">No skills listed.</span>';
+                }
+
+                // 3. Fetch Stats (Async)
+                // Posts
+                db.collection('posts').where('authorId', '==', targetUserId).get().then(snap => {
+                    document.getElementById('viewStatPosts').innerText = snap.size;
+                });
+                // Score (already in user doc usually, but fallback to 0)
+                document.getElementById('viewStatScore').innerText = u.score || 0;
+
+                // Connections Count
+                const sentP = db.collection('connection_requests').where('senderId', '==', targetUserId).where('status', '==', 'accepted').get();
+                const recP = db.collection('connection_requests').where('recipientId', '==', targetUserId).where('status', '==', 'accepted').get();
+                Promise.all([sentP, recP]).then(([s, r]) => {
+                    document.getElementById('viewStatConnections').innerText = s.size + r.size;
+                });
+
+                // 4. DETERMINE CONNECTION STATUS (The Logic)
+                const actionsDiv = document.getElementById('viewProfileActions');
+
+                // Check Sent Request
+                const sentCheck = await db.collection('connection_requests')
+                    .where('senderId', '==', currentUser.uid)
+                    .where('recipientId', '==', targetUserId).get();
+
+                // Check Received Request
+                const recCheck = await db.collection('connection_requests')
+                    .where('recipientId', '==', currentUser.uid)
+                    .where('senderId', '==', targetUserId).get();
+
+                let html = '';
+
+                if (!sentCheck.empty) {
+                    const req = sentCheck.docs[0].data();
+                    if (req.status === 'pending') {
+                        html = `<button class="btn btn-disabled" disabled>Requested</button> 
+                        <button class="btn btn-secondary" onclick="cancelRequest('${sentCheck.docs[0].id}')">Cancel</button>`;
+                    } else if (req.status === 'accepted') {
+                        html = `<button class="btn btn-primary" onclick="goToChatFromModal('${targetUserId}', '${encodeURIComponent(u.name)}')">Message</button>
+                        <button class="btn btn-danger" onclick="unfriend('${targetUserId}', '${sentCheck.docs[0].id}')">Unfriend</button>`;
+                    } else {
+                        // Rejected, allow retry?
+                        html = `<button class="btn btn-primary" onclick="sendInstantConnectionRequest('${targetUserId}', this)">Connect</button>`;
+                    }
+                }
+                else if (!recCheck.empty) {
+                    const req = recCheck.docs[0].data();
+                    const reqId = recCheck.docs[0].id;
+                    if (req.status === 'pending') {
+                        html = `<button class="btn btn-primary" onclick="updateRequest('${reqId}','accepted','${targetUserId}')">Accept</button>
+                        <button class="btn btn-danger" onclick="updateRequest('${reqId}','rejected')">Decline</button>`;
+                    } else if (req.status === 'accepted') {
+                        html = `<button class="btn btn-primary" onclick="goToChatFromModal('${targetUserId}', '${encodeURIComponent(u.name)}')">Message</button>
+                        <button class="btn btn-danger" onclick="unfriend('${targetUserId}', '${reqId}')">Unfriend</button>`;
+                    } else {
+                        html = `<button class="btn btn-primary" onclick="sendInstantConnectionRequest('${targetUserId}', this)">Connect</button>`;
+                    }
+                }
+                else {
+                    // No connection exists
+                    html = `<button class="btn btn-primary" style="padding: 10px 30px;" onclick="sendInstantConnectionRequest('${targetUserId}', this)">Connect</button>`;
+                }
+
+                actionsDiv.innerHTML = html;
+
+            }).catch(e => console.error(e));
+        }
+
+        function shareViewedProfile() {
+            const name = document.getElementById('viewProfileName').innerText;
+            if (navigator.share) {
+                navigator.share({
+                    title: `Check out ${name} on V-SYNC`,
+                    text: `Connect with ${name}, a student on V-SYNC!`,
+                    url: window.location.href
+                });
+            } else {
+                alert("Sharing not supported on this device.");
+            }
+        }
 
 
         // --- CONNECTIONS MODAL ---
@@ -6508,66 +7079,67 @@ function initPullToRefresh(listId, refreshCallback) {
                     return;
                 }
 
-                // Map docs to a list of Promises to fetch user details
                 const renderPromises = allDocs.map(async (doc) => {
                     const data = doc.data();
                     let otherId;
 
-                    // Determine who the "other" person is
                     if (data.senderId === currentUser.uid) {
                         otherId = data.recipientId;
                     } else {
                         otherId = data.senderId;
                     }
 
-                    // Fetch their latest profile data
-                    let otherUser = {};
+                    // Fetch profile data
+                    let otherUser = null;
                     try {
                         const userSnap = await db.collection('users').doc(otherId).get();
-                        if (userSnap.exists) otherUser = userSnap.data();
-                    } catch (e) { console.error(e); }
+                        if (userSnap.exists) {
+                            otherUser = userSnap.data();
+                        } else {
+                            return ''; // User deleted, skip rendering
+                        }
+                    } catch (e) {
+                        console.error("Error fetching user:", e);
+                        return ''; // Skip on error
+                    }
 
-                    // Fallback Name
-                    const displayName = (otherUser.name || data.senderName || "Unknown").charAt(0).toUpperCase() + (otherUser.name || data.senderName || "User").slice(1);
+                    const rawName = otherUser.name || "Unknown User";
+                    const displayName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
                     const safeNameEncoded = encodeURIComponent(displayName);
 
-                    // Badges
                     const role = (otherUser.role || "Student").charAt(0).toUpperCase() + (otherUser.role || "Student").slice(1);
-                    const yearBadge = getYearBadgeHtml(otherUser.year);
+                    const yearBadge = getYearBadgeHtml(otherUser.year); // Helper function must exist
 
-                    // Avatar Logic
                     let avatarHtml;
                     if (otherUser.profilePic) {
-                        avatarHtml = `<img src="${otherUser.profilePic}" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">`;
+                        avatarHtml = `<img src="${otherUser.profilePic}" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color); cursor:pointer;" onclick="openUserProfile('${otherId}')">`;
                     } else {
                         const initial = displayName.charAt(0);
-                        avatarHtml = `<div style="width:40px; height:40px; border-radius:50%; background:#333; display:flex; align-items:center; justify-content:center; color:#ccc; font-weight:bold; font-size:16px; border:1px solid var(--border-color);">${initial}</div>`;
+                        avatarHtml = `<div style="width:40px; height:40px; border-radius:50%; background:#333; display:flex; align-items:center; justify-content:center; color:#ccc; font-weight:bold; font-size:16px; border:1px solid var(--border-color); cursor:pointer;" onclick="openUserProfile('${otherId}')">${initial}</div>`;
                     }
 
                     return `
-                    <div class="card" style="margin-bottom: 10px; padding: 15px;">
-                        
-                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-                            ${avatarHtml}
-                            <div>
-                                <div style="color:var(--text-main); font-weight:700; font-size:15px; line-height:1.2;">
-                                    ${displayName}
-                                </div>
-                                <div style="display:flex; align-items:center; gap:5px; margin-top:2px;">
-                                    <span class="badge badge-verified" style="font-size:9px; padding:1px 6px;">${role}</span>
-                                    ${yearBadge}
-                                </div>
-                            </div>
+            <div class="card" style="margin-bottom: 10px; padding: 15px;">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                    ${avatarHtml}
+                    <div>
+                        <div style="color:var(--text-main); font-weight:700; font-size:15px; line-height:1.2; cursor:pointer;" onclick="openUserProfile('${otherId}')">
+                            ${displayName}
                         </div>
+                        <div style="display:flex; align-items:center; gap:5px; margin-top:2px;">
+                            <span class="badge badge-verified" style="font-size:9px; padding:1px 6px;">${role}</span>
+                            ${yearBadge}
+                        </div>
+                    </div>
+                </div>
 
-                        <div style="display:flex; gap:10px;">
-                            <button class="btn btn-primary" style="flex:1; padding:8px; font-size:13px;" onclick="goToChatFromModal('${otherId}', '${safeNameEncoded}')">Message</button>
-                            <button class="btn btn-danger" style="padding:8px; font-size:13px;" onclick="unfriend('${otherId}', '${doc.id}')">Unfriend</button>
-                        </div>
-                    </div>`;
+                <div style="display:flex; gap:10px;">
+                    <button class="btn btn-primary" style="flex:1; padding:8px; font-size:13px;" onclick="goToChatFromModal('${otherId}', '${safeNameEncoded}')">Message</button>
+                    <button class="btn btn-danger" style="padding:8px; font-size:13px;" onclick="unfriend('${otherId}', '${doc.id}')">Unfriend</button>
+                </div>
+            </div>`;
                 });
 
-                // Wait for all user profiles to load
                 const renderedItems = await Promise.all(renderPromises);
                 listEl.innerHTML = renderedItems.join('');
 
@@ -6614,51 +7186,51 @@ function initPullToRefresh(listId, refreshCallback) {
 
         // --- EXPLORE & SEARCH ---
         function loadMentors() {
-    const listEl = document.getElementById('searchResultsList');
-    listEl.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-secondary);">Loading connections...</p>';
-    
-    const usersPromise = db.collection('users').get();
-    const requestsPromise = db.collection('connection_requests').where('recipientId', '==', currentUser.uid).get();
-    const sentRequestsPromise = db.collection('connection_requests').where('senderId', '==', currentUser.uid).get();
+            const listEl = document.getElementById('searchResultsList');
+            listEl.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: var(--text-secondary);">Loading connections...</p>';
 
-    Promise.all([usersPromise, requestsPromise, sentRequestsPromise]).then(([userSnap, receivedReqSnap, sentReqSnap]) => {
-        const allRequests = [...receivedReqSnap.docs, ...sentReqSnap.docs];
-        
-        // --- 1. FILTER LOGIC START ---
-        // Convert snapshot to array of docs
-        let filteredDocs = userSnap.docs;
+            const usersPromise = db.collection('users').get();
+            const requestsPromise = db.collection('connection_requests').where('recipientId', '==', currentUser.uid).get();
+            const sentRequestsPromise = db.collection('connection_requests').where('senderId', '==', currentUser.uid).get();
 
-        // A. Filter by Role
-        if (window.exploreFilters.roles.length > 0) {
-            filteredDocs = filteredDocs.filter(doc => {
-                const r = (doc.data().role || 'student').toLowerCase();
-                return window.exploreFilters.roles.includes(r);
+            Promise.all([usersPromise, requestsPromise, sentRequestsPromise]).then(([userSnap, receivedReqSnap, sentReqSnap]) => {
+                const allRequests = [...receivedReqSnap.docs, ...sentReqSnap.docs];
+
+                // --- 1. FILTER LOGIC START ---
+                // Convert snapshot to array of docs
+                let filteredDocs = userSnap.docs;
+
+                // A. Filter by Role
+                if (window.exploreFilters.roles.length > 0) {
+                    filteredDocs = filteredDocs.filter(doc => {
+                        const r = (doc.data().role || 'student').toLowerCase();
+                        return window.exploreFilters.roles.includes(r);
+                    });
+                }
+
+                // B. Filter by Year
+                if (window.exploreFilters.years.length > 0) {
+                    filteredDocs = filteredDocs.filter(doc => {
+                        const y = doc.data().year;
+                        return window.exploreFilters.years.includes(y);
+                    });
+                }
+
+                // C. Filter by College
+                if (window.exploreFilters.colleges.length > 0) {
+                    filteredDocs = filteredDocs.filter(doc => {
+                        const c = doc.data().college;
+                        return window.exploreFilters.colleges.includes(c);
+                    });
+                }
+                // --- FILTER LOGIC END ---
+
+                renderUserResults(filteredDocs, allRequests); // Pass ARRAY, not snapshot
+            }).catch(e => {
+                listEl.innerHTML = '<p style="color:var(--danger-color); text-align:center;">Failed to load.</p>';
+                console.error("Error in loadMentors:", e);
             });
         }
-
-        // B. Filter by Year
-        if (window.exploreFilters.years.length > 0) {
-            filteredDocs = filteredDocs.filter(doc => {
-                const y = doc.data().year;
-                return window.exploreFilters.years.includes(y);
-            });
-        }
-
-        // C. Filter by College
-        if (window.exploreFilters.colleges.length > 0) {
-            filteredDocs = filteredDocs.filter(doc => {
-                const c = doc.data().college;
-                return window.exploreFilters.colleges.includes(c);
-            });
-        }
-        // --- FILTER LOGIC END ---
-
-        renderUserResults(filteredDocs, allRequests); // Pass ARRAY, not snapshot
-    }).catch(e => {
-        listEl.innerHTML = '<p style="color:var(--danger-color); text-align:center;">Failed to load.</p>';
-        console.error("Error in loadMentors:", e);
-    });
-}
 
         function handleUserSearch(event) {
             // 1. Prevent page refresh if "Enter" is pressed
@@ -6718,7 +7290,6 @@ function initPullToRefresh(listId, refreshCallback) {
         }
 
         function renderUserResults(snapshot, allRequests = []) {
-
             const listEl = document.getElementById('searchResultsList');
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             let html = '';
@@ -6758,7 +7329,7 @@ function initPullToRefresh(listId, refreshCallback) {
                 const profileSrc = user.profilePic || DEFAULT_PIC;
                 const role = (user.role || 'N/A').toUpperCase();
 
-                // 1. Verification Badge Logic
+                // 1. Badge Logic
                 let badgeHtml = '';
                 if (user.role === 'mentor' && user.isVerified) {
                     badgeHtml = `<span class="badge badge-verified" style="margin-left:5px;">MENTOR ✔</span>`;
@@ -6766,66 +7337,66 @@ function initPullToRefresh(listId, refreshCallback) {
                     badgeHtml = `<span class="badge" style="margin-left:5px; background:rgba(255,255,255,0.1); color:#999; border:1px solid var(--border-color);">${role}</span>`;
                 }
 
-                // 2. Experience / Headline Logic (LinkedIn Style)
+                // 2. Subtext Logic
                 let subtextHtml = '';
                 if (user.expertise && Array.isArray(user.expertise) && user.expertise.length > 0) {
-                    // Join array with Pipe separator
                     const expString = user.expertise.join(' | ');
                     subtextHtml = `<p style="font-size:13px; color:var(--text-secondary); margin-top:2px; line-height:1.4;">${expString}</p>`;
                 } else {
-                    // Fallback for students or empty profiles
                     const fallbackText = user.role === 'student' ? `Student • ${user.year || 'N/A'}` : 'No experience listed';
                     subtextHtml = `<p style="font-size:13px; color:var(--text-secondary); margin-top:2px;">${fallbackText}</p>`;
                 }
 
-                // 3. Button State
+                // 3. Button Logic
                 let buttonHtml;
                 const existingRequest = requestMap.get(targetUserId);
 
                 if (existingRequest) {
                     if (existingRequest.senderId === currentUser.uid) {
                         buttonHtml = `
-                        <button class="btn btn-disabled" style="width:100%" disabled>Requested</button>
-                        <button class="btn btn-danger" style="width:100%; margin-top:10px;" onclick="cancelRequest('${existingRequest.docId}')">Cancel</button>`;
+                <button class="btn btn-disabled" style="width:100%" disabled>Requested</button>
+                <button class="btn btn-danger" style="width:100%; margin-top:10px;" onclick="cancelRequest('${existingRequest.docId}')">Cancel</button>`;
                     } else {
                         buttonHtml = `
-                        <div style="display:flex; gap:10px; margin-top:10px;">
-                            <button class="btn btn-primary" style="flex:1" onclick="updateRequest('${existingRequest.docId}','accepted','${targetUserId}')">Accept</button>
-                            <button class="btn btn-danger" style="flex:1" onclick="updateRequest('${existingRequest.docId}','rejected')">Decline</button>
-                        </div>`;
+                <div style="display:flex; gap:10px; margin-top:10px;">
+                    <button class="btn btn-primary" style="flex:1" onclick="updateRequest('${existingRequest.docId}','accepted','${targetUserId}')">Accept</button>
+                    <button class="btn btn-danger" style="flex:1" onclick="updateRequest('${existingRequest.docId}','rejected')">Decline</button>
+                </div>`;
                     }
                 } else {
                     buttonHtml = `<button class="btn btn-primary" style="width:100%; margin-top:15px;" onclick="sendInstantConnectionRequest('${targetUserId}', this)">Connect</button>`;
                 }
 
+                // 4. HTML Generation (Added onclick events to Image and Header)
                 html += `
-                <div class="card animate-item">
-                    <div class="card-content-wrapper">
-                        <img src="${profileSrc}" 
-                             loading="lazy" 
-                             class="card-avatar" 
-                             alt="Profile" 
-                             crossorigin="anonymous" 
-                             onload="applyCardTheme(this)">
-                        <div style="width:100%; text-align:left; padding-left:10px;">
-                            
-                            <div class="card-header" style="font-size:18px; margin-bottom:4px; justify-content:flex-start; gap:8px; align-items:center;">
-                                ${displayName} 
-                                ${badgeHtml}
-                            </div>
-                            
-                            <p style="font-size:14px; color:var(--text-main); margin-bottom:2px; font-weight:500;">
-                                ${user.college || 'N/A'}
-                            </p>
-                            
-                            ${subtextHtml}
-
-                        </div>
+        <div class="card animate-item">
+            <div class="card-content-wrapper">
+                <img src="${profileSrc}" 
+                     loading="lazy" 
+                     class="card-avatar" 
+                     alt="Profile" 
+                     crossorigin="anonymous" 
+                     onload="applyCardTheme(this)"
+                     onclick="openUserProfile('${targetUserId}')" 
+                     style="cursor: pointer;">
+                
+                <div style="width:100%; text-align:left; padding-left:10px;">
+                    <div class="card-header" onclick="openUserProfile('${targetUserId}')" style="cursor:pointer; font-size:18px; margin-bottom:4px; justify-content:flex-start; gap:8px; align-items:center;">
+                        ${displayName} 
+                        ${badgeHtml}
                     </div>
-                    <div class="card-footer" style="gap: 10px; margin-top: 0;">
-                        ${buttonHtml}
-                    </div>
-                </div>`;
+                    
+                    <p style="font-size:14px; color:var(--text-main); margin-bottom:2px; font-weight:500;">
+                        ${user.college || 'N/A'}
+                    </p>
+                    
+                    ${subtextHtml}
+                </div>
+            </div>
+            <div class="card-footer" style="gap: 10px; margin-top: 0;">
+                ${buttonHtml}
+            </div>
+        </div>`;
             });
 
             listEl.innerHTML = html || '<p style="text-align:center; grid-column: 1/-1; color: var(--text-secondary);">No new users found.</p>';
@@ -6973,13 +7544,33 @@ function initPullToRefresh(listId, refreshCallback) {
         }
 
         function updateRequest(id, status, otherId) {
+            // 1. Show immediate feedback (Optional but good UX)
+            if (typeof showToast === 'function') showToast(status === 'accepted' ? "Accepting..." : "Declining...");
+
             const updatePromise = db.collection('connection_requests').doc(id).update({ status: status });
+
             if (status === 'accepted') {
-                updatePromise.then(() => createChat(otherId)).then(() => {
-                    loadRequests(); loadChats();
-                }).catch(error => { console.error(error); alert("Failed to finalize connection."); });
+                updatePromise
+                    .then(() => createChat(otherId)) // Create the chat logic
+                    .then(() => {
+                        // 2. REFRESH ALL TABS
+                        loadRequests(); // Refresh Requests Tab
+                        loadChats();    // Refresh Chats Tab
+                        loadMentors();  // <--- CRITICAL FIX: Refresh Explore Tab
+
+                        if (typeof showToast === 'function') showToast("Connection Accepted!");
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        alert("Failed to finalize connection.");
+                    });
             } else {
-                updatePromise.then(() => loadRequests());
+                // Handle Rejection
+                updatePromise.then(() => {
+                    loadRequests();
+                    loadMentors();  // <--- CRITICAL FIX: Refresh Explore Tab
+                    if (typeof showToast === 'function') showToast("Request Declined");
+                });
             }
         }
 
@@ -6999,105 +7590,105 @@ function initPullToRefresh(listId, refreshCallback) {
         // --- LOAD CHATS (Clean UI - Search Connections + Active Conversations) ---
         // --- 3. LOAD CHATS (With Green Dot & Search) ---
         function loadChats() {
-    const listEl = document.getElementById('chatsListContent');
-    const searchTerm = document.getElementById('chatSearchInput').value.toLowerCase().trim();
+            const listEl = document.getElementById('chatsListContent');
+            const searchTerm = document.getElementById('chatSearchInput').value.toLowerCase().trim();
 
-    if (!searchTerm) listEl.innerHTML = '<p style="color:var(--text-secondary); padding:15px;">Loading...</p>';
+            if (!searchTerm) listEl.innerHTML = '<p style="color:var(--text-secondary); padding:15px;">Loading...</p>';
 
-    const sentPromise = db.collection('connection_requests').where('senderId', '==', currentUser.uid).where('status', '==', 'accepted').get();
-    const receivedPromise = db.collection('connection_requests').where('recipientId', '==', currentUser.uid).where('status', '==', 'accepted').get();
-    const chatsPromise = db.collection('chats').where('participants', 'array-contains', currentUser.uid).get();
+            const sentPromise = db.collection('connection_requests').where('senderId', '==', currentUser.uid).where('status', '==', 'accepted').get();
+            const receivedPromise = db.collection('connection_requests').where('recipientId', '==', currentUser.uid).where('status', '==', 'accepted').get();
+            const chatsPromise = db.collection('chats').where('participants', 'array-contains', currentUser.uid).get();
 
-    Promise.all([sentPromise, receivedPromise, chatsPromise]).then(async ([sentSnap, recSnap, chatsSnap]) => {
-        const chatMap = {};
-        
-        // 1. Process Chats & Extract Time for Sorting
-        chatsSnap.forEach(doc => {
-            const data = doc.data();
-            const otherId = data.participants.find(id => id !== currentUser.uid);
-            
-            // Get Sort Time (Handle Firestore Timestamp or Date)
-            let sortTime = 0;
-            if (data.updatedAt && data.updatedAt.toDate) {
-                sortTime = data.updatedAt.toDate().getTime();
-            } else if (data.updatedAt) {
-                sortTime = new Date(data.updatedAt).getTime();
-            }
+            Promise.all([sentPromise, receivedPromise, chatsPromise]).then(async ([sentSnap, recSnap, chatsSnap]) => {
+                const chatMap = {};
 
-            chatMap[otherId] = { 
-                ...data, 
-                id: doc.id,
-                _sortTime: sortTime // Store for sorting
-            };
-        });
+                // 1. Process Chats & Extract Time for Sorting
+                chatsSnap.forEach(doc => {
+                    const data = doc.data();
+                    const otherId = data.participants.find(id => id !== currentUser.uid);
 
-        // 2. Collect All Connections
-        const connectedUserIds = new Set();
-        sentSnap.forEach(doc => connectedUserIds.add(doc.data().recipientId));
-        recSnap.forEach(doc => connectedUserIds.add(doc.data().senderId));
+                    // Get Sort Time (Handle Firestore Timestamp or Date)
+                    let sortTime = 0;
+                    if (data.updatedAt && data.updatedAt.toDate) {
+                        sortTime = data.updatedAt.toDate().getTime();
+                    } else if (data.updatedAt) {
+                        sortTime = new Date(data.updatedAt).getTime();
+                    }
 
-        // 3. Create a Sortable Array
-        let conversationList = Array.from(connectedUserIds).map(otherId => {
-            const chat = chatMap[otherId];
-            return {
-                otherId: otherId,
-                // If chat exists, use its time. If new connection (no chat), use 0 (bottom).
-                time: chat ? chat._sortTime : 0 
-            };
-        });
+                    chatMap[otherId] = {
+                        ...data,
+                        id: doc.id,
+                        _sortTime: sortTime // Store for sorting
+                    };
+                });
 
-        // 4. SORT: Descending Order (Newest First) [Instagram Style Bubble Up]
-        conversationList.sort((a, b) => b.time - a.time);
+                // 2. Collect All Connections
+                const connectedUserIds = new Set();
+                sentSnap.forEach(doc => connectedUserIds.add(doc.data().recipientId));
+                recSnap.forEach(doc => connectedUserIds.add(doc.data().senderId));
 
-        // 5. Render in Sorted Order
-        const renderPromises = conversationList.map(async (item) => {
-            const otherId = item.otherId;
-            
-            let otherUser = null;
-            try {
-                const uDoc = await db.collection('users').doc(otherId).get();
-                if (uDoc.exists) otherUser = uDoc.data();
-            } catch (e) { }
+                // 3. Create a Sortable Array
+                let conversationList = Array.from(connectedUserIds).map(otherId => {
+                    const chat = chatMap[otherId];
+                    return {
+                        otherId: otherId,
+                        // If chat exists, use its time. If new connection (no chat), use 0 (bottom).
+                        time: chat ? chat._sortTime : 0
+                    };
+                });
 
-            if (!otherUser) return '';
+                // 4. SORT: Descending Order (Newest First) [Instagram Style Bubble Up]
+                conversationList.sort((a, b) => b.time - a.time);
 
-            const name = (otherUser.name || 'User').toLowerCase();
-            if (searchTerm && !name.includes(searchTerm)) return '';
+                // 5. Render in Sorted Order
+                const renderPromises = conversationList.map(async (item) => {
+                    const otherId = item.otherId;
 
-            const displayName = otherUser.name.charAt(0).toUpperCase() + otherUser.name.slice(1);
-            const role = (otherUser.role || '').toUpperCase();
+                    let otherUser = null;
+                    try {
+                        const uDoc = await db.collection('users').doc(otherId).get();
+                        if (uDoc.exists) otherUser = uDoc.data();
+                    } catch (e) { }
 
-            // Status Dot
-            let statusColor = '#636366';
-            if (otherUser.lastSeen) {
-                const diffMins = (new Date() - otherUser.lastSeen.toDate()) / 60000;
-                if (diffMins < 5) statusColor = '#30D158';
-            }
+                    if (!otherUser) return '';
 
-            let avatarContent = otherUser.profilePic
-                ? `<img src="${otherUser.profilePic}" loading="lazy" style="width:45px; height:45px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">`
-                : `<div style="width:45px; height:45px; border-radius:50%; background:black; color:white; display:flex; align-items:center; justify-content:center; border:1px solid var(--border-color); font-weight:bold; font-size:18px;">${displayName.charAt(0)}</div>`;
+                    const name = (otherUser.name || 'User').toLowerCase();
+                    if (searchTerm && !name.includes(searchTerm)) return '';
 
-            const avatarHtml = `
+                    const displayName = otherUser.name.charAt(0).toUpperCase() + otherUser.name.slice(1);
+                    const role = (otherUser.role || '').toUpperCase();
+
+                    // Status Dot
+                    let statusColor = '#636366';
+                    if (otherUser.lastSeen) {
+                        const diffMins = (new Date() - otherUser.lastSeen.toDate()) / 60000;
+                        if (diffMins < 5) statusColor = '#30D158';
+                    }
+
+                    let avatarContent = otherUser.profilePic
+                        ? `<img src="${otherUser.profilePic}" loading="lazy" style="width:45px; height:45px; border-radius:50%; object-fit:cover; border:1px solid var(--border-color);">`
+                        : `<div style="width:45px; height:45px; border-radius:50%; background:black; color:white; display:flex; align-items:center; justify-content:center; border:1px solid var(--border-color); font-weight:bold; font-size:18px;">${displayName.charAt(0)}</div>`;
+
+                    const avatarHtml = `
             <div style="position: relative; flex-shrink: 0;">
                 ${avatarContent}
                 <div style="position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: ${statusColor}; border: 2px solid var(--bg-card); border-radius: 50%;"></div>
             </div>`;
 
-            const existingChat = chatMap[otherId];
-            const hasMessage = existingChat && existingChat.lastMessage && existingChat.lastMessage.trim() !== "";
-            const lastMsg = hasMessage ? existingChat.lastMessage : 'Start a conversation';
-            const msgColor = hasMessage ? 'var(--text-secondary)' : 'var(--primary-color)';
-            const chatId = existingChat ? existingChat.id : [currentUser.uid, otherId].sort().join('_');
+                    const existingChat = chatMap[otherId];
+                    const hasMessage = existingChat && existingChat.lastMessage && existingChat.lastMessage.trim() !== "";
+                    const lastMsg = hasMessage ? existingChat.lastMessage : 'Start a conversation';
+                    const msgColor = hasMessage ? 'var(--text-secondary)' : 'var(--primary-color)';
+                    const chatId = existingChat ? existingChat.id : [currentUser.uid, otherId].sort().join('_');
 
-            // Unread Check
-            const myReadTime = (existingChat && existingChat.lastRead && existingChat.lastRead[currentUser.uid]) 
-                               ? existingChat.lastRead[currentUser.uid].toDate() 
-                               : new Date(0);
-            const lastUpdate = existingChat && existingChat.updatedAt ? existingChat.updatedAt.toDate() : new Date(0);
-            const isUnread = hasMessage && (lastUpdate > myReadTime) && (existingChat.lastSenderId !== currentUser.uid);
+                    // Unread Check
+                    const myReadTime = (existingChat && existingChat.lastRead && existingChat.lastRead[currentUser.uid])
+                        ? existingChat.lastRead[currentUser.uid].toDate()
+                        : new Date(0);
+                    const lastUpdate = existingChat && existingChat.updatedAt ? existingChat.updatedAt.toDate() : new Date(0);
+                    const isUnread = hasMessage && (lastUpdate > myReadTime) && (existingChat.lastSenderId !== currentUser.uid);
 
-            return `
+                    return `
             <div class="card chat-item animate-item" onclick="openInlineChat('${chatId}', '${otherId}', '${displayName}')" 
                  style="cursor:pointer; padding: 15px; margin-bottom: 5px; display: flex; align-items: center; gap: 12px; user-select: none; border-left: ${isUnread ? '3px solid var(--primary-color)' : 'none'};"
                  oncontextmenu="showContextMenu(event, 'chat', '${chatId}')"
@@ -7118,15 +7709,32 @@ function initPullToRefresh(listId, refreshCallback) {
                     </small>
                 </div>
             </div>`;
-        });
+                });
 
-        const renderedItems = await Promise.all(renderPromises);
-        listEl.innerHTML = renderedItems.join('') || '<p style="color:var(--text-secondary); padding:15px;">No connections found.</p>';
+                const renderedItems = await Promise.all(renderPromises);
+                listEl.innerHTML = renderedItems.join('') || '<p style="color:var(--text-secondary); padding:15px;">No connections found.</p>';
 
-    }).catch(e => {
-        console.error(e);
-        listEl.innerHTML = '<p style="color:var(--danger-color)">Error loading chats.</p>';
-    });
+            }).catch(e => {
+                console.error(e);
+                listEl.innerHTML = '<p style="color:var(--danger-color)">Error loading chats.</p>';
+            });
+        }
+        /* --- FILE HELPERS --- */
+function getFileIcon(fileName) {
+    const ext = fileName.split('.').pop().toLowerCase();
+    if (ext === 'pdf') {
+        return `<div class="file-icon-box pdf"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>`;
+    }
+    // Default Doc Icon
+    return `<div class="file-icon-box doc"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg></div>`;
+}
+
+function formatBytes(bytes, decimals = 1) {
+    if (!bytes) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
 }
         // Helper: Extract dominant color from an image file object
         function getDominantColor(file) {
@@ -7219,53 +7827,52 @@ function initPullToRefresh(listId, refreshCallback) {
 
 
         function handleSendMessage(e) {
-    // 1. CRITICAL: Stop the page from reloading immediately
-    if (e) e.preventDefault(); 
+            // 1. CRITICAL: Stop the page from reloading immediately
+            if (e) e.preventDefault();
 
-    // 2. Get Data
-    const input = document.getElementById('messageText');
-    const text = input.value.trim();
-    const chatId = document.getElementById('selectedChatId').value;
+            // 2. Get Data
+            const input = document.getElementById('messageText');
+            const text = input.value.trim();
+            const chatId = document.getElementById('selectedChatId').value;
 
-    // 3. Validation Checks
-    if (!text) return; // Don't send empty messages
-    if (!chatId) {
-        console.error("No chat ID selected");
-        return;
-    }
-    if (!currentUser) {
-        console.error("User not logged in");
-        return;
-    }
+            // 3. Validation Checks
+            if (!text) return; // Don't send empty messages
+            if (!chatId) {
+                console.error("No chat ID selected");
+                return;
+            }
+            if (!currentUser) {
+                console.error("User not logged in");
+                return;
+            }
 
-    // 4. Send Message to Firestore
-    db.collection('chats').doc(chatId).collection('messages').add({
-        text: text,
-        senderId: currentUser.uid,
-        timestamp: new Date()
-    }).catch(err => console.error("Error sending msg:", err));
+            // 4. Send Message to Firestore
+            db.collection('chats').doc(chatId).collection('messages').add({
+                text: text,
+                senderId: currentUser.uid,
+                timestamp: new Date()
+            }).catch(err => console.error("Error sending msg:", err));
 
-    // 5. Update Chat Metadata (Last Message & Sender)
-    db.collection('chats').doc(chatId).update({
-        lastMessage: text,
-        updatedAt: new Date(),
-        lastSenderId: currentUser.uid 
-    }).catch(err => console.error("Error updating chat:", err));
+            // 5. Update Chat Metadata (Last Message & Sender)
+            db.collection('chats').doc(chatId).update({
+                lastMessage: text,
+                updatedAt: new Date(),
+                lastSenderId: currentUser.uid
+            }).catch(err => console.error("Error updating chat:", err));
 
-    // 6. Clear Input
-    input.value = '';
-    input.focus(); // Keep keyboard open
-}
+            // 6. Clear Input
+            input.value = '';
+            input.focus(); // Keep keyboard open
+        }
 
         // --- 1. LOAD COMMUNITY (Now respects filters) ---
         /* --- LOAD COMMUNITY (With Report Wall Logic) --- */
-       async function loadCommunity() {
+        async function loadCommunity() {
     const listEl = document.getElementById('communityPostsList');
     if (!listEl) return;
     if (!currentUser) return;
 
-    // --- 1. SKELETON LOADING STATE (Premium Feel) ---
-    // Instead of text, show a shimmering placeholder structure
+    // --- SKELETON LOADING STATE ---
     if (listEl.innerHTML.trim() === '' || listEl.textContent.includes('No posts')) {
         listEl.innerHTML = `
             <div class="card" style="padding: 20px; margin-bottom: 20px;">
@@ -7279,23 +7886,10 @@ function initPullToRefresh(listId, refreshCallback) {
                 <div class="skeleton skeleton-text"></div>
                 <div class="skeleton skeleton-text"></div>
                 <div class="skeleton skeleton-img" style="margin-top:10px;"></div>
-            </div>
-            <div class="card" style="padding: 20px;">
-                <div style="display:flex; gap:10px; margin-bottom:15px;">
-                    <div class="skeleton skeleton-avatar"></div>
-                    <div style="flex:1;">
-                        <div class="skeleton skeleton-text" style="width: 40%;"></div>
-                        <div class="skeleton skeleton-text" style="width: 20%;"></div>
-                    </div>
-                </div>
-                <div class="skeleton skeleton-text"></div>
-                <div class="skeleton skeleton-text"></div>
-            </div>
-        `;
+            </div>`;
     }
 
     try {
-        // 2. Get Posts
         const snap = await db.collection('posts').orderBy('createdAt', 'desc').limit(50).get();
         let posts = snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
@@ -7322,11 +7916,11 @@ function initPullToRefresh(listId, refreshCallback) {
 
         const htmlPromises = posts.map(async p => {
             const isAuthor = currentUser && p.authorId === currentUser.uid;
-
-            // --- REPORT CHECK ---
             const isReportedByMe = p.reports && p.reports.includes(currentUser.uid);
 
             // --- VISUAL VARIABLES ---
+            const isAnonPost = p.isAnonymous || p.authorName === "Anonymous" || p.authorRole === "Guest";
+
             const displayPic = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.profilePic || "") : (p.authorPic || "");
             const displayName = isAuthor && !window.currentUserData.isAnonymousSession ? window.currentUserData.name : p.authorName;
             const displayRole = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.role || "Student") : (p.authorRole || "Student");
@@ -7335,26 +7929,78 @@ function initPullToRefresh(listId, refreshCallback) {
             const yearBadge = getYearBadgeHtml(displayYear);
             const timeString = timeAgo(p.createdAt);
 
-            // Tags
+            const clickAction = isAnonPost
+                ? `onclick="showToast('This user is posting anonymously.')"`
+                : `onclick="openUserProfile('${p.authorId}')"`;
+
+            const cursorStyle = isAnonPost ? "cursor: default" : "cursor: pointer";
+
             let tagsHtml = '';
             if (p.tags) p.tags.forEach(tag => {
                 tagsHtml += `<span style="background:${tag.hex || '#555'}; color:white; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; margin-right:5px;">${tag.name}</span>`;
             });
 
-            // Media
+            // --- SMART MEDIA HANDLING (FIXED DOWNLOAD) ---
             let mediaHtml = '';
+            
             if (p.imageUrl) {
-                if (p.mediaType === 'video') mediaHtml = `<video src="${p.imageUrl}" controls class="post-image" onclick="event.stopPropagation()"></video>`;
-                else mediaHtml = `<img src="${p.imageUrl}" loading="lazy" class="post-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
+                let renderType = 'image';
+                
+                // 1. Check DB field first
+                if (p.mediaType === 'video') renderType = 'video';
+                else if (p.mediaType === 'document') renderType = 'document';
+                else {
+                    // 2. Fallback: Check URL extension (Allowing query params like ?alt=media)
+                    if (p.imageUrl.match(/\.(mp4|webm|mov|mkv)(\?.*)?$/i)) renderType = 'video';
+                    else if (p.imageUrl.match(/\.(pdf|doc|docx|ppt|pptx|txt|csv|xls|xlsx|zip|rar)(\?.*)?$/i)) renderType = 'document';
+                }
+
+                // 3. Extract Filename if missing
+                let displayFileName = p.fileName || "File";
+                if (!p.fileName && renderType === 'document') {
+                    try {
+                        const urlPath = decodeURIComponent(p.imageUrl.split('?')[0]); 
+                        displayFileName = urlPath.substring(urlPath.lastIndexOf('/') + 1);
+                        if(displayFileName.match(/^\d+_/) && displayFileName.includes('_')) {
+                            displayFileName = displayFileName.split('_').slice(1).join('_'); 
+                        }
+                    } catch(e){}
+                }
+
+                if (renderType === 'video') {
+                    mediaHtml = `<video src="${p.imageUrl}" controls class="post-image" onclick="event.stopPropagation()"></video>`;
+                } 
+                else if (renderType === 'document') {
+                    // RENDER FILE CARD (DIV instead of A tag)
+                    const sizeStr = typeof formatBytes === 'function' ? formatBytes(p.fileSize || 0) : '';
+                    const iconHtml = typeof getFileIcon === 'function' ? getFileIcon(displayFileName) : '📄';
+                    
+                    mediaHtml = `
+                    <div class="file-attachment-card" onclick="forceDownload(event, '${p.imageUrl}', '${displayFileName}')" style="margin-top:10px; display:flex;">
+                        ${iconHtml}
+                        <div class="file-info">
+                            <span class="file-name">${displayFileName}</span>
+                            <div class="file-meta">${sizeStr ? sizeStr + ' • ' : ''}Tap to Download</div>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.5;">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </div>`;
+                } 
+                else {
+                    // Default to Image
+                    mediaHtml = `<img src="${p.imageUrl}" loading="lazy" class="post-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
+                }
             }
+
             const processedBody = p.body.replace(/(https?:\/\/[^\s]+)/g, (url) => `<a href="${url}" target="_blank" style="color:var(--primary-color); text-decoration:underline;">${url}</a>`);
 
-            // Avatar
             let avatarHtml = displayPic && displayName !== "Anonymous"
                 ? `<img src="${displayPic}" loading="lazy" class="post-avatar-small">`
                 : `<div class="post-avatar-small" style="background:#333; display:flex; align-items:center; justify-content:center; color:#ccc; font-weight:bold;">${displayName.charAt(0)}</div>`;
 
-            // Top Comment
             let topCommentHtml = '';
             try {
                 const cSnap = await db.collection('posts').doc(p.id).collection('comments').orderBy('upvotes', 'desc').limit(1).get();
@@ -7370,9 +8016,12 @@ function initPullToRefresh(listId, refreshCallback) {
                 }
             } catch (e) { }
 
-            // --- RENDER LOGIC: WALL vs CONTENT ---
+            const myBookmarks = window.currentUserData ? (window.currentUserData.bookmarks || []) : [];
+            const isBookmarked = myBookmarks.includes(p.id);
+            const bookmarkColor = isBookmarked ? '#FFD700' : 'currentColor';
+            const bookmarkFill = isBookmarked ? '#FFD700' : 'none';
+            const bookmarkClass = isBookmarked ? 'bookmarked' : '';
 
-            // 1. The Warning Wall HTML (Visible if reported)
             const wallHtml = `
                 <div id="wall-${p.id}" class="report-wall-container">
                     <div class="report-icon-large">⚠️</div>
@@ -7383,7 +8032,6 @@ function initPullToRefresh(listId, refreshCallback) {
                     </div>
                 </div>`;
 
-            // 2. The Actual Post Content HTML (Hidden if reported)
             const contentHtml = `
                 <div id="content-${p.id}" class="${isReportedByMe ? 'content-hidden' : ''}">
                     <div class="post-options-wrapper">
@@ -7394,16 +8042,17 @@ function initPullToRefresh(listId, refreshCallback) {
                         </div>
                     </div>
 
-                    <div style="cursor:pointer;" onclick="viewPost('${p.id}')">
-                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.05); padding-right: 30px;">
-                            ${avatarHtml}
-                            <div>
-                                <div style="color:var(--text-main); font-weight:700; font-size:15px; line-height:1.2;">
-                                    ${displayName} <span class="badge badge-verified" style="font-size:9px;">${displayRole}</span>
-                                </div>
-                                <div style="color:var(--text-secondary); font-size:12px;">${yearBadge} • ${timeString}</div>
+                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.05); padding-right: 30px; ${cursorStyle};" ${clickAction}>
+                        ${avatarHtml}
+                        <div>
+                            <div style="color:var(--text-main); font-weight:700; font-size:15px; line-height:1.2;">
+                                ${displayName} <span class="badge badge-verified" style="font-size:9px;">${displayRole}</span>
                             </div>
+                            <div style="color:var(--text-secondary); font-size:12px;">${yearBadge} • ${timeString}</div>
                         </div>
+                    </div>
+
+                    <div style="cursor:pointer;" onclick="viewPost('${p.id}')">
                         <div style="margin-bottom:8px;">
                             <div style="font-size:17px; font-weight:700; margin-bottom:6px;">${p.title}</div>
                             <div>${tagsHtml}</div>
@@ -7413,16 +8062,32 @@ function initPullToRefresh(listId, refreshCallback) {
                         ${topCommentHtml}
                     </div>
 
-                    <div class="card-footer" style="justify-content: flex-end; margin-top:15px;">
+                    <div class="card-footer" style="justify-content: space-between; margin-top:15px; align-items:center;">
+                        
+                        <button class="btn btn-secondary ${bookmarkClass}" 
+                                onclick="toggleBookmark(event, '${p.id}')" 
+                                style="padding: 8px 12px; min-width: 40px; color: ${isBookmarked ? '#FFD700' : 'var(--text-secondary)'}; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                            
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="${bookmarkFill}" stroke="${bookmarkColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                            </svg>
+
+                        </button>
+
                         <div style="display:flex; gap:10px;">
-                            <button class="btn btn-secondary" onclick="viewPost('${p.id}')">Comment</button>
-                            <button class="btn ${currentUser && (p.upvoters || []).includes(currentUser.uid) ? 'btn-primary' : 'btn-secondary'}" onclick="handleUpvote(event, '${p.id}')">↑ ${p.upvotes || 0}</button>
+                            <button class="btn btn-secondary" onclick="viewPost('${p.id}')">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;">
+                                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                                </svg>
+                                Comment
+                            </button>
+                            <button class="btn ${currentUser && (p.upvoters || []).includes(currentUser.uid) ? 'btn-primary' : 'btn-secondary'}" onclick="handleUpvote(event, '${p.id}')">
+                                ↑ ${p.upvotes || 0}
+                            </button>
                         </div>
                     </div>
                 </div>`;
 
-            // --- 3. APPLY STAGGERED ANIMATION CLASS ---
-            // Added 'animate-item' to the class list
             return `
             <div id="post-card-${p.id}" class="card animate-item" style="position: relative;">
                 ${isReportedByMe ? wallHtml : ''} 
@@ -7442,6 +8107,7 @@ function initPullToRefresh(listId, refreshCallback) {
         // --- 2. FILTER & SORT UI LOGIC ---
         // --- FIXED UPVOTE HANDLER ---
         window.handleUpvote = function (event, postId) {
+            triggerHaptic();
             event.stopPropagation(); // Prevent opening the post details
 
             // 1. Anon Check
@@ -7508,10 +8174,17 @@ function initPullToRefresh(listId, refreshCallback) {
         // --- GLOBAL MODAL CLOSER (FIXES SCROLL LOCK) ---
         window.closeModal = function (modalId) {
             const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('active');
-            }
-            unlockScroll(); // <--- CRITICAL: Unlocks the body
+            if (!modal) return;
+
+            // 1. Add the closing class to trigger CSS animations
+            modal.classList.add('closing');
+
+            // 2. Wait for the animation to finish (300ms) before hiding
+            setTimeout(() => {
+                modal.classList.remove('active');   // Hide display
+                modal.classList.remove('closing');  // Reset animation state
+                unlockScroll();                     // Re-enable body scrolling
+            }, 280); // Slightly less than 300ms to prevent a flash at the end
         };
         // --- SYNC PROFILE CHANGES TO OLD POSTS ---
         // --- SYNC PROFILE CHANGES TO OLD POSTS ---
@@ -7693,59 +8366,59 @@ function initPullToRefresh(listId, refreshCallback) {
             updateFilterUI();
         }
         /* --- EXPLORE / MENTOR FILTER LOGIC --- */
-window.exploreFilters = {
-    roles: [],
-    years: [],
-    colleges: []
-};
+        window.exploreFilters = {
+            roles: [],
+            years: [],
+            colleges: []
+        };
 
-function openExploreSortModal() {
-    lockScroll();
-    const modal = document.getElementById('exploreFilterModal');
-    modal.classList.add('active');
-    updateExploreFilterUI();
-}
+        function openExploreSortModal() {
+            lockScroll();
+            const modal = document.getElementById('exploreFilterModal');
+            modal.classList.add('active');
+            updateExploreFilterUI();
+        }
 
-function toggleExploreFilter(category, value) {
-    const list = window.exploreFilters[category];
-    const index = list.indexOf(value);
+        function toggleExploreFilter(category, value) {
+            const list = window.exploreFilters[category];
+            const index = list.indexOf(value);
 
-    if (index > -1) list.splice(index, 1); // Remove
-    else list.push(value); // Add
+            if (index > -1) list.splice(index, 1); // Remove
+            else list.push(value); // Add
 
-    updateExploreFilterUI();
-}
+            updateExploreFilterUI();
+        }
 
-function updateExploreFilterUI() {
-    // 1. Roles
-    ['student', 'mentor'].forEach(r => {
-        const btn = document.getElementById(`expRole_${r}`);
-        if(btn) btn.className = `filter-pill ${window.exploreFilters.roles.includes(r) ? 'active' : ''}`;
-    });
+        function updateExploreFilterUI() {
+            // 1. Roles
+            ['student', 'mentor'].forEach(r => {
+                const btn = document.getElementById(`expRole_${r}`);
+                if (btn) btn.className = `filter-pill ${window.exploreFilters.roles.includes(r) ? 'active' : ''}`;
+            });
 
-    // 2. Years
-    ['FE', 'SE', 'TE', 'BE'].forEach(y => {
-        const btn = document.getElementById(`expYear_${y}`);
-        if(btn) btn.className = `filter-pill ${window.exploreFilters.years.includes(y) ? 'active' : ''}`;
-    });
+            // 2. Years
+            ['FE', 'SE', 'TE', 'BE'].forEach(y => {
+                const btn = document.getElementById(`expYear_${y}`);
+                if (btn) btn.className = `filter-pill ${window.exploreFilters.years.includes(y) ? 'active' : ''}`;
+            });
 
-    // 3. Colleges
-    ['VIT', 'VSIT', 'VP'].forEach(c => {
-        const btn = document.getElementById(`expCol_${c}`);
-        if(btn) btn.className = `filter-pill ${window.exploreFilters.colleges.includes(c) ? 'active' : ''}`;
-    });
-}
+            // 3. Colleges
+            ['VIT', 'VSIT', 'VP'].forEach(c => {
+                const btn = document.getElementById(`expCol_${c}`);
+                if (btn) btn.className = `filter-pill ${window.exploreFilters.colleges.includes(c) ? 'active' : ''}`;
+            });
+        }
 
-function clearExploreFilters() {
-    window.exploreFilters = { roles: [], years: [], colleges: [] };
-    updateExploreFilterUI();
-    loadMentors(); // Reload list
-}
+        function clearExploreFilters() {
+            window.exploreFilters = { roles: [], years: [], colleges: [] };
+            updateExploreFilterUI();
+            loadMentors(); // Reload list
+        }
 
-function applyExploreFilters() {
-    closeModal('exploreFilterModal');
-    loadMentors(); // Trigger reload with new filters
-}
+        function applyExploreFilters() {
+            closeModal('exploreFilterModal');
+            loadMentors(); // Trigger reload with new filters
+        }
 
         function toggleFilter(type, value) {
             const list = type === 'year' ? window.activeFilters.years : window.activeFilters.tags;
@@ -8036,7 +8709,7 @@ function applyExploreFilters() {
 
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <div style="display:flex; align-items:center;">
-                                <strong style="font-size:13px;">${comment.authorName}</strong>
+                                <strong style="font-size:13px; cursor:pointer;" onclick="openUserProfile('${comment.authorId}')">${comment.authorName}</strong>
                                 ${roleBadge}
                             </div>
                             ${goatBtn}
@@ -8293,14 +8966,14 @@ function applyExploreFilters() {
             );
         }
         // Init Pull-to-Refresh on the Community List
-// We wrap loadCommunity in a promise-returning function if it isn't already
-// Init Pull-to-Refresh on the Wrapper (Buttons + List)
-initPullToRefresh('communityScrollWrapper', async () => {
-    // 1. Re-fetch Posts
-    await loadCommunity(); 
-    // 2. Also refresh the Poll status (just in case)
-    loadActivePoll(); 
-});
+        // We wrap loadCommunity in a promise-returning function if it isn't already
+        // Init Pull-to-Refresh on the Wrapper (Buttons + List)
+        initPullToRefresh('communityScrollWrapper', async () => {
+            // 1. Re-fetch Posts
+            await loadCommunity();
+            // 2. Also refresh the Poll status (just in case)
+            loadActivePoll();
+        });
         function upvote(id) { const ref = db.collection('posts').doc(id); ref.get().then(doc => { if (doc.data().authorId === currentUser.uid) return alert("Cannot upvote self"); const upvoters = doc.data().upvoters || []; const hasUpvoted = upvoters.includes(currentUser.uid); ref.update({ upvotes: firebase.firestore.FieldValue.increment(hasUpvoted ? -1 : 1), upvoters: hasUpvoted ? upvoters.filter(x => x !== currentUser.uid) : [...upvoters, currentUser.uid] }).then(loadCommunity); }); }
         function upvoteComment(pid, cid) { const ref = db.collection('posts').doc(pid).collection('comments').doc(cid); ref.get().then(doc => { const data = doc.data(); if (data.authorId === currentUser.uid) return; const upvoters = data.upvoters || []; const hasUpvoted = upvoters.includes(currentUser.uid); ref.update({ upvotes: firebase.firestore.FieldValue.increment(hasUpvoted ? -1 : 1), upvoters: hasUpvoted ? upvoters.filter(id => id !== currentUser.uid) : [...upvoters, currentUser.uid] }).then(() => loadComments(pid)); }); }
 
@@ -8559,6 +9232,12 @@ initPullToRefresh('communityScrollWrapper', async () => {
                     btn.disabled = false;
                 });
         }
+        function triggerHaptic() {
+ 
+    if (navigator.vibrate) {
+        navigator.vibrate(15); 
+    }
+}
 
         function shareProfile() {
             const url = window.location.href;
@@ -8648,93 +9327,125 @@ initPullToRefresh('communityScrollWrapper', async () => {
 
         /* --- OPEN CHAT (With Real-Time Seen Status) --- */
         /* --- OPEN CHAT (With Profile Pics) --- */
-function openInlineChat(chatId, otherUserId, name) {
-    if (window.innerWidth <= 600) lockScroll();
+        function openInlineChat(chatId, otherUserId, name) {
+            if (window.innerWidth <= 600) lockScroll();
 
-    // 1. Cleanup
-    if (msgUnsub) msgUnsub();
-    if (chatMetaUnsub) chatMetaUnsub();
+            // 1. Cleanup
+            if (msgUnsub) msgUnsub();
+            if (chatMetaUnsub) chatMetaUnsub();
 
-    document.getElementById('selectedChatId').value = chatId;
+            document.getElementById('selectedChatId').value = chatId;
 
-    // 2. UI Setup
-    document.getElementById('chats').classList.add('mobile-chat-open');
-    if (window.innerWidth <= 600) document.querySelector('.tabs').style.display = 'none';
+            // 2. UI Setup
+            document.getElementById('chats').classList.add('mobile-chat-open');
+            if (window.innerWidth <= 600) document.querySelector('.tabs').style.display = 'none';
 
-    const headerInfo = document.getElementById('chatHeaderInfo');
-    const initial = name.charAt(0).toUpperCase();
-    
-    // --- NEW: Store messages and pic to handle async loading ---
-    let currentChatPartnerPic = null; 
-    let currentMessages = []; 
-    const cont = document.getElementById('messagesContainer');
+            const headerInfo = document.getElementById('chatHeaderInfo');
+            const initial = name.charAt(0).toUpperCase();
 
-    // 3. Fetch User Data (Header + Pic for messages)
-    db.collection('users').doc(otherUserId).get().then(doc => {
-        let picHtml = `<div style="width:38px; height:38px; border-radius:50%; background:#333; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold;">${initial}</div>`;
-        let statusText = "Connecting...";
-        let statusColor = "var(--text-secondary)";
+            // --- NEW: Store messages and pic to handle async loading ---
+            let currentChatPartnerPic = null;
+            let currentMessages = [];
+            const cont = document.getElementById('messagesContainer');
 
-        if (doc.exists) {
-            const u = doc.data();
-            
-            // SAVE PIC FOR MESSAGES
-            currentChatPartnerPic = u.profilePic; 
+            // 3. Fetch User Data (Header + Pic for messages)
+            db.collection('users').doc(otherUserId).get().then(doc => {
+                let picHtml = `<div style="width:38px; height:38px; border-radius:50%; background:#333; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold;">${initial}</div>`;
+                let statusText = "Connecting...";
+                let statusColor = "var(--text-secondary)";
 
-            if (u.profilePic) picHtml = `<img src="${u.profilePic}" style="width:38px; height:38px; border-radius:50%; object-fit:cover;">`;
-            statusText = formatLastActive(u.lastSeen);
-            if (statusText === 'Active now') statusColor = '#30D158';
-            
-            // Re-render messages now that we have the pic
-            if (currentMessages.length > 0) {
-                renderMessages(currentMessages, cont, chatId, currentChatPartnerPic);
+                if (doc.exists) {
+                    const u = doc.data();
+
+                    // SAVE PIC FOR MESSAGES
+                    currentChatPartnerPic = u.profilePic;
+
+                    if (u.profilePic) picHtml = `<img src="${u.profilePic}" style="width:38px; height:38px; border-radius:50%; object-fit:cover;">`;
+                    statusText = formatLastActive(u.lastSeen);
+                    if (statusText === 'Active now') statusColor = '#30D158';
+
+                    // Re-render messages now that we have the pic
+                    if (currentMessages.length > 0) {
+                        renderMessages(currentMessages, cont, chatId, currentChatPartnerPic);
+                    }
+                }
+
+                headerInfo.innerHTML = `
+<div style="display: flex; align-items: center; gap: 12px; cursor: pointer;" onclick="openUserProfile('${otherUserId}')">
+    ${picHtml}
+    <div style="line-height: 1.3;">
+        <div style="font-size: 16px; font-weight: 700; color: var(--text-main);">${name}</div>
+        <div style="font-size: 12px; color: ${statusColor};">${statusText}</div>
+    </div>
+</div>`;
+            });
+
+            document.getElementById('sendMessageForm').classList.remove('hidden');
+            cont.innerHTML = '';
+
+            markChatAsRead(chatId);
+
+            // 4. MESSAGE LISTENER
+            msgUnsub = db.collection('chats').doc(chatId).collection('messages')
+                .orderBy('timestamp', 'asc')
+                .onSnapshot(snap => {
+                    if (!snap.empty) markChatAsRead(chatId);
+
+                    currentMessages = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+
+                    // Pass the pic variable here
+                    renderMessages(currentMessages, cont, chatId, currentChatPartnerPic);
+
+                    cont.scrollTop = cont.scrollHeight;
+                });
+
+            // 5. SEEN STATUS LISTENER
+            chatMetaUnsub = db.collection('chats').doc(chatId).onSnapshot(doc => {
+                if (!doc.exists) return;
+                const data = doc.data();
+                if (data.lastRead && data.lastRead[otherUserId]) {
+                    updateSeenStatus(currentMessages, data.lastRead[otherUserId], cont);
+                }
+            });
+        }
+
+        function removeFromSaved(event, postId) {
+            event.stopPropagation();
+
+            // 1. Remove from Database
+            db.collection('users').doc(currentUser.uid).update({
+                bookmarks: firebase.firestore.FieldValue.arrayRemove(postId)
+            }).catch(e => console.error(e));
+
+            // 2. Update Local Data (so the bookmark icon updates elsewhere)
+            if (window.currentUserData.bookmarks) {
+                window.currentUserData.bookmarks = window.currentUserData.bookmarks.filter(id => id !== postId);
             }
+
+            // 3. Remove the Card from the Modal UI
+            const card = event.target.closest('.card');
+            if (card) {
+                card.style.opacity = '0'; // Fade out
+                setTimeout(() => {
+                    card.remove(); // Remove DOM
+
+                    // Check if list is empty
+                    const list = document.getElementById('savedPostsList');
+                    if (list && list.children.length === 0) {
+                        list.innerHTML = `
+                    <div class="empty-state-new" style="margin-top:20px;">
+                        <div style="font-size:30px; margin-bottom:10px;">🔖</div>
+                        You haven't saved any posts yet.
+                    </div>`;
+                    }
+                }, 300);
+            }
+
+            showToast("Removed from Saved");
         }
-
-        headerInfo.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 12px;">
-            ${picHtml}
-            <div style="line-height: 1.3;">
-                <div style="font-size: 16px; font-weight: 700; color: var(--text-main);">${name}</div>
-                <div style="font-size: 12px; color: ${statusColor};">${statusText}</div>
-            </div>
-        </div>`;
-    });
-
-    document.getElementById('sendMessageForm').classList.remove('hidden');
-    cont.innerHTML = ''; 
-
-    markChatAsRead(chatId);
-
-    // 4. MESSAGE LISTENER
-    msgUnsub = db.collection('chats').doc(chatId).collection('messages')
-        .orderBy('timestamp', 'asc')
-        .onSnapshot(snap => {
-            if (!snap.empty) markChatAsRead(chatId);
-
-            currentMessages = snap.docs.map(d => ({ ...d.data(), id: d.id }));
-            
-            // Pass the pic variable here
-            renderMessages(currentMessages, cont, chatId, currentChatPartnerPic);
-            
-            cont.scrollTop = cont.scrollHeight;
-        });
-
-    // 5. SEEN STATUS LISTENER
-    chatMetaUnsub = db.collection('chats').doc(chatId).onSnapshot(doc => {
-        if (!doc.exists) return;
-        const data = doc.data();
-        if (data.lastRead && data.lastRead[otherUserId]) {
-            updateSeenStatus(currentMessages, data.lastRead[otherUserId], cont);
-        }
-    });
-}
-
-        // --- HELPER: Render Messages ---
-        /* --- RENDER MESSAGES (With Avatars) --- */
-function renderMessages(messages, container, chatId, otherPic) {
+        function renderMessages(messages, container, chatId, otherPic) {
     let html = '';
-    
+
     // Helper to generate avatar HTML
     const getAvatar = (name) => {
         if (otherPic) return `<img src="${otherPic}" class="chat-msg-avatar">`;
@@ -8744,10 +9455,34 @@ function renderMessages(messages, container, chatId, otherPic) {
 
     messages.forEach(m => {
         const me = m.senderId === currentUser.uid;
-        
-        let content = m.imageUrl
-            ? (m.mediaType === 'video' ? `<video src="${m.imageUrl}" controls class="chat-image"></video>` : `<img src="${m.imageUrl}" class="chat-image" onclick="openLightbox(this.src)">`)
-            : `<span>${m.text}</span>`;
+
+        let content;
+
+        // --- 1. DOCUMENT / PDF ---
+        if (m.mediaType === 'document') {
+            const sizeStr = typeof formatBytes === 'function' ? formatBytes(m.fileSize || 0) : 'File';
+            // Use the file icon helper or fallback
+            const iconHtml = typeof getFileIcon === 'function' ? getFileIcon(m.fileName || 'file.pdf') : '📄';
+            
+            content = `
+<div class="file-attachment-card" onclick="forceDownload(event, '${m.imageUrl}', '${m.fileName || 'file'}')" style="border:none; background:rgba(0,0,0,0.2);">
+    ${iconHtml}
+    <div class="file-info">
+        <span class="file-name">${m.fileName || 'Document'}</span>
+        <div class="file-meta">${sizeStr} • Tap to Download</div>
+    </div>
+</div>`;
+        } 
+        // --- 2. IMAGE OR VIDEO ---
+        else if (m.imageUrl) {
+            content = (m.mediaType === 'video') 
+                ? `<video src="${m.imageUrl}" controls class="chat-image"></video>` 
+                : `<img src="${m.imageUrl}" class="chat-image" onclick="openLightbox(this.src)">`;
+        } 
+        // --- 3. TEXT ---
+        else {
+            content = `<span>${m.text}</span>`;
+        }
 
         const msgIdAttr = `id="msg-${m.id}"`;
         let events = me ? `oncontextmenu="showContextMenu(event, 'message', '${chatId}', '${m.id}')"` : '';
@@ -9239,6 +9974,45 @@ function renderMessages(messages, container, chatId, otherPic) {
             if (html === '') html = `<div style="text-align:center; padding:20px; color:#888;">No tags found.</div>`;
             list.innerHTML = html;
         };
+        function forceDownload(e, url, fileName) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    if (typeof showToast === 'function') showToast("Downloading...");
+
+    // Try fetching the blob (Works if CORS is fixed)
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob';
+    
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            const blob = xhr.response;
+            const blobUrl = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(blobUrl);
+        } else {
+            // Fallback if CORS blocks it
+            window.open(url, '_blank');
+        }
+    };
+
+    xhr.onerror = function() {
+        // Network error / CORS blocked -> Fallback to opening tab
+        console.warn("CORS blocked internal download. Opening in new tab.");
+        window.open(url, '_blank');
+    };
+
+    xhr.send();
+}
 
         // 5. Toggle Logic (Global)
         window.toggleMainTag = function (name, className, hex, hasSub) {
@@ -9339,32 +10113,32 @@ function renderMessages(messages, container, chatId, otherPic) {
             return "Just now";
         }
         function validateRoleOptions() {
-    const yearSelect = document.getElementById('regYear');
-    const roleSelect = document.getElementById('regRole');
-    
-    if (!yearSelect || !roleSelect) return;
+            const yearSelect = document.getElementById('regYear');
+            const roleSelect = document.getElementById('regRole');
 
-    const selectedYear = yearSelect.value;
-    const mentorOption = roleSelect.querySelector('option[value="mentor"]');
+            if (!yearSelect || !roleSelect) return;
 
-    // Logic: If FE is selected, Disable Mentor
-    if (selectedYear === 'FE') {
-        mentorOption.disabled = true;
-        mentorOption.innerText = "Mentor (Available for SE+)"; // Helpful text
-        
-        // If they had already selected Mentor, force them back to Student
-        if (roleSelect.value === 'mentor') {
-            roleSelect.value = 'student';
-            // Optional: Alert the user
-            if(typeof showToast === 'function') showToast("Mentorship is available from Second Year onwards.");
-            else alert("First Year students cannot be mentors yet.");
+            const selectedYear = yearSelect.value;
+            const mentorOption = roleSelect.querySelector('option[value="mentor"]');
+
+            // Logic: If FE is selected, Disable Mentor
+            if (selectedYear === 'FE') {
+                mentorOption.disabled = true;
+                mentorOption.innerText = "Mentor (Available for SE+)"; // Helpful text
+
+                // If they had already selected Mentor, force them back to Student
+                if (roleSelect.value === 'mentor') {
+                    roleSelect.value = 'student';
+                    // Optional: Alert the user
+                    if (typeof showToast === 'function') showToast("Mentorship is available from Second Year onwards.");
+                    else alert("First Year students cannot be mentors yet.");
+                }
+            } else {
+                // Re-enable for SE, TE, BE
+                mentorOption.disabled = false;
+                mentorOption.innerText = "Mentor";
+            }
         }
-    } else {
-        // Re-enable for SE, TE, BE
-        mentorOption.disabled = false;
-        mentorOption.innerText = "Mentor";
-    }
-}
         function getYearBadgeHtml(yearCode) {
             if (!yearCode) return '';
 
@@ -9390,12 +10164,13 @@ function renderMessages(messages, container, chatId, otherPic) {
         vertical-align: middle;
     ">${label}</span>`;
         }
-        // --- CLOSE MODALS ON OUTSIDE CLICK ---
-        // --- CLOSE MODALS ON OUTSIDE CLICK ---
+
+        // --- CLOSE MODALS ON OUTSIDE CLICK (Animated) ---
         window.addEventListener('mousedown', function (e) {
+            // Check if the click target is the backdrop itself (has class 'modal')
             if (e.target.classList.contains('modal')) {
-                e.target.classList.remove('active');
-                unlockScroll(); // <--- Ensure this line exists!
+                // Use the ID of the modal to trigger the smooth close function
+                closeModal(e.target.id);
             }
         });
         /* --- V-SYNC SPLASH LOGIC --- */
