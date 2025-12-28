@@ -629,7 +629,6 @@ function simulateLogin(uid, isAnonSession) {
             navRight.children[0].children[1].classList.add('hidden');
 
             updateUserInfo();
-            loadCommunity(); // Only load community
             switchTab('community');
         } else {
             // RESTORE UI (In case of re-login)
@@ -996,7 +995,7 @@ function switchTab(arg1, arg2) {
 
     if (tabName === 'mentors') loadMentors();
     if (tabName === 'chats') loadChats();
-    if (tabName === 'community') loadPosts();
+    if (tabName === 'community') loadCommunity();
     if (tabName === 'requests') loadRequests();
     if (tabName === 'profile') loadProfile();
     if (tabName === 'leaderboard') loadLeaderboard();
@@ -2649,15 +2648,42 @@ function handleSendMessage(e) {
     input.focus(); // Keep keyboard open
 }
 
-// --- 1. LOAD COMMUNITY (Now respects filters) ---
-/* --- LOAD COMMUNITY (With Report Wall Logic) --- */
-async function loadCommunity() {
+
+/* --- GLOBAL LOADING STATE --- */
+let isCommunityLoading = false; // Add this to prevent double clicks
+
+/* --- HELPER: Prevent HTML injection breakage --- */
+function escapeHtml(text) {
+    if (!text) return "";
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+
+
+/* --- LOAD COMMUNITY (Fixed: Files, Layout & No Double Load) --- */
+async function loadCommunity(forceRefresh = false) {
     const listEl = document.getElementById('communityPostsList');
     if (!listEl) return;
     if (!currentUser) return;
 
-    // --- SKELETON LOADING STATE ---
-    if (listEl.innerHTML.trim() === '' || listEl.textContent.includes('No posts')) {
+    // 1. INSTANT LOAD CHECK: If posts exist & not forced, DO NOTHING.
+    // This makes it feel "instant" like other tabs.
+    if (!forceRefresh && listEl.children.length > 0 && !listEl.textContent.includes('No posts')) {
+        return; 
+    }
+
+    // 2. PREVENT DOUBLE NETWORK CALLS
+    if (isCommunityLoading) return;
+    isCommunityLoading = true;
+
+    // --- SKELETON LOADING STATE (Only if empty) ---
+    if (listEl.innerHTML.trim() === '') {
         listEl.innerHTML = `
             <div class="card" style="padding: 20px; margin-bottom: 20px;">
                 <div style="display:flex; gap:10px; margin-bottom:15px;">
@@ -2678,16 +2704,16 @@ async function loadCommunity() {
         let posts = snap.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
         // --- FILTERS ---
-        if (window.activeFilters.years.length > 0) {
+        if (window.activeFilters && window.activeFilters.years.length > 0) {
             posts = posts.filter(p => window.activeFilters.years.includes(p.authorYear));
         }
-        if (window.activeFilters.tags.length > 0) {
+        if (window.activeFilters && window.activeFilters.tags.length > 0) {
             posts = posts.filter(p => {
                 if (!p.tags) return false;
                 return p.tags.some(t => window.activeFilters.tags.includes(t.name));
             });
         }
-        if (window.activeFilters.sortBy === 'upvotes') {
+        if (window.activeFilters && window.activeFilters.sortBy === 'upvotes') {
             posts.sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0));
         } else {
             posts.sort((a, b) => b.createdAt - a.createdAt);
@@ -2704,14 +2730,15 @@ async function loadCommunity() {
 
             // --- VISUAL VARIABLES ---
             const isAnonPost = p.isAnonymous || p.authorName === "Anonymous" || p.authorRole === "Guest";
+            const myData = window.currentUserData || {};
 
-            const displayPic = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.profilePic || "") : (p.authorPic || "");
-            const displayName = isAuthor && !window.currentUserData.isAnonymousSession ? window.currentUserData.name : p.authorName;
-            const displayRole = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.role || "Student") : (p.authorRole || "Student");
-            const displayYear = isAuthor && !window.currentUserData.isAnonymousSession ? (window.currentUserData.year || "") : (p.authorYear || "");
+            const displayPic = isAuthor && !myData.isAnonymousSession ? (myData.profilePic || "") : (p.authorPic || "");
+            const displayName = isAuthor && !myData.isAnonymousSession ? myData.name : p.authorName;
+            const displayRole = isAuthor && !myData.isAnonymousSession ? (myData.role || "Student") : (p.authorRole || "Student");
+            const displayYear = isAuthor && !myData.isAnonymousSession ? (myData.year || "") : (p.authorYear || "");
 
-            const yearBadge = getYearBadgeHtml(displayYear);
-            const timeString = timeAgo(p.createdAt);
+            const yearBadge = typeof getYearBadgeHtml === 'function' ? getYearBadgeHtml(displayYear) : `<span class="badge">${displayYear}</span>`;
+            const timeString = typeof timeAgo === 'function' ? timeAgo(p.createdAt) : 'Just now';
 
             const clickAction = isAnonPost
                 ? `onclick="showToast('This user is posting anonymously.')"`
@@ -2720,21 +2747,21 @@ async function loadCommunity() {
             const cursorStyle = isAnonPost ? "cursor: default" : "cursor: pointer";
 
             let tagsHtml = '';
-            if (p.tags) p.tags.forEach(tag => {
-                tagsHtml += `<span style="background:${tag.hex || '#555'}; color:white; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; margin-right:5px;">${tag.name}</span>`;
-            });
+            if (p.tags && Array.isArray(p.tags)) {
+                p.tags.forEach(tag => {
+                    tagsHtml += `<span style="background:${tag.hex || '#555'}; color:white; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; margin-right:5px;">${tag.name}</span>`;
+                });
+            }
 
-            // --- SMART MEDIA HANDLING (FIXED DOWNLOAD) ---
+            // --- RESTORED FILE HANDLING LOGIC ---
             let mediaHtml = '';
-
             if (p.imageUrl) {
                 let renderType = 'image';
-
                 // 1. Check DB field first
                 if (p.mediaType === 'video') renderType = 'video';
                 else if (p.mediaType === 'document') renderType = 'document';
                 else {
-                    // 2. Fallback: Check URL extension (Allowing query params like ?alt=media)
+                    // 2. Fallback: Check URL extension
                     if (p.imageUrl.match(/\.(mp4|webm|mov|mkv)(\?.*)?$/i)) renderType = 'video';
                     else if (p.imageUrl.match(/\.(pdf|doc|docx|ppt|pptx|txt|csv|xls|xlsx|zip|rar)(\?.*)?$/i)) renderType = 'document';
                 }
@@ -2743,22 +2770,20 @@ async function loadCommunity() {
                 let displayFileName = p.fileName || "File";
                 if (!p.fileName && renderType === 'document') {
                     try {
-                        const urlPath = decodeURIComponent(p.imageUrl.split('?')[0]);
+                        const urlPath = decodeURIComponent(p.imageUrl.split('?')[0]); 
                         displayFileName = urlPath.substring(urlPath.lastIndexOf('/') + 1);
-                        if (displayFileName.match(/^\d+_/) && displayFileName.includes('_')) {
-                            displayFileName = displayFileName.split('_').slice(1).join('_');
+                        if(displayFileName.match(/^\d+_/) && displayFileName.includes('_')) {
+                            displayFileName = displayFileName.split('_').slice(1).join('_'); 
                         }
-                    } catch (e) { }
+                    } catch(e){}
                 }
 
                 if (renderType === 'video') {
                     mediaHtml = `<video src="${p.imageUrl}" controls class="post-image" onclick="event.stopPropagation()"></video>`;
-                }
+                } 
                 else if (renderType === 'document') {
-                    // RENDER FILE CARD (DIV instead of A tag)
                     const sizeStr = typeof formatBytes === 'function' ? formatBytes(p.fileSize || 0) : '';
                     const iconHtml = typeof getFileIcon === 'function' ? getFileIcon(displayFileName) : '📄';
-
                     mediaHtml = `
                     <div class="file-attachment-card" onclick="forceDownload(event, '${p.imageUrl}', '${displayFileName}')" style="margin-top:10px; display:flex;">
                         ${iconHtml}
@@ -2772,14 +2797,15 @@ async function loadCommunity() {
                             <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
                     </div>`;
-                }
+                } 
                 else {
-                    // Default to Image
                     mediaHtml = `<img src="${p.imageUrl}" loading="lazy" class="post-image" onclick="event.stopPropagation(); openLightbox(this.src)">`;
                 }
             }
 
-            const processedBody = p.body.replace(/(https?:\/\/[^\s]+)/g, (url) => `<a href="${url}" target="_blank" style="color:var(--primary-color); text-decoration:underline;">${url}</a>`);
+            // --- HTML ESCAPING FOR SAFETY ---
+            const safeBody = typeof escapeHtml === 'function' ? escapeHtml(p.body || "") : (p.body || ""); 
+            const processedBody = safeBody.replace(/(https?:\/\/[^\s]+)/g, (url) => `<a href="${url}" target="_blank" style="color:var(--primary-color); text-decoration:underline;">${url}</a>`);
 
             let avatarHtml = displayPic && displayName !== "Anonymous"
                 ? `<img src="${displayPic}" loading="lazy" class="post-avatar-small">`
@@ -2790,17 +2816,19 @@ async function loadCommunity() {
                 const cSnap = await db.collection('posts').doc(p.id).collection('comments').orderBy('upvotes', 'desc').limit(1).get();
                 if (!cSnap.empty) {
                     const c = cSnap.docs[0].data();
+                    const safeAuthor = typeof escapeHtml === 'function' ? escapeHtml(c.authorName) : c.authorName;
+                    const safeText = typeof escapeHtml === 'function' ? escapeHtml(c.text) : c.text;
                     topCommentHtml = `
                     <div class="top-comment-preview" onclick="viewPost('${p.id}')">
                         <div style="font-weight:bold; color:var(--text-main); font-size:12px; margin-bottom:2px;">
-                            ${c.authorName} <span style="font-weight:normal; color:var(--text-secondary);">commented:</span>
+                            ${safeAuthor} <span style="font-weight:normal; color:var(--text-secondary);">commented:</span>
                         </div>
-                        <div style="color:#ccc; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">"${c.text}"</div>
+                        <div style="color:#ccc; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">"${safeText}"</div>
                     </div>`;
                 }
             } catch (e) { }
 
-            const myBookmarks = window.currentUserData ? (window.currentUserData.bookmarks || []) : [];
+            const myBookmarks = (myData.bookmarks || []);
             const isBookmarked = myBookmarks.includes(p.id);
             const bookmarkColor = isBookmarked ? '#FFD700' : 'currentColor';
             const bookmarkFill = isBookmarked ? '#FFD700' : 'none';
@@ -2816,6 +2844,7 @@ async function loadCommunity() {
                     </div>
                 </div>`;
 
+            // --- BUILD POST CONTENT ---
             const contentHtml = `
                 <div id="content-${p.id}" class="${isReportedByMe ? 'content-hidden' : ''}">
                     <div class="post-options-wrapper">
@@ -2838,24 +2867,18 @@ async function loadCommunity() {
 
                     <div style="cursor:pointer;" onclick="viewPost('${p.id}')">
                         <div style="margin-bottom:8px;">
-                            <div style="font-size:17px; font-weight:700; margin-bottom:6px;">${p.title}</div>
+                            <div style="font-size:17px; font-weight:700; margin-bottom:6px;">${escapeHtml(p.title)}</div>
                             <div>${tagsHtml}</div>
                         </div>
                         <div class="card-body" style="white-space: pre-wrap; margin-top:0;">${processedBody}${mediaHtml}</div>
-                        
                         ${topCommentHtml}
                     </div>
 
                     <div class="card-footer" style="justify-content: space-between; margin-top:15px; align-items:center;">
-                        
-                        <button class="btn btn-secondary ${bookmarkClass}" 
-                                onclick="toggleBookmark(event, '${p.id}')" 
-                                style="padding: 8px 12px; min-width: 40px; color: ${isBookmarked ? '#FFD700' : 'var(--text-secondary)'}; transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                            
+                        <button class="btn btn-secondary ${bookmarkClass}" onclick="toggleBookmark(event, '${p.id}')" style="padding: 8px 12px; min-width: 40px; color: ${isBookmarked ? '#FFD700' : 'var(--text-secondary)'};">
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="${bookmarkFill}" stroke="${bookmarkColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                             </svg>
-
                         </button>
 
                         <div style="display:flex; gap:10px;">
@@ -2870,10 +2893,11 @@ async function loadCommunity() {
                             </button>
                         </div>
                     </div>
-                </div>`;
+                </div>`; 
 
+            // IMPORTANT: Return wrapper DIV with margin to fix nesting issues
             return `
-            <div id="post-card-${p.id}" class="card animate-item" style="position: relative;">
+            <div id="post-card-${p.id}" class="card animate-item" style="position: relative; display: block; margin-bottom: 20px;">
                 ${isReportedByMe ? wallHtml : ''} 
                 ${contentHtml}
             </div>`;
@@ -2885,6 +2909,8 @@ async function loadCommunity() {
     } catch (e) {
         console.error(e);
         listEl.innerHTML = '<p style="text-align:center; color:var(--danger-color);">Error loading posts.</p>';
+    } finally {
+        isCommunityLoading = false; // RELEASE LOCK
     }
 }
 
@@ -3254,7 +3280,6 @@ function renderFilterTags() {
     container.innerHTML = html;
 }
 
-function loadPosts() { loadCommunity(); } // Alias for cleaner calls
 
 
 window.handleCreatePostSubmit = async function (e) {
@@ -3761,88 +3786,187 @@ function deleteComment(postId, commentId) {
     );
 }
 /* --- EVENTS TAB LOGIC --- */
+/* --- EVENTS FILTER & SORT STATE --- */
+window.currentEventFilter = 'all'; // 'all', 'campus', 'outside'
+window.currentEventSort = 'soon';  // 'soon', 'late'
+window.allEventsCache = []; // Store data here so we don't re-fetch from Firebase on every filter click
+
+/* --- MAIN LOADER --- */
 function loadEvents() {
     const listEl = document.getElementById('eventsList');
     if (!listEl) return;
 
     listEl.innerHTML = '<p style="text-align:center; color:var(--text-secondary); margin-top:20px;">Fetching latest events...</p>';
 
-    // Fetch from the 'events' collection your bot created
+    // Fetch from Firebase ONCE
     db.collection('events')
-      .orderBy('scrapedAt', 'desc') // Show newest findings first
-      .limit(50)
       .get()
       .then(snap => {
           if (snap.empty) {
               listEl.innerHTML = `
                   <div class="empty-state-new" style="margin-top:20px;">
                       <div style="font-size:30px; margin-bottom:10px;">zzz</div>
-                      No upcoming events found right now.
+                      No upcoming events found.
                   </div>`;
               return;
           }
 
-          let html = '';
+          // 1. Process and Cache Data
+          window.allEventsCache = [];
           snap.forEach(doc => {
-              const e = doc.data();
+              const data = doc.data();
+              // Try to parse the Date string (e.g., "Oct 24, 2025") into a Timestamp for sorting
+              const parsedDate = new Date(data.Date);
               
-              // 1. SAFE LINK LOGIC
-              let finalLink = e.Link;
-              
-              // If the link is missing, broken, or literal text "Full URL", fallback to source
-              if (!finalLink || !finalLink.startsWith('http')) {
-                  finalLink = e.sourceUrl || "https://devfolio.co/hackathons";
-              }
-
-              let dateBadgeColor = "var(--primary-color)";
-
-              html += `
-              <div class="card" style="padding:0; overflow:hidden; border:1px solid var(--border-color); display:flex; flex-direction:column;">
-                  <div style="padding:15px;">
-                      <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:10px;">
-                          <div style="font-size:12px; color:var(--text-secondary); text-transform:uppercase; font-weight:700;">
-                              ${e.type ? e.type.toUpperCase() : 'EVENT'}
-                          </div>
-                          <div style="background:rgba(10, 132, 255, 0.1); color:${dateBadgeColor}; padding:4px 8px; border-radius:6px; font-size:11px; font-weight:700;">
-                              ${e.Date || 'TBA'}
-                          </div>
-                      </div>
-                      
-                      <h3 style="font-size:18px; font-weight:800; margin-bottom:8px; line-height:1.3;">${e.Title}</h3>
-                      
-                      <p style="font-size:14px; color:#ccc; margin-bottom:10px; line-height:1.5;">${e.Description}</p>
-                      
-                      <div style="display:flex; align-items:center; gap:5px; font-size:12px; color:#888;">
-                          <span>📍</span> ${e.Location || 'Online'}
-                      </div>
-                  </div>
-
-                  <a href="${finalLink}" target="_blank" class="btn btn-primary" 
-                     style="margin:0 15px 15px 15px; border-radius:12px; text-decoration:none; text-align:center; display:block;">
-                     Register Now ↗
-                  </a>
-                  
-                  <div style="background:rgba(255,255,255,0.03); padding:8px 15px; font-size:10px; color:#555; text-align:right;">
-                     Source: ${new URL(e.sourceUrl || 'https://example.com').hostname}
-                  </div>
-              </div>`;
+              window.allEventsCache.push({
+                  id: doc.id,
+                  ...data,
+                  // If parsing fails (invalid date string), treat it as far future (9999) so it sinks to bottom
+                  timestamp: isNaN(parsedDate) ? 9999999999999 : parsedDate.getTime()
+              });
           });
 
-          listEl.innerHTML = html;
+          // 2. Render based on current filters
+          renderEventsList();
       })
       .catch(err => {
           console.error("Error loading events:", err);
           listEl.innerHTML = '<p style="color:var(--danger-color); text-align:center;">Failed to load events.</p>';
       });
 }
-// Init Pull-to-Refresh on the Community List
-// We wrap loadCommunity in a promise-returning function if it isn't already
-// Init Pull-to-Refresh on the Wrapper (Buttons + List)
-// This ensures the data loads when the app starts
-if (localStorage.getItem('vsync_uid')) {
-    loadCommunity();
-    loadActivePoll();
+
+/* --- RENDERER (Handles Filter/Sort Logic) --- */
+function renderEventsList() {
+    const listEl = document.getElementById('eventsList');
+    let events = [...window.allEventsCache]; // Copy array
+
+    // A. FILTERING
+    if (window.currentEventFilter === 'campus') {
+        // Filter logic: Check if Location or Title contains keywords
+        events = events.filter(e => {
+            const loc = (e.Location || "").toLowerCase();
+            const src = (e.sourceName || "").toLowerCase();
+            return loc.includes('vit') || loc.includes('campus') || loc.includes('vidyalankar') || src.includes('vit');
+        });
+    } else if (window.currentEventFilter === 'outside') {
+        events = events.filter(e => {
+            const loc = (e.Location || "").toLowerCase();
+            const src = (e.sourceName || "").toLowerCase();
+            return !(loc.includes('vit') || loc.includes('campus') || loc.includes('vidyalankar') || src.includes('vit'));
+        });
+    }
+
+    // B. SORTING
+    if (window.currentEventSort === 'soon') {
+        events.sort((a, b) => a.timestamp - b.timestamp); // Ascending (Smallest/Soonest timestamp first)
+    } else {
+        events.sort((a, b) => b.timestamp - a.timestamp); // Descending
+    }
+
+    // C. HTML GENERATION
+    if (events.length === 0) {
+        listEl.innerHTML = '<div class="empty-state-new" style="margin-top:20px;">No events match your filter.</div>';
+        return;
+    }
+
+    let html = '';
+    events.forEach(e => {
+        // Safe Link Logic
+        let finalLink = e.Link;
+        if (!finalLink || !finalLink.startsWith('http')) {
+            finalLink = e.sourceUrl || "#";
+        }
+
+        // Logo Logic (Fallback to a generic icon if missing)
+        const logoImg = e.sourceLogo || "https://cdn-icons-png.flaticon.com/512/1005/1005141.png";
+
+        // Date Badge Color logic
+        let dateBadgeColor = "var(--primary-color)";
+
+        html += `
+        <div class="card" style="padding:0; overflow:hidden; border:1px solid var(--border-color); display:flex; flex-direction:column;">
+            
+            <div style="display:flex; padding:15px; gap:15px;">
+                <div style="width:60px; height:60px; flex-shrink:0; background:#fff; border-radius:12px; padding:5px; display:flex; align-items:center; justify-content:center;">
+                    <img src="${logoImg}" style="width:100%; height:100%; object-fit:contain;">
+                </div>
+
+                <div style="flex:1; min-width:0;">
+                    <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:5px;">
+                        <div style="font-size:10px; color:var(--text-secondary); text-transform:uppercase; font-weight:700; letter-spacing:0.5px;">
+                            ${e.type || 'EVENT'}
+                        </div>
+                        <div style="background:rgba(10, 132, 255, 0.1); color:${dateBadgeColor}; padding:2px 8px; border-radius:6px; font-size:10px; font-weight:700;">
+                            ${e.Date || 'TBA'}
+                        </div>
+                    </div>
+                    
+                    <h3 style="font-size:16px; font-weight:800; margin-bottom:5px; line-height:1.3; color:var(--text-main);">
+                        ${e.Title}
+                    </h3>
+                    
+                    <div style="display:flex; align-items:center; gap:5px; font-size:12px; color:#aaa; margin-bottom:8px;">
+                        <span>📍</span> ${e.Location || 'Online'}
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding:0 15px 15px 15px;">
+                <p style="font-size:13px; color:#ccc; line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                    ${e.Description}
+                </p>
+            </div>
+
+            <a href="${finalLink}" target="_blank" class="btn btn-primary" 
+                style="margin:0 15px 15px 15px; border-radius:12px; text-decoration:none; text-align:center; display:flex; align-items:center; justify-content:center; gap:6px;">
+                <span>Register Now</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+            
+            <div style="background:rgba(255,255,255,0.03); padding:6px 15px; font-size:10px; color:#555; text-align:right;">
+                Source: ${e.sourceName || 'V-SYNC Bot'}
+            </div>
+        </div>`;
+    });
+
+    listEl.innerHTML = html;
 }
+
+/* --- FILTER MODAL CONTROLS --- */
+function openEventFilterModal() {
+    document.getElementById('eventFilterModal').classList.add('active');
+    updateEventFilterUI();
+}
+
+function setEventFilter(type) {
+    window.currentEventFilter = type;
+    updateEventFilterUI();
+}
+
+function setEventSort(type) {
+    window.currentEventSort = type;
+    updateEventFilterUI();
+}
+
+function updateEventFilterUI() {
+    // Update Filter Pills
+    ['all', 'campus', 'outside'].forEach(t => {
+        const el = document.getElementById(`evFilter_${t}`);
+        if(el) el.classList.toggle('active', window.currentEventFilter === t);
+    });
+
+    // Update Sort Pills
+    ['soon', 'late'].forEach(t => {
+        const el = document.getElementById(`evSort_${t}`);
+        if(el) el.classList.toggle('active', window.currentEventSort === t);
+    });
+}
+
+function applyEventFilters() {
+    closeModal('eventFilterModal');
+    renderEventsList(); // Re-render with new settings
+}
+
 function upvote(id) { const ref = db.collection('posts').doc(id); ref.get().then(doc => { if (doc.data().authorId === currentUser.uid) return alert("Cannot upvote self"); const upvoters = doc.data().upvoters || []; const hasUpvoted = upvoters.includes(currentUser.uid); ref.update({ upvotes: firebase.firestore.FieldValue.increment(hasUpvoted ? -1 : 1), upvoters: hasUpvoted ? upvoters.filter(x => x !== currentUser.uid) : [...upvoters, currentUser.uid] }).then(loadCommunity); }); }
 function upvoteComment(pid, cid) { const ref = db.collection('posts').doc(pid).collection('comments').doc(cid); ref.get().then(doc => { const data = doc.data(); if (data.authorId === currentUser.uid) return; const upvoters = data.upvoters || []; const hasUpvoted = upvoters.includes(currentUser.uid); ref.update({ upvotes: firebase.firestore.FieldValue.increment(hasUpvoted ? -1 : 1), upvoters: hasUpvoted ? upvoters.filter(id => id !== currentUser.uid) : [...upvoters, currentUser.uid] }).then(() => loadComments(pid)); }); }
 
